@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7f48ec4007b84a3aaefc7c25b8f10499" Name="Diagram1">
+        <EntityTypeShape EntityType="LMSModel.Brands" Width="1.5" PointX="0.75" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="LMSModel.DealerBrandMappings" Width="1.5" PointX="3" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="LMSModel.Dealers" Width="1.5" PointX="0.75" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LMSModel.Leads" Width="1.5" PointX="6" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="LMSModel.LeadStatus" Width="1.5" PointX="3.75" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="LMSModel.LeadType" Width="1.5" PointX="1.5" PointY="16.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LMSModel.Models" Width="1.5" PointX="3.75" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LMSModel.Roles" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LMSModel.Services" Width="1.5" PointX="3.75" PointY="19" IsExpanded="true" />
+        <EntityTypeShape EntityType="LMSModel.Users" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <AssociationConnector Association="LMSModel.FK_DealerBrand_Brands" ManuallyRouted="false" />
+        <AssociationConnector Association="LMSModel.FK_Models_Brands" ManuallyRouted="false" />
+        <AssociationConnector Association="LMSModel.FK_DealerBrand_Dealers" ManuallyRouted="false" />
+        <AssociationConnector Association="LMSModel.FK_Leads_Dealers" ManuallyRouted="false" />
+        <AssociationConnector Association="LMSModel.FK_Users_Dealers" ManuallyRouted="false" />
+        <AssociationConnector Association="LMSModel.FK_Leads_LeadStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="LMSModel.FK_Leads_LeadType" ManuallyRouted="false" />
+        <AssociationConnector Association="LMSModel.FK_Leads_Models" ManuallyRouted="false" />
+        <AssociationConnector Association="LMSModel.FK_Leads_Services" ManuallyRouted="false" />
+        <AssociationConnector Association="LMSModel.FK_Leads_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="LMSModel.FK_LeadStatus_LeadType" ManuallyRouted="false" />
+        <AssociationConnector Association="LMSModel.FK_Users_Roles" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
