@@ -19,12 +19,22 @@ namespace LMS.Web
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
+
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js"));
+                        "~/Scripts/bootstrap.bundle.min.js"));
+
+            bundles.Add(new ScriptBundle("~/adminlte/js").Include(
+                        "~/adminlte/js/adminlte.min.js",
+                        "~/adminlte/plugins/summernote/summernote-bs4.min.js"
+                        ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                        "~/Content/bootstrap.css",
+                        "~/adminlte/css/adminlte.min.css",
+                        "~/adminlte/plugins/fontawesome-free/css/all.min.css",
+                        "~/adminlte/plugins/summernote/summernote-bs4.min.css",
+                        "~/Content/site.css"
+                        ));
         }
     }
 }
