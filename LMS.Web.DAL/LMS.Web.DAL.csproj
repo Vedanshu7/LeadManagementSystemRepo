@@ -51,23 +51,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Brands.cs">
-      <DependentUpon>LMSDataModel.tt</DependentUpon>
+      <DependentUpon>LMSDataModelAzure.tt</DependentUpon>
     </Compile>
     <Compile Include="Class1.cs" />
     <Compile Include="DealerBrandMappings.cs">
-      <DependentUpon>LMSDataModel.tt</DependentUpon>
+      <DependentUpon>LMSDataModelAzure.tt</DependentUpon>
     </Compile>
     <Compile Include="Dealers.cs">
-      <DependentUpon>LMSDataModel.tt</DependentUpon>
+      <DependentUpon>LMSDataModelAzure.tt</DependentUpon>
     </Compile>
     <Compile Include="Leads.cs">
-      <DependentUpon>LMSDataModel.tt</DependentUpon>
+      <DependentUpon>LMSDataModelAzure.tt</DependentUpon>
     </Compile>
     <Compile Include="LeadStatus.cs">
-      <DependentUpon>LMSDataModel.tt</DependentUpon>
+      <DependentUpon>LMSDataModelAzure.tt</DependentUpon>
     </Compile>
     <Compile Include="LeadType.cs">
-      <DependentUpon>LMSDataModel.tt</DependentUpon>
+      <DependentUpon>LMSDataModelAzure.tt</DependentUpon>
     </Compile>
     <Compile Include="LMSDataModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -84,18 +84,33 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LMSDataModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="LMSDataModelAzure.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LMSDataModelAzure.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LMSDataModelAzure.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LMSDataModelAzure.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LMSDataModelAzure.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LMSDataModelAzure.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models.cs">
-      <DependentUpon>LMSDataModel.tt</DependentUpon>
+      <DependentUpon>LMSDataModelAzure.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Roles.cs">
-      <DependentUpon>LMSDataModel.tt</DependentUpon>
+      <DependentUpon>LMSDataModelAzure.tt</DependentUpon>
     </Compile>
     <Compile Include="Services.cs">
-      <DependentUpon>LMSDataModel.tt</DependentUpon>
+      <DependentUpon>LMSDataModelAzure.tt</DependentUpon>
     </Compile>
     <Compile Include="Users.cs">
-      <DependentUpon>LMSDataModel.tt</DependentUpon>
+      <DependentUpon>LMSDataModelAzure.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +124,13 @@
     <None Include="LMSDataModel.edmx.diagram">
       <DependentUpon>LMSDataModel.edmx</DependentUpon>
     </None>
+    <EntityDeploy Include="LMSDataModelAzure.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>LMSDataModelAzure.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="LMSDataModelAzure.edmx.diagram">
+      <DependentUpon>LMSDataModelAzure.edmx</DependentUpon>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -121,6 +143,16 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>LMSDataModel.edmx</DependentUpon>
       <LastGenOutput>LMSDataModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="LMSDataModelAzure.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LMSDataModelAzure.edmx</DependentUpon>
+      <LastGenOutput>LMSDataModelAzure.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="LMSDataModelAzure.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LMSDataModelAzure.edmx</DependentUpon>
+      <LastGenOutput>LMSDataModelAzure.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
