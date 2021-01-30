@@ -9,18 +9,18 @@ namespace LMS.Web.DAL.Repository
 {
     public class LoginRepository : ILoginRepository
     {
-        private static Database.LMSEntitiesAzure _db;
+        private static Database.LMSEntities _db;
 
         public LoginRepository()
         {
-            _db = new  Database.LMSEntitiesAzure();
+            _db = new Database.LMSEntities();
         }
-        public int Login(string Email, string Password, int Role)
+        public int Login(string email, string password, int role)
         {
-            var Users =_db.Users.Find(Email);
-            if (Users != null)
+            var users = _db.Users.Where(u => u.Email == email).ToList();
+            if (users != null)
             {
-                if (Users.Password != Password)
+                if (users[0].Password != password)
                 {
                     return 2;
                 }

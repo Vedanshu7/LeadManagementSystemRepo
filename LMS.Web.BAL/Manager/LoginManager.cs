@@ -11,14 +11,14 @@ namespace LMS.Web.BAL.Manager
 {
     public class LoginManager : ILogin
     {
-        ILoginRepository _loginRepository;
+        private readonly ILoginRepository _loginRepository;
         public LoginManager(ILoginRepository loginReposiotry)
         {
             _loginRepository = loginReposiotry;
         }
         public int Login(LoginViewModel login)
         {
-            return _loginRepository.Login(login.Email, login.Password,login.Role);
+            return _loginRepository.Login(login.Email, login.Password, login.Role);
         }
     }
 }

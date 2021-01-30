@@ -1,0 +1,12 @@
+﻿@model LMS.Web.BAL.ViewModels.LoginViewModel
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+@Html.BeginForm("Login", "Login", FormMethod.Post)
+{
+@Html.TextBox("Email")
+@Html.Password("Password")
+<input type="submit" />
+}
