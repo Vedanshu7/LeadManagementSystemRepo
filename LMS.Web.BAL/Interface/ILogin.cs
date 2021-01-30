@@ -10,5 +10,7 @@ namespace LMS.Web.BAL.Interface
     public interface ILogin
     {
         int Login(LoginViewModel login);
+
+        int RestPassword(LoginViewModel login);
     }
 }

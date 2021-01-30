@@ -35,5 +35,24 @@ namespace LMS.Web.DAL.Repository
             }
 
         }
+
+        public int RestPassword(string Email, string Password)
+        {
+            var users = _db.Users.Where(u => u.Email == Email).First();
+            if (users != null)
+            {
+                users.Password = Password;
+
+                _db.SaveChanges();
+
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+          
+
+        }
     }
 }

@@ -9,5 +9,7 @@ namespace LMS.Web.DAL.Interface
     public interface ILoginRepository
     {
         int Login(string Email,string Password,int Role);
+
+        int RestPassword(string Email, string Password);
     }
 }

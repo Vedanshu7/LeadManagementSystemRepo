@@ -20,5 +20,10 @@ namespace LMS.Web.BAL.Manager
         {
             return _loginRepository.Login(login.Email, login.Password, login.Role);
         }
+
+        public int RestPassword(LoginViewModel login)
+        {
+            return _loginRepository.RestPassword(login.Email, login.Password);
+        }
     }
 }
