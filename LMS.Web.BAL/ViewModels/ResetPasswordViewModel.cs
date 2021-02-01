@@ -16,7 +16,8 @@ namespace LMS.Web.BAL.ViewModels
         [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{8,15}$", ErrorMessage = "Password must contain Upper Case, Lower Case, Number and a Special Character")]
         public string Password { get; set; }
 
-        [Compare("ResetPasswordViewModel.Password", ErrorMessage = "The fields Password and Confirm Password should be equal")]
+        [Compare("Password", ErrorMessage = "The fields Password and Confirm Password should be equal")]
+        [Display(Description = "Confirm Password")]
         public string ConfirmPassword { get; set; }
     }
 }

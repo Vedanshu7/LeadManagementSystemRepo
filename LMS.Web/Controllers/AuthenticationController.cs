@@ -13,11 +13,11 @@ using System.IO;
 
 namespace LMS.Web.Controllers
 {
-    public class LoginController : Controller
+    public class AuthenticationController : Controller
     {
         private readonly ILogin _loginManager;
 
-        public LoginController(ILogin loginManager)
+        public AuthenticationController(ILogin loginManager)
         {
             _loginManager = loginManager;
         }
@@ -29,15 +29,10 @@ namespace LMS.Web.Controllers
         }
 
 
-        public ActionResult EmailNotify()
-        {
-            return View();
-        }
-
 
         // POST: Login
         [HttpPost]
-        public string Index(LoginViewModel loginViewObj)
+        public string Login(LoginViewModel loginViewObj)
         {
             var result = _loginManager.Login(loginViewObj);
 
@@ -71,7 +66,7 @@ namespace LMS.Web.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPost]
         public ActionResult ResetPassword(ResetPasswordViewModel resetPassword) //TODO: Use ViewModel
         {
             if (ModelState.IsValid)
@@ -140,7 +135,7 @@ namespace LMS.Web.Controllers
         private string FormEmail(string userEmail, string token)
         {
             //Set the Email Template
-            string filePath = Server.MapPath("~/EmailTemplate/") + "ResetPassword.html";
+            string filePath = Server.MapPath("~/Views/EmailTemplate/") + "ResetPassword.html";
             StreamReader str = new StreamReader(filePath);
             string mailText = str.ReadToEnd();
             str.Close();
@@ -150,7 +145,7 @@ namespace LMS.Web.Controllers
 
             mailText = mailText.Replace("{{name}}", userEmail);
 
-            var lnkHref = "https://localhost:44381/Login/ResetPassword/" + "?Id=" + userEmail + "&code=" + token;
+            var lnkHref = "https://localhost:44381/Authentication/ResetPassword/" + "?Id=" + userEmail + "&code=" + token;
 
             mailText = mailText.Replace("{{action_url}}", lnkHref);
 
