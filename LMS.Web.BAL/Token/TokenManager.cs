@@ -61,6 +61,12 @@ namespace LMS.Web.BAL.Token
 
         }
 
+
+        /// <summary>
+        /// Validates the token
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns>Email which was used to generate token</returns>
         public static string ValidateToken(string token)
         {
             string email = null;

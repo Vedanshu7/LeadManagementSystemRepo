@@ -11,6 +11,6 @@ namespace LMS.Web.BAL.Interface
     {
         int Login(LoginViewModel login);
 
-        int RestPassword(LoginViewModel login);
+        int ResetPassword(string userEmail, ResetPasswordViewModel resetPassword);
     }
 }

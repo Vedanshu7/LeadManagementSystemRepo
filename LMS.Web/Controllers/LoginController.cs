@@ -46,49 +46,50 @@ namespace LMS.Web.Controllers
                     return "Error occurred";
             }
         }
-       
-        public ActionResult ResetPassword(string Id, string code,string Password="",string ConfirmPassword="")
-        {
 
-            if (Password == "")
+
+        [HttpGet]
+        public ActionResult ResetPassword(string Id, string code)
+        {
+            string userEmail = TokenManager.ValidateToken(code); //Returns the email which was used to Generate the token
+            if (userEmail != Id)
             {
-                string useremail = TokenManager.ValidateToken(code);
-                if (useremail != Id)
-                {
-                    return View("Login");
-                }
-                else
-                {
-                    Session["token"] = code;
-                    return View("ResetPassword");
-                }
+                return View("Login");
             }
-            else if (Password == ConfirmPassword)
+            else
+            {
+                Session["token"] = code;
+                Session["IsEmailSent"] = null;
+                return View("ResetPassword");
+            }
+        }
+
+        [HttpPut]
+        public ActionResult ResetPassword(ResetPasswordViewModel resetPassword) //TODO: Use ViewModel
+        {
+            if (ModelState.IsValid)
             {
                 if (Session["token"] != null)
                 {
                     string token = Session["token"].ToString();
-                    string user = TokenManager.ValidateToken(token);
-                    LoginViewModel loginViewModel = new LoginViewModel();
-                    loginViewModel.Email = user;
-                    loginViewModel.Password = Password;
-                    loginViewModel.Role = 1;
-                    int i = _loginManager.RestPassword(loginViewModel);
+                    string userEmail = TokenManager.ValidateToken(token);
+
+                    int result = _loginManager.ResetPassword(userEmail, resetPassword);
                     Session["token"] = null;
-                    switch (i)
+                    switch (result)
                     {
-                        case 1:
+                        case 0:
+                            return Content("Error occured"); //TODO: Return Error Page
+                        case 1: //Success
                             return View("Login");
                         default:
-                            return Content(i.ToString());
+                            return Content("Unexpected error occured");
                     }
                 }
                 else
                 {
                     return View("ForgotPassword");
                 }
-
-               
             }
             else
             {
@@ -96,55 +97,59 @@ namespace LMS.Web.Controllers
             }
         }
 
-
-
-        public ActionResult ForgotPassword(string Email)
+        // GET : ForgotPassword
+        [HttpGet]
+        public ActionResult ForgotPassword()
         {
-            if (Email!= null)
+            return View("ForgotPassword");
+        }
+
+        [HttpPost]
+        public ActionResult ForgotPassword(string userEmail)
+        {
+            //TODO: Check if email exist
+
+            string token = TokenManager.GenerateToken(userEmail);
+            if (token == null)
             {
-                string To = Email, UserID, Password, SMTPPort, Host;
-                string token = TokenManager.GenerateToken(Email);
-                if (token == null)
-                {
-                    return View("Login");
-                }
-                else
-                {
-                    //Session["token"] = token;
-                    //Create URL with above token
-                    string FilePath = Server.MapPath("~/EmailTemplate/")+"ResetPassword.html";
-                    StreamReader str = new StreamReader(FilePath);
-                    string MailText = str.ReadToEnd();
-                    str.Close();
-
-                    //Repalce [newusername] = signup user name   
-                    MailText = MailText.Replace("[Product Name]", "Lead Management System");
-
-                    MailText = MailText.Replace("{{name}}", Email);
-
-                    MailText = MailText.Replace("{{name}}", Email);
-
-                    var lnkHref =  "https://localhost:44381/Login/ResetPassword/"+"?Id="+Email+"&code="+token;
-
-                    MailText = MailText.Replace("{{action_url}}", lnkHref);
-
-                    MailText = MailText.Replace("[Company Name, LLC]", "Lead Management System LLC");
-
-                   
-                    //HTML Template for Send email
-                    string subject = "Reset Your Password";
-                  
-                    //Get and set the AppSettings using configuration manager.
-                    EmailManager.AppSettings(out UserID, out Password, out SMTPPort, out Host);
-                    //Call send email methods.
-                    EmailManager.SendEmail(UserID, subject, MailText, To, UserID, Password, SMTPPort, Host);
-                    return View("Login");
-                }
+                return View("Login"); //Invalid Token
             }
-            else{
-                return View("ForgotPassword");
-            }
-            
+
+            //Form Email
+            string mailText = FormEmail(userEmail, token);
+
+            //Get and set the AppSettings using configuration manager.
+            EmailManager.AppSettings(out var userId, out var password, out var smtpPort, out var host);
+
+            //Call send email methods.
+            EmailManager.SendEmail(userId, "Reset Your Password", mailText, userEmail, userId, password, smtpPort, host);
+
+            Session["IsEmailSent"] = true;
+
+            return View("Login"); //TODO: Mail Has Been Sent View/Notification
+        }
+
+        [NonAction]
+        private string FormEmail(string userEmail, string token)
+        {
+            //Set the Email Template
+            string filePath = Server.MapPath("~/EmailTemplate/") + "ResetPassword.html";
+            StreamReader str = new StreamReader(filePath);
+            string mailText = str.ReadToEnd();
+            str.Close();
+
+            //Replace [newusername] = signup user name 
+            mailText = mailText.Replace("[Product Name]", "Lead Management System");
+
+            mailText = mailText.Replace("{{name}}", userEmail);
+
+            var lnkHref = "https://localhost:44381/Login/ResetPassword/" + "?Id=" + userEmail + "&code=" + token;
+
+            mailText = mailText.Replace("{{action_url}}", lnkHref);
+
+            mailText = mailText.Replace("[Company Name, LLC]", "Lead Management System LLC");
+
+            return mailText;
         }
     }
 }

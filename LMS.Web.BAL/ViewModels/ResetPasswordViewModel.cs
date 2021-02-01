@@ -7,22 +7,16 @@ using System.Threading.Tasks;
 
 namespace LMS.Web.BAL.ViewModels
 {
-    public class LoginViewModel
+    public class ResetPasswordViewModel
     {
         [Required]
         [StringLength(100)]
-        [Display(Description = "Email")]
-        [RegularExpression("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$", ErrorMessage = "Please enter a valid email")]
-        [EmailAddress(ErrorMessage = "Please enter a valid email")]
-        public string Email { get; set; }
-
-
-        [Required]
-        [StringLength(100)]
+        [DataType(DataType.Password)]
         [Display(Description = "Password")]
         [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{8,15}$", ErrorMessage = "Password must contain Upper Case, Lower Case, Number and a Special Character")]
         public string Password { get; set; }
 
-        public int Role { get; set; }
+        [Compare("ResetPasswordViewModel.Password", ErrorMessage = "The fields Password and Confirm Password should be equal")]
+        public string ConfirmPassword { get; set; }
     }
 }

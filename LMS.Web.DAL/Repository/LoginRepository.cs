@@ -15,44 +15,44 @@ namespace LMS.Web.DAL.Repository
         {
             _db = new Database.LMSEntities();
         }
+
         public int Login(string email, string password, int role)
         {
-            var users = _db.Users.Where(u => u.Email == email).ToList();
-            if (users != null)
+            try
             {
-                if (users[0].Password != password)
-                {
-                    return 2;
-                }
-                else
-                {
-                    return 1;
-                }
-            }
-            else
-            {
-                return 3;
-            }
+                var user = _db.Users.Where(u => u.Email == email).First();
 
+                if (user.Password != password)
+                {
+                    return 2; //Invalid Username or Password
+                }
+                //TODO: Validate User Role
+                return 1; //Success
+            }
+            catch (Exception e) //If no such user is found
+            {
+                return 3; //No user found
+            }
         }
 
-        public int RestPassword(string Email, string Password)
+        public int ResetPassword(string email, string password)
         {
-            var users = _db.Users.Where(u => u.Email == Email).First();
-            if (users != null)
+            try
             {
-                users.Password = Password;
+                var users = _db.Users.Where(u => u.Email == email).First();
+
+                users.Password = password; //Update password
 
                 _db.SaveChanges();
 
-                return 1;
+                return 1; //Success
+
             }
-            else
+            catch (Exception e) //If no user is found
             {
+                Console.WriteLine(e);
                 return 0;
             }
-          
-
         }
     }
 }
