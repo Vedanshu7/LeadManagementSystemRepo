@@ -21,9 +21,14 @@ namespace LMS.Web.BAL.Manager
             return _loginRepository.Login(login.Email, login.Password, login.Role);
         }
 
-        public int ResetPassword(string userEmail, ResetPasswordViewModel resetPassword)
+        public string ResetPassword(string userEmail, ResetPasswordViewModel resetPassword)
         {
             return _loginRepository.ResetPassword(userEmail, resetPassword.Password);
+        }
+
+        public bool IsValidUser(string userEmail)
+        {
+            return _loginRepository.IsValidUser(userEmail);
         }
     }
 }

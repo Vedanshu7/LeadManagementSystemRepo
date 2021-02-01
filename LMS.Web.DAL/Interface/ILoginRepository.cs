@@ -10,6 +10,8 @@ namespace LMS.Web.DAL.Interface
     {
         int Login(string email, string password, int role);
 
-        int ResetPassword(string email, string password);
+        string ResetPassword(string email, string password);
+
+        bool IsValidUser(string userEmail);
     }
 }

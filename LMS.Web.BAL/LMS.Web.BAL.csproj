@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authentication\EmailManager.cs" />
+    <Compile Include="Enums\LoginResult.cs" />
     <Compile Include="Helper\UnityRepositoryHelper.cs" />
     <Compile Include="Interface\ILogin.cs" />
     <Compile Include="Manager\LoginManager.cs" />

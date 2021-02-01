@@ -10,7 +10,8 @@ namespace LMS.Web.BAL.Interface
     public interface ILogin
     {
         int Login(LoginViewModel login);
+        string ResetPassword(string userEmail, ResetPasswordViewModel resetPassword);
 
-        int ResetPassword(string userEmail, ResetPasswordViewModel resetPassword);
+        bool IsValidUser(string userEmail);
     }
 }

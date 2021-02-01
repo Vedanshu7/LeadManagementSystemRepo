@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LMS.Web.DAL.Enums;
 
 namespace LMS.Web.DAL.Repository
 {
@@ -25,18 +24,18 @@ namespace LMS.Web.DAL.Repository
 
                 if (user.Password != password)
                 {
-                    return (int)LoginResult.Invalid; //Invalid Username or Password
+                    return 2; //Invalid Username or Password
                 }
                 //TODO: Validate User Role
-                return (int)LoginResult.Success; //Success
+                return 1; //Success
             }
             catch (Exception e) //If no such user is found
             {
-                return (int)LoginResult.NotFound; //No user found
+                return 3; //No user found
             }
         }
 
-        public int ResetPassword(string email, string password)
+        public string ResetPassword(string email, string password)
         {
             try
             {
@@ -46,14 +45,24 @@ namespace LMS.Web.DAL.Repository
 
                 _db.SaveChanges();
 
-                return 1; //Success
+                return "Success"; //Success
 
             }
             catch (Exception e) //If no user is found
             {
                 Console.WriteLine(e);
-                return 0;
+                return "Not Found";
             }
+        }
+
+        public bool IsValidUser(string userEmail)
+        {
+
+            if (_db.Users.Where(u => u.Email == userEmail).Any())
+                return true; //Success
+
+            //If no user is found
+            return false;
         }
     }
 }

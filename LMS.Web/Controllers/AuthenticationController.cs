@@ -10,6 +10,7 @@ using LMS.Web.BAL.Token;
 using WebMatrix.WebData;
 using System.Configuration;
 using System.IO;
+using LMS.Web.DAL.Enums;
 
 namespace LMS.Web.Controllers
 {
@@ -36,14 +37,14 @@ namespace LMS.Web.Controllers
         {
             var result = _loginManager.Login(loginViewObj);
 
-            switch (result)
+            switch ((LoginResult)result)
             {
-                case 1:
+                case LoginResult.Success:
                     return "Welcome!!!";
-                case 2:
-                    return "Username of password don't match";
-                case 3:
-                    return "Incorrect password";
+                case LoginResult.Invalid:
+                    return "Username or password don't match";
+                case LoginResult.NotFound:
+                    return "User does not exist";
                 default:
                     return "Error occurred";
             }
@@ -53,17 +54,17 @@ namespace LMS.Web.Controllers
         [HttpGet]
         public ActionResult ResetPassword(string Id, string code)
         {
+            if (string.IsNullOrEmpty(Id) || string.IsNullOrEmpty(code))
+                return View("Login");
+
             string userEmail = TokenManager.ValidateToken(code); //Returns the email which was used to Generate the token
-            if (userEmail != Id)
+            if (userEmail.Equals(Id))
             {
                 return View("Login");
             }
-            else
-            {
-                Session["token"] = code;
-                Session["IsEmailSent"] = null;
-                return View("ResetPassword");
-            }
+            Session["token"] = code;
+            Session["IsEmailSent"] = null;
+            return View("ResetPassword");
         }
 
         [HttpPost]
@@ -76,27 +77,15 @@ namespace LMS.Web.Controllers
                     string token = Session["token"].ToString();
                     string userEmail = TokenManager.ValidateToken(token);
 
-                    int result = _loginManager.ResetPassword(userEmail, resetPassword);
+                    string result = _loginManager.ResetPassword(userEmail, resetPassword);
                     Session["token"] = null;
-                    switch (result)
-                    {
-                        case 0:
-                            return Content("Error occured"); //TODO: Return Error Page
-                        case 1: //Success
-                            return View("Login");
-                        default:
-                            return Content("Unexpected error occured");
-                    }
+
+                    return Content(result); //TODO: Pass this as message to view
                 }
-                else
-                {
-                    return View("ForgotPassword");
-                }
+                return View("ForgotPassword");
+
             }
-            else
-            {
-                return View("ResetPassword");
-            }
+            return View("ResetPassword");
         }
 
         // GET : ForgotPassword
@@ -109,26 +98,36 @@ namespace LMS.Web.Controllers
         [HttpPost]
         public ActionResult ForgotPassword(string userEmail)
         {
-            //TODO: Check if email exist
-
-            string token = TokenManager.GenerateToken(userEmail);
-            if (token == null)
+            if (!string.IsNullOrEmpty(userEmail))
             {
-                return View("Login"); //Invalid Token
+                //Check if user exists or not
+                if (_loginManager.IsValidUser(userEmail))
+                {
+                    string token = TokenManager.GenerateToken(userEmail);
+                    if (token == null)
+                    {
+                        return View("Login"); //Invalid Token
+                    }
+
+                    //Form Email
+                    string mailText = FormEmail(userEmail, token);
+
+                    //Get and set the AppSettings using configuration manager.
+                    EmailManager.AppSettings(out var userId, out var password, out var smtpPort, out var host);
+
+                    //Call send email methods.
+                    EmailManager.SendEmail(userId, "Reset Your Password", mailText, userEmail, userId, password, smtpPort, host);
+
+                    Session["IsEmailSent"] = true;
+
+                    return View("Login"); //TODO: Mail Has Been Sent View/Notification
+                }
+                else
+                {
+                    return Content("User not found"); //TODO: Pass error to view
+                }
             }
-
-            //Form Email
-            string mailText = FormEmail(userEmail, token);
-
-            //Get and set the AppSettings using configuration manager.
-            EmailManager.AppSettings(out var userId, out var password, out var smtpPort, out var host);
-
-            //Call send email methods.
-            EmailManager.SendEmail(userId, "Reset Your Password", mailText, userEmail, userId, password, smtpPort, host);
-
-            Session["IsEmailSent"] = true;
-
-            return View("Login"); //TODO: Mail Has Been Sent View/Notification
+            return View();
         }
 
         [NonAction]
