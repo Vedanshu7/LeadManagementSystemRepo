@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LMS.Web.DAL.Enums;
 
 namespace LMS.Web.DAL.Repository
 {
@@ -24,14 +25,14 @@ namespace LMS.Web.DAL.Repository
 
                 if (user.Password != password)
                 {
-                    return 2; //Invalid Username or Password
+                    return (int)LoginResult.Invalid; //Invalid Username or Password
                 }
                 //TODO: Validate User Role
-                return 1; //Success
+                return (int)LoginResult.Success; //Success
             }
             catch (Exception e) //If no such user is found
             {
-                return 3; //No user found
+                return (int)LoginResult.NotFound; //No user found
             }
         }
 
