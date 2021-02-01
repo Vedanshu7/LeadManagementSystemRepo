@@ -28,6 +28,13 @@ namespace LMS.Web.Controllers
             return View();
         }
 
+
+        public ActionResult EmailNotify()
+        {
+            return View();
+        }
+
+
         // POST: Login
         [HttpPost]
         public string Index(LoginViewModel loginViewObj)
