@@ -150,7 +150,7 @@ namespace LMS.Web.Controllers
 
             mailText = mailText.Replace("{{name}}", userEmail);
 
-            var lnkHref = "https://localhost:44381/Login/ResetPassword/" + "?Id=" + userEmail + "&code=" + token;
+            var lnkHref = "https://localhost:44381/Authentication/ResetPassword/" + "?Id=" + userEmail + "&code=" + token;
 
             mailText = mailText.Replace("{{action_url}}", lnkHref);
 
