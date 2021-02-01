@@ -31,6 +31,7 @@ namespace LMS.Web.DAL.Database
         public Nullable<System.DateTime> UpdatedDate { get; set; }
         public int CreatedBy { get; set; }
         public Nullable<int> UpdatedBy { get; set; }
+        public bool IsActive { get; set; }
     
         public virtual Dealers Dealers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
