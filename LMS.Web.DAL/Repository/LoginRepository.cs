@@ -9,11 +9,11 @@ namespace LMS.Web.DAL.Repository
 {
     public class LoginRepository : ILoginRepository
     {
-        private static Database.LMSEntities _db;
+        private static Database.LMSEntitiesAzure _db;
 
         public LoginRepository()
         {
-            _db = new Database.LMSEntities();
+            _db = new Database.LMSEntitiesAzure();
         }
 
         public int Login(string email, string password, int role)
