@@ -17,6 +17,7 @@ namespace LMS.Web.BAL.Helper
         protected override void Initialize()
         {
             Container.RegisterType<ILoginRepository, LoginRepository>();
+            Container.RegisterType<IUserRepository, UserRepository>();
         }
     }
 }

@@ -18,6 +18,7 @@ namespace LMS.Web
 
             // e.g. container.RegisterType<ITestService, TestService>();
             container.RegisterType<ILogin, LoginManager>();
+            container.RegisterType<IUserManager, UserManager>();
             container.AddNewExtension<UnityRepositoryHelper>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));

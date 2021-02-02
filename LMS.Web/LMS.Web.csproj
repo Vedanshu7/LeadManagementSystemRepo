@@ -194,6 +194,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -2104,6 +2105,8 @@
     <Content Include="Views\Authentication\ForgotPassword.cshtml" />
     <Content Include="Views\Authentication\ResetPassword.cshtml" />
     <Content Include="Views\Authentication\EmailNotify.cshtml" />
+    <Content Include="Views\User\CreateUser.cshtml" />
+    <Content Include="Views\User\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2128,6 +2131,10 @@
     <ProjectReference Include="..\LMS.Web.BAL\LMS.Web.BAL.csproj">
       <Project>{4422f201-0595-43b2-b720-badf1c9c72ab}</Project>
       <Name>LMS.Web.BAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LMS.Web.DAL\LMS.Web.DAL.csproj">
+      <Project>{AC17C065-7CFA-46FF-BDDF-AE7FDA8C691C}</Project>
+      <Name>LMS.Web.DAL</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
