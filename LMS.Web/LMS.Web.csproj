@@ -194,7 +194,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
-    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\DealerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -2105,9 +2105,9 @@
     <Content Include="Views\Authentication\ForgotPassword.cshtml" />
     <Content Include="Views\Authentication\ResetPassword.cshtml" />
     <Content Include="Views\Authentication\EmailNotify.cshtml" />
-    <Content Include="Views\User\CreateUser.cshtml" />
-    <Content Include="Views\User\Details.cshtml" />
-    <Content Include="Views\User\EditUser.cshtml" />
+    <Content Include="Views\Dealer\CreateUser.cshtml" />
+    <Content Include="Views\Dealer\Details.cshtml" />
+    <Content Include="Views\Dealer\EditUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

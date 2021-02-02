@@ -8,12 +8,13 @@ using System.Web.Mvc;
 
 namespace LMS.Web.Controllers
 {
-    public class UserController : Controller
+    //TODO: Check if logged in User is Dealer
+    public class DealerController : Controller
     {
         private readonly IUserManager _userManager;
-        public UserController(IUserManager userManager)
+        public DealerController(IUserManager userManager)
         {
-            _userManager =userManager;
+            _userManager = userManager;
         }
         [HttpGet]
         public ActionResult CreateUser()
@@ -26,7 +27,7 @@ namespace LMS.Web.Controllers
         public ActionResult CreateUser(UserViewModel user)
         {
             var data = _userManager.CreateUser(user);
-            if(data==true)
+            if (data == true)
             {
                 return Content("Success");
             }
