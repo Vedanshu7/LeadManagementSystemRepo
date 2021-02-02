@@ -32,9 +32,11 @@ namespace LMS.Web
                         "~/Content/bootstrap.css",
                         "~/adminlte/css/adminlte.min.css",
                         "~/adminlte/plugins/fontawesome-free/css/all.min.css",
-                        "~/adminlte/plugins/summernote/summernote-bs4.min.css",
-                        "~/Content/site.css"
+                        "~/adminlte/plugins/summernote/summernote-bs4.min.css"
                         ));
+            bundles.Add(new StyleBundle("~/Content/LoginCss").Include(
+                 "~/Content/site.css"
+                ));
         }
     }
 }

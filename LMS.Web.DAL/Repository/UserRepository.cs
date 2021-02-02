@@ -11,31 +11,25 @@ namespace LMS.Web.DAL.Repository
 {
     public class UserRepository : IUserRepository
     {
-        private readonly Database.LMSEntitiesAzure db;
+        private readonly Database.LMSEntitiesAzure _db;
         public UserRepository()
         {
-            db = new Database.LMSEntitiesAzure();
+            _db = new Database.LMSEntitiesAzure();
         }
-        public bool CreateUser(string name, string email, string password, string mobileNumber)
+        public bool CreateUser(Users users)
         {
 
-            Database.Users users = new Database.Users();
-            var emailId = db.Users.Where(m => m.Email == email).Any();
+          
+            var emailId = _db.Users.Where(m => m.Email == users.Email).Any();
             if (emailId != true)
             {
-                users.Name = name;
-                users.Email = email;
-
-                users.DealerId = 1;
-                users.Password = password;
-                users.MobileNumber = mobileNumber;
-                users.RoleId = 2;
-                users.CreatedDate = DateTime.Now;
                 users.CreatedBy = 1;
+                users.CreatedDate = DateTime.UtcNow;
                 users.IsActive = true;
+                users.DealerId = 1;
 
-                db.Users.Add(users);
-                db.SaveChanges();
+                _db.Users.Add(users);
+                _db.SaveChanges();
                 return true;
             }
             else
@@ -47,27 +41,28 @@ namespace LMS.Web.DAL.Repository
 
         }
 
+        public bool EditUser(Users user)
+        {
+            var emailId = _db.Users.Where(m => m.Email == user.Email).Any();
+            if (emailId != true)
+            {
+                user.UpdatedBy = 1;
+                user.UpdatedDate = DateTime.UtcNow;
+                
+                _db.SaveChanges();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public List<Users> UserDetails()
         {
-            var entities = db.Users.ToList();
-            List<Users> list = new List<Users>();
-            if (entities != null)
-            {
-                foreach (var item in entities)
-                {
-                    Users users = new Users();
-                    users.Name = item.Name;
-                    users.Email = item.Email;
-                    users.DealerId = item.DealerId;
-                    users.MobileNumber = item.MobileNumber;
-                    users.RoleId = item.RoleId;
-                    users.CreatedDate = item.CreatedDate;
-                    users.CreatedBy = item.CreatedBy;
-                    users.IsActive = item.IsActive;
+           
+            List<Users> list = _db.Users.ToList();
 
-                    list.Add(users);
-                }
-            }
             return list;
         }
     }

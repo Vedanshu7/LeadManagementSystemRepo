@@ -1,6 +1,5 @@
 ﻿using LMS.Web.BAL.Interface;
 using LMS.Web.BAL.ViewModels;
-using LMS.Web.DAL.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,5 +38,21 @@ namespace LMS.Web.Controllers
         {
             return View(_userManager.UserDetail());
         }
+
+        [HttpGet]
+        public ActionResult EditUser(int Id)
+        {
+            //UserViewModel user = _userManager.UserDetail();
+            //Use Automaper Here
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult EditUser(UserViewModel user)
+        {
+            return View();
+        }
+
     }
 }

@@ -2132,10 +2132,6 @@
       <Project>{4422f201-0595-43b2-b720-badf1c9c72ab}</Project>
       <Name>LMS.Web.BAL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LMS.Web.DAL\LMS.Web.DAL.csproj">
-      <Project>{AC17C065-7CFA-46FF-BDDF-AE7FDA8C691C}</Project>
-      <Name>LMS.Web.DAL</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -10,7 +10,8 @@ namespace LMS.Web.DAL.Interface
 {
     public interface IUserRepository
     {
-        bool CreateUser(string name,string email,string password,string mobileNumber);
+        bool CreateUser(Users users);
         List<Users> UserDetails();
+        bool EditUser(Users user);
     }
 }

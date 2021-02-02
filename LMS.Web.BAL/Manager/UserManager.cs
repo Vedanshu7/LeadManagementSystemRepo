@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AutoMapper;
 using System.Threading.Tasks;
 
 namespace LMS.Web.BAL.Manager
@@ -13,18 +14,36 @@ namespace LMS.Web.BAL.Manager
     public class UserManager : IUserManager
     {
         private readonly IUserRepository _userRepository;
+        public IMapper mapper;
+        public MapperConfiguration config;
+
         public UserManager(IUserRepository userReposiotry)
         {
             _userRepository = userReposiotry;
+            config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<UserViewModel, Users>();
+                cfg.CreateMap<List<Users>,List<UserViewModel>>();
+            });
+
+            mapper = config.CreateMapper();
         }
         public bool CreateUser(UserViewModel users)
         {
-            return _userRepository.CreateUser(users.Name,users.Email,users.Password,users.MobileNumber);
+            Users user = mapper.Map<UserViewModel, Users>(users);
+            return _userRepository.CreateUser(user);
         }
 
-        public List<Users> UserDetail()
+        public bool EditUser(UserViewModel users)
         {
-            return _userRepository.UserDetails();
+            Users user=mapper.Map<UserViewModel,Users>(users);
+            return _userRepository.EditUser(user);
+        }
+
+        public List<UserViewModel> UserDetail()
+        {
+            List<UserViewModel> users= mapper.Map<List<Users>, List<UserViewModel>>(_userRepository.UserDetails());
+            return users;
         }
     }
 }
