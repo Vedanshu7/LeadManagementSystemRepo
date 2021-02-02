@@ -58,6 +58,19 @@ namespace LMS.Web.DAL.Repository
             }
         }
 
+        public Users GetUser(int Id)
+        {
+            if (Id > 0)
+            {
+                Users users = _db.Users.Find(Id);
+                return users;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public List<Users> UserDetails()
         {
            

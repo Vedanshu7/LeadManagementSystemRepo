@@ -42,16 +42,19 @@ namespace LMS.Web.Controllers
         [HttpGet]
         public ActionResult EditUser(int Id)
         {
-            //UserViewModel user = _userManager.UserDetail();
-            //Use Automaper Here
-            return View();
+            UserViewModel user = _userManager.GetUser(Id);
+            return View(user);
         }
 
 
         [HttpPost]
         public ActionResult EditUser(UserViewModel user)
         {
-            return View();
+            if (_userManager.EditUser(user))
+            {
+                return Content("Success");
+            }
+            return Content("Failed!!");
         }
 
     }

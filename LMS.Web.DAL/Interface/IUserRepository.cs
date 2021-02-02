@@ -13,5 +13,6 @@ namespace LMS.Web.DAL.Interface
         bool CreateUser(Users users);
         List<Users> UserDetails();
         bool EditUser(Users user);
+        Users GetUser(int Id);
     }
 }

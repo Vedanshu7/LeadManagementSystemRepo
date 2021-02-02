@@ -13,5 +13,7 @@ namespace LMS.Web.BAL.Interface
         bool CreateUser(UserViewModel users);
         List<UserViewModel> UserDetail();
         bool EditUser(UserViewModel users);
+
+        UserViewModel GetUser(int Id);
     }
 }

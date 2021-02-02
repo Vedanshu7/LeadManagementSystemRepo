@@ -23,6 +23,7 @@ namespace LMS.Web.BAL.Manager
             config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<UserViewModel, Users>();
+                cfg.CreateMap<Users, UserViewModel>();
                 cfg.CreateMap<List<Users>,List<UserViewModel>>();
             });
 
@@ -38,6 +39,21 @@ namespace LMS.Web.BAL.Manager
         {
             Users user=mapper.Map<UserViewModel,Users>(users);
             return _userRepository.EditUser(user);
+        }
+
+        public UserViewModel GetUser(int Id)
+        {
+            Users users = _userRepository.GetUser(Id);
+            if (users != null)
+            {
+                UserViewModel user = mapper.Map<Users, UserViewModel>(users);
+                return user;
+            }
+            else
+            {
+                return null;
+            }
+           
         }
 
         public List<UserViewModel> UserDetail()
