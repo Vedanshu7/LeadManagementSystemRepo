@@ -29,8 +29,6 @@ namespace LMS.Web.Controllers
             return View();
         }
 
-
-
         // POST: Login
         [HttpPost]
         public string Login(LoginViewModel loginViewObj)
@@ -40,7 +38,7 @@ namespace LMS.Web.Controllers
             switch ((LoginResult)result)
             {
                 case LoginResult.Success:
-                    return "Welcome!!!";
+                    return "Success";
                 case LoginResult.Invalid:
                     return "Username or password don't match";
                 case LoginResult.NotFound:
