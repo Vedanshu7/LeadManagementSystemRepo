@@ -35,7 +35,8 @@ namespace LMS.Web.DAL.Repository
                     return loginResult; //Invalid Username or Password
                 }
 
-                //Set User Role and Success result
+                //Set UserId, User Role and Success result
+                loginResult.LoggedInUserId = user.Id;
                 loginResult.result = LoginResultEnum.Success;
                 loginResult.role = (RolesEnum)user.RoleId;
                 return loginResult; //Success

@@ -9,6 +9,6 @@ namespace LMS.Web.BAL.Interface
 {
     public interface ILeadManager
     {
-        List<DealerLeadViewModel> GetDealerLeadList();
+        List<DealerLeadViewModel> GetDealerLeadList(int dealerId);
     }
 }

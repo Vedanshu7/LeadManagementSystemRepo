@@ -16,9 +16,11 @@ namespace LMS.Web.Controllers
     public class DealerController : Controller
     {
         private readonly IUserManager _userManager;
-        public DealerController(IUserManager userManager)
+        private readonly ILeadManager _leadManager;
+        public DealerController(IUserManager userManager, ILeadManager leadManager)
         {
             _userManager = userManager;
+            _leadManager = leadManager;
         }
 
         public ActionResult Index()
@@ -71,7 +73,9 @@ namespace LMS.Web.Controllers
         [HttpGet]
         public ActionResult LeadList()
         {
-            return View();
+            int dealerId = (int)Session["id"];
+            List<DealerLeadViewModel> dealerLeadViewModels = _leadManager.GetDealerLeadList(dealerId);
+            return View(dealerLeadViewModels);
         }
 
     }

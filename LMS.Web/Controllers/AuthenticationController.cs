@@ -27,7 +27,7 @@ namespace LMS.Web.Controllers
         public ActionResult Login()
         {
             //Check if already logged in
-            if (Session["email"] != null)
+            if (Session["id"] != null)
             {
                 var currentRole = (RolesEnum)Session["role"];
                 switch (currentRole)
@@ -58,7 +58,7 @@ namespace LMS.Web.Controllers
                 switch (loginResult.result)
                 {
                     case LoginResultEnum.Success:
-                        Session["email"] = loginViewObj.Email;
+                        Session["id"] = loginResult.LoggedInUserId;
                         Session["role"] = loginResult.role;
                         switch (loginResult.role)
                         {

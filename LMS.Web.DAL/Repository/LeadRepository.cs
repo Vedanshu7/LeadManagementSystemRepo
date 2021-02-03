@@ -15,9 +15,9 @@ namespace LMS.Web.DAL.Repository
         {
             _db = new Database.LMSEntitiesAzure();
         }
-        public List<Leads> GetDealerLeadList()
+        public List<Leads> GetDealerLeadList(int dealerId)
         {
-            return _db.Leads.Where(m=>m.DealerId==1).ToList();
+            return _db.Leads.Where(m => m.DealerId == dealerId).ToList();
         }
     }
 }

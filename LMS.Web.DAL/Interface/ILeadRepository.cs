@@ -9,6 +9,6 @@ namespace LMS.Web.DAL.Interface
 {
     public interface ILeadRepository
     {
-        List<Leads> GetDealerLeadList();
+        List<Leads> GetDealerLeadList(int dealerId);
     }
 }
