@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LMS.Web.BAL.Enums
+namespace LMS.Common
 {
-    public enum Roles
+    public enum RolesEnum
     {
         Sales = 1,
         AfterSales,

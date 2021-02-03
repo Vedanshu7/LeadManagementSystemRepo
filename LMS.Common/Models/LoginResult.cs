@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LMS.Web.DAL.Enums
+namespace LMS.Common
 {
-    public enum LoginResult : int
+    public class LoginResult
     {
-        Success = 1,
-        Invalid = 2,
-        NotFound = 3
+        public LoginResultEnum result;
+        public RolesEnum role;
     }
 }

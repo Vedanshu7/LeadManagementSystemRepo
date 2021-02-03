@@ -135,6 +135,7 @@
           <Property Name="UpdatedDate" Type="datetime" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="UpdatedBy" Type="int" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK_DealerBrand_Brands">
           <End Role="Brands" Type="Self.Brands" Multiplicity="1" />
@@ -496,6 +497,7 @@
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
           <Property Name="CreatedBy" Type="Int32" Nullable="false" />
           <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Dealers" Relationship="Self.FK_Users_Dealers" FromRole="Users" ToRole="Dealers" />
           <NavigationProperty Name="Leads" Relationship="Self.FK_Leads_Users" FromRole="Users" ToRole="Leads" />
           <NavigationProperty Name="Roles" Relationship="Self.FK_Users_Roles" FromRole="Users" ToRole="Roles" />
@@ -848,6 +850,7 @@
                 <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

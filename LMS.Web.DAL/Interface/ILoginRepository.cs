@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LMS.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace LMS.Web.DAL.Interface
 {
     public interface ILoginRepository
     {
-        int Login(string email, string password, int role);
+        LoginResult Login(string email, string password);
 
         string ResetPassword(string email, string password);
 

@@ -78,6 +78,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LMS.Common\LMS.Common.csproj">
+      <Project>{8e2059a6-30e5-4b4c-a230-2bfa4c17c533}</Project>
+      <Name>LMS.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LMS.Web.BAL\LMS.Web.BAL.csproj">
       <Project>{4422F201-0595-43B2-B720-BADF1C9C72AB}</Project>
       <Name>LMS.Web.BAL</Name>

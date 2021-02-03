@@ -4,16 +4,16 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="1822ca475d5c4a6ab23ff3b38e375e0f" Name="Diagram1">
-        <EntityTypeShape EntityType="LMSModelAzure.Brands" Width="1.5" PointX="0.75" PointY="11.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="LMSModelAzure.DealerBrandMappings" Width="1.5" PointX="3" PointY="6.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="LMSModelAzure.Dealers" Width="1.5" PointX="0.75" PointY="6.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="LMSModelAzure.Leads" Width="1.5" PointX="6" PointY="5.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="LMSModelAzure.LeadStatus" Width="1.5" PointX="3.75" PointY="16" IsExpanded="true" />
-        <EntityTypeShape EntityType="LMSModelAzure.LeadType" Width="1.5" PointX="1.5" PointY="16.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="LMSModelAzure.Models" Width="1.5" PointX="3.75" PointY="10.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="LMSModelAzure.Roles" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="LMSModelAzure.Services" Width="1.5" PointX="3.75" PointY="19" IsExpanded="true" />
+      <Diagram DiagramId="b95c48997cb744d58ca051971169acd5" Name="Diagram1">
+        <EntityTypeShape EntityType="LMSModelAzure.Brands" Width="1.5" PointX="0.75" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LMSModelAzure.DealerBrandMappings" Width="1.5" PointX="3" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LMSModelAzure.Dealers" Width="1.5" PointX="0.75" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="LMSModelAzure.Leads" Width="1.5" PointX="6" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LMSModelAzure.LeadStatus" Width="1.5" PointX="3.75" PointY="16.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LMSModelAzure.LeadType" Width="1.5" PointX="1.5" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="LMSModelAzure.Models" Width="1.5" PointX="3.75" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="LMSModelAzure.Roles" Width="1.5" PointX="0.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="LMSModelAzure.Services" Width="1.5" PointX="3.75" PointY="19.125" IsExpanded="true" />
         <EntityTypeShape EntityType="LMSModelAzure.Users" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
         <AssociationConnector Association="LMSModelAzure.FK_DealerBrand_Brands" ManuallyRouted="false" />
         <AssociationConnector Association="LMSModelAzure.FK_Models_Brands" ManuallyRouted="false" />

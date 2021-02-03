@@ -10,7 +10,7 @@ using LMS.Web.BAL.Token;
 using WebMatrix.WebData;
 using System.Configuration;
 using System.IO;
-using LMS.Web.DAL.Enums;
+using LMS.Common;
 
 namespace LMS.Web.Controllers
 {
@@ -31,23 +31,43 @@ namespace LMS.Web.Controllers
 
         // POST: Login
         [HttpPost]
-        public string Login(LoginViewModel loginViewObj)
+        public ActionResult Login(LoginViewModel loginViewObj)
         {
-            var result = _loginManager.Login(loginViewObj);
-
-            switch ((LoginResult)result)
+            if (ModelState.IsValid)
             {
-                case LoginResult.Success:
-                    return "Success";
-                case LoginResult.Invalid:
-                    return "Username or password don't match";
-                case LoginResult.NotFound:
-                    return "User does not exist";
-                default:
-                    return "Error occurred";
-            }
-        }
+                loginViewObj.Email = loginViewObj.Email.ToLower();
 
+                //Log in the user
+                var loginResult = _loginManager.Login(loginViewObj);
+
+                //Check result
+                switch (loginResult.result)
+                {
+                    case LoginResultEnum.Success:
+                        Session["email"] = loginViewObj.Email;
+                        Session["role"] = loginResult.role;
+                        switch (loginResult.role)
+                        {
+                            case RolesEnum.Dealer:
+                                return RedirectToAction("Index", "Dealer");
+                            case RolesEnum.Sales:
+                                return RedirectToAction("Index", "Sales");
+                            case RolesEnum.AfterSales:
+                                return RedirectToAction("Index", "AfterSales");
+                        }
+                        break;
+
+                    case LoginResultEnum.Invalid:
+                        ModelState.AddModelError("Password", "Username or password don't match");
+                        return View(loginViewObj);
+
+                    case LoginResultEnum.NotFound:
+                        ModelState.AddModelError("Email", "User does not exist");
+                        return View(loginViewObj);
+                }
+            }
+            return View(loginViewObj);
+        }
 
         [HttpGet]
         public ActionResult ResetPassword(string Id, string code)
@@ -66,7 +86,7 @@ namespace LMS.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult ResetPassword(ResetPasswordViewModel resetPassword) //TODO: Use ViewModel
+        public ActionResult ResetPassword(ResetPasswordViewModel resetPassword)
         {
             if (ModelState.IsValid)
             {

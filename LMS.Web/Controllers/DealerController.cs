@@ -16,6 +16,12 @@ namespace LMS.Web.Controllers
         {
             _userManager = userManager;
         }
+
+        public ActionResult Index()
+        {
+            return Content("This is Dealer");
+        }
+
         [HttpGet]
         public ActionResult CreateUser()
         {

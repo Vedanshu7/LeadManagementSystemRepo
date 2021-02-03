@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace LMS.Common
 {
-    public class Class1
+    public enum LoginResultEnum : int
     {
+        Success = 1,
+        Invalid = 2,
+        NotFound = 3
     }
 }

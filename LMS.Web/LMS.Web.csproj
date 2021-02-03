@@ -192,9 +192,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AfterSalesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\DealerController.cs" />
+    <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -2111,6 +2114,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Admin\" />
+    <Folder Include="Views\AfterSales\" />
+    <Folder Include="Views\Sales\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -2129,6 +2135,10 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LMS.Common\LMS.Common.csproj">
+      <Project>{8e2059a6-30e5-4b4c-a230-2bfa4c17c533}</Project>
+      <Name>LMS.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LMS.Web.BAL\LMS.Web.BAL.csproj">
       <Project>{4422f201-0595-43b2-b720-badf1c9c72ab}</Project>
       <Name>LMS.Web.BAL</Name>

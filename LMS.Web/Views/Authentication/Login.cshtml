@@ -46,12 +46,11 @@
                             <div class="row px-3">
                                 @Html.LabelFor(m => m.Email, new { @class = "mb-0" })
                                 @Html.TextBoxFor(m => m.Email, new { @class = "mb-4", @placeholder = "Email" })
-
-
                             </div>
                             <div class="validation text-center">
                                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                             </div>
+
                             <div class="row px-3">
                                 @Html.LabelFor(m => m.Password, new { @class = "mb-0" })
                                 @Html.PasswordFor(m => m.Password, new { @class = "mb-4", @placeholder = "Password" })
@@ -62,8 +61,8 @@
                             </div>
                             <div class="row px-3 mb-4">
                                 <div class="custom-control custom-checkbox custom-control-inline">  </div>
-                                @Html.ActionLink("Forgot Password?", "ForgotPassword",null,new { @class = "ml-auto mb-0 text-sm" })
-                                
+                                @Html.ActionLink("Forgot Password?", "ForgotPassword", null, new { @class = "ml-auto mb-0 text-sm" })
+
                             </div>
 
                             <div class="row mb-3 px-3"> <button type="submit" class="btn btn-blue text-center">Login</button> </div>
@@ -83,6 +82,6 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
- 
+
 </body>
 </html>

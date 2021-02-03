@@ -1,6 +1,7 @@
 ﻿using LMS.Web.BAL.Interface;
 using LMS.Web.BAL.ViewModels;
 using LMS.Web.DAL.Interface;
+using LMS.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +17,9 @@ namespace LMS.Web.BAL.Manager
         {
             _loginRepository = loginReposiotry;
         }
-        public int Login(LoginViewModel login)
+        public LoginResult Login(LoginViewModel login)
         {
-            return _loginRepository.Login(login.Email, login.Password, login.Role);
+            return _loginRepository.Login(login.Email, login.Password);
         }
 
         public string ResetPassword(string userEmail, ResetPasswordViewModel resetPassword)

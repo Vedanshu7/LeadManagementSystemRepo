@@ -92,7 +92,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authentication\EmailManager.cs" />
-    <Compile Include="Enums\LoginResult.cs" />
     <Compile Include="Helper\UnityRepositoryHelper.cs" />
     <Compile Include="Interface\ILogin.cs" />
     <Compile Include="Interface\IUserManager.cs" />
@@ -105,6 +104,10 @@
     <Compile Include="ViewModels\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LMS.Common\LMS.Common.csproj">
+      <Project>{8e2059a6-30e5-4b4c-a230-2bfa4c17c533}</Project>
+      <Name>LMS.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LMS.Web.DAL\LMS.Web.DAL.csproj">
       <Project>{ac17c065-7cfa-46ff-bddf-ae7fda8c691c}</Project>
       <Name>LMS.Web.DAL</Name>
