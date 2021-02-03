@@ -16,9 +16,9 @@ namespace LMS.Web.Controllers
 {
     public class AuthenticationController : Controller
     {
-        private readonly ILogin _loginManager;
+        private readonly ILoginManager _loginManager;
 
-        public AuthenticationController(ILogin loginManager)
+        public AuthenticationController(ILoginManager loginManager)
         {
             _loginManager = loginManager;
         }

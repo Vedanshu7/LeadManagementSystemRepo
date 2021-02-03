@@ -93,12 +93,15 @@
   <ItemGroup>
     <Compile Include="Authentication\EmailManager.cs" />
     <Compile Include="Helper\UnityRepositoryHelper.cs" />
-    <Compile Include="Interface\ILogin.cs" />
+    <Compile Include="Interface\ILeadManager.cs" />
+    <Compile Include="Interface\ILoginManager.cs" />
     <Compile Include="Interface\IUserManager.cs" />
+    <Compile Include="Manager\LeadManager.cs" />
     <Compile Include="Manager\LoginManager.cs" />
     <Compile Include="Manager\UserManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Token\TokenManager.cs" />
+    <Compile Include="ViewModels\DealerLeadViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />

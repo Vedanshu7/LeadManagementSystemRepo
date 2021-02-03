@@ -25,6 +25,7 @@ namespace LMS.Web.BAL.Manager
                 cfg.CreateMap<UserViewModel, Users>();
                 cfg.CreateMap<Users, UserViewModel>();
                 cfg.CreateMap<List<Users>,List<UserViewModel>>();
+
             });
 
             mapper = config.CreateMapper();
@@ -32,6 +33,7 @@ namespace LMS.Web.BAL.Manager
         public bool CreateUser(UserViewModel users)
         {
             Users user = mapper.Map<UserViewModel, Users>(users);
+            
             return _userRepository.CreateUser(user);
         }
 

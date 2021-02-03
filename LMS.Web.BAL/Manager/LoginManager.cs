@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace LMS.Web.BAL.Manager
 {
-    public class LoginManager : ILogin
+    public class LoginManager : ILoginManager
     {
         private readonly ILoginRepository _loginRepository;
         public LoginManager(ILoginRepository loginReposiotry)

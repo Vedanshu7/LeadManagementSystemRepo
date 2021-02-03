@@ -10,7 +10,7 @@ namespace LMS.Web.DAL.Repository
 {
     public class LoginRepository : ILoginRepository
     {
-        private static Database.LMSEntitiesAzure _db;
+        private readonly Database.LMSEntitiesAzure _db;
 
         public LoginRepository()
         {

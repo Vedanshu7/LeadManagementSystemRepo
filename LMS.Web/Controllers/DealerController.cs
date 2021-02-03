@@ -68,5 +68,11 @@ namespace LMS.Web.Controllers
             return Content("Failed!!");
         }
 
+        [HttpGet]
+        public ActionResult LeadList()
+        {
+            return View();
+        }
+
     }
 }

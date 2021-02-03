@@ -17,7 +17,7 @@ namespace LMS.Web
             // it is NOT necessary to register your controllers
 
             // e.g. container.RegisterType<ITestService, TestService>();
-            container.RegisterType<ILogin, LoginManager>();
+            container.RegisterType<ILoginManager, LoginManager>();
             container.RegisterType<IUserManager, UserManager>();
             container.AddNewExtension<UnityRepositoryHelper>();
 

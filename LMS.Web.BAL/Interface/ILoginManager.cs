@@ -8,7 +8,7 @@ using LMS.Common;
 
 namespace LMS.Web.BAL.Interface
 {
-    public interface ILogin
+    public interface ILoginManager
     {
         LoginResult Login(LoginViewModel login);
         string ResetPassword(string userEmail, ResetPasswordViewModel resetPassword);
