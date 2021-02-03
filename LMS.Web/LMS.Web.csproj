@@ -192,6 +192,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="Attributes\Authenticate.cs" />
+    <Compile Include="Attributes\Authorization.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AfterSalesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

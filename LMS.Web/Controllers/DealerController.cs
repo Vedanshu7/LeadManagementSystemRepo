@@ -5,10 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using LMS.Web.Attributes;
+using LMS.Common;
 
 namespace LMS.Web.Controllers
 {
     //TODO: Check if logged in User is Dealer
+    [Authenticate]
+    [Authorization(RolesEnum.Dealer)]
     public class DealerController : Controller
     {
         private readonly IUserManager _userManager;

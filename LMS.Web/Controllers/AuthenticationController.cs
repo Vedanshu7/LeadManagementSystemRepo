@@ -26,6 +26,20 @@ namespace LMS.Web.Controllers
         [HttpGet]
         public ActionResult Login()
         {
+            //Check if already logged in
+            if (Session["email"] != null)
+            {
+                var currentRole = (RolesEnum)Session["role"];
+                switch (currentRole)
+                {
+                    case RolesEnum.Dealer:
+                        return RedirectToAction("Index", "Dealer");
+                    case RolesEnum.Sales:
+                        return RedirectToAction("Index", "Sales");
+                    case RolesEnum.AfterSales:
+                        return RedirectToAction("Index", "AfterSales");
+                }
+            }
             return View();
         }
 
@@ -146,6 +160,18 @@ namespace LMS.Web.Controllers
                 }
             }
             return View();
+        }
+
+        public ActionResult Unauthorized()
+        {
+            return Content("Unauthorized"); //TODO: Create Unauthorized Page
+        }
+
+        public ActionResult LogOff()
+        {
+            Session["email"] = null;
+            Session["role"] = null;
+            return RedirectToAction("Login", "Authentication");
         }
 
         [NonAction]
