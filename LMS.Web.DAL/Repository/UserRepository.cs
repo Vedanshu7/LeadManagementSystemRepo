@@ -13,7 +13,6 @@ namespace LMS.Web.DAL.Repository
     public class UserRepository : IUserRepository
     {
         private readonly Database.LMSEntitiesAzure _db;
-        //TODO: add mapper
         public UserRepository()
         {
             _db = new Database.LMSEntitiesAzure();
