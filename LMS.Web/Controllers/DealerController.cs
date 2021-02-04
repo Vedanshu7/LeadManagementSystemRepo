@@ -38,12 +38,17 @@ namespace LMS.Web.Controllers
         [HttpPost]
         public ActionResult CreateUser(UserViewModel user)
         {
-            var data = _userManager.CreateUser(user);
-            if (data == true)
+            if(ModelState.IsValid)
             {
-                return Content("Success");
+                int dealerId = (int)Session["id"];
+                var data = _userManager.CreateUser(user, dealerId);
+                if (data == true)
+                {
+                    return Content("Success");
+                }
+                return Content("User Already Exist");
             }
-            return Content("User Already Exist");
+            return View(user);
         }
 
         [HttpGet]
@@ -63,7 +68,8 @@ namespace LMS.Web.Controllers
         [HttpPost]
         public ActionResult EditUser(UserViewModel user)
         {
-            if (_userManager.EditUser(user))
+            int dealerId = (int)Session["id"];
+            if (_userManager.EditUser(user, dealerId))
             {
                 return Content("Success");
             }

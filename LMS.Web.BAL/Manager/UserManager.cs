@@ -24,22 +24,21 @@ namespace LMS.Web.BAL.Manager
             {
                 cfg.CreateMap<UserViewModel, Users>();
                 cfg.CreateMap<Users, UserViewModel>();
-                cfg.CreateMap<List<Users>,List<UserViewModel>>();
-
             });
 
             mapper = config.CreateMapper();
         }
-        public bool CreateUser(UserViewModel users)
+        public bool CreateUser(UserViewModel users, int dealerId)
         {
             Users user = mapper.Map<UserViewModel, Users>(users);
-            
+            user.DealerId = dealerId;
             return _userRepository.CreateUser(user);
         }
 
-        public bool EditUser(UserViewModel users)
+        public bool EditUser(UserViewModel users, int dealerId)
         {
             Users user=mapper.Map<UserViewModel,Users>(users);
+            user.DealerId = dealerId;
             return _userRepository.EditUser(user);
         }
 
@@ -60,7 +59,9 @@ namespace LMS.Web.BAL.Manager
 
         public List<UserViewModel> UserDetail()
         {
-            List<UserViewModel> users= mapper.Map<List<Users>, List<UserViewModel>>(_userRepository.UserDetails());
+            List<Users> usersFromDb = _userRepository.UserDetails();
+            List<UserViewModel> users= mapper.Map<List<Users>, List<UserViewModel>>(usersFromDb);
+            
             return users;
         }
     }

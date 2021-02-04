@@ -3,6 +3,7 @@ using LMS.Web.DAL.Database;
 using LMS.Web.DAL.Interface;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,23 +13,22 @@ namespace LMS.Web.DAL.Repository
     public class UserRepository : IUserRepository
     {
         private readonly Database.LMSEntitiesAzure _db;
+        //TODO: add mapper
         public UserRepository()
         {
             _db = new Database.LMSEntitiesAzure();
         }
-        public bool CreateUser(Users users)
+        public bool CreateUser(Users user)
         {
-
-          
-            var emailId = _db.Users.Where(m => m.Email == users.Email).Any();
+            //Check if user already exists or not
+            var emailId = _db.Users.Where(m => m.Email == user.Email).Any();
             if (emailId != true)
             {
-                users.CreatedBy = 1;
-                users.CreatedDate = DateTime.UtcNow;
-                users.IsActive = true;
-                users.DealerId = 1;
+                user.CreatedBy = user.DealerId;
+                user.CreatedDate = DateTime.UtcNow;
+                user.IsActive = true;
 
-                _db.Users.Add(users);
+                _db.Users.Add(user);
                 _db.SaveChanges();
                 return true;
             }
@@ -36,26 +36,27 @@ namespace LMS.Web.DAL.Repository
             {
                 return false;
             }
-
-
-
         }
 
         public bool EditUser(Users user)
         {
-            var emailId = _db.Users.Where(m => m.Email == user.Email).Any();
-            if (emailId != true)
+            //var emailId = _db.Users.Where(m => m.Email == user.Email).Any();
+            var userFromDb = _db.Users.Where(u => u.Id == user.Id).FirstOrDefault();
+
+            if (userFromDb != null)
             {
-                user.UpdatedBy = 1;
-                user.UpdatedDate = DateTime.UtcNow;
-                
+                userFromDb.Name = user.Name;
+                userFromDb.MobileNumber = user.MobileNumber;
+                userFromDb.Email = user.Email;
+                userFromDb.RoleId = user.RoleId;
+                userFromDb.UpdatedBy = user.DealerId;
+                userFromDb.UpdatedDate = DateTime.UtcNow;
+
+                _db.Entry(userFromDb).State = EntityState.Modified;
                 _db.SaveChanges();
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         public Users GetUser(int Id)
