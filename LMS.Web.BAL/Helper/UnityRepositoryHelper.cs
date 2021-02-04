@@ -18,6 +18,8 @@ namespace LMS.Web.BAL.Helper
         {
             Container.RegisterType<ILoginRepository, LoginRepository>();
             Container.RegisterType<IUserRepository, UserRepository>();
+            Container.RegisterType<ILeadRepository, LeadRepository>();
+
         }
     }
 }
