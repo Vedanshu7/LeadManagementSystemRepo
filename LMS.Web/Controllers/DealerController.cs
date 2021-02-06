@@ -10,9 +10,8 @@ using LMS.Common;
 
 namespace LMS.Web.Controllers
 {
-    //TODO: Check if logged in User is Dealer
     [Authenticate]
-    [Authorization(RolesEnum.Dealer)]
+    [Authorization(RolesEnum.DealerManager)]
     public class DealerController : Controller
     {
         private readonly IUserManager _userManager;
@@ -38,9 +37,9 @@ namespace LMS.Web.Controllers
         [HttpPost]
         public ActionResult CreateUser(UserViewModel user)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                int dealerId = (int)Session["id"];
+                int dealerId = (int)Session["dealerId"];
                 var data = _userManager.CreateUser(user, dealerId);
                 if (data == true)
                 {
@@ -68,7 +67,7 @@ namespace LMS.Web.Controllers
         [HttpPost]
         public ActionResult EditUser(UserViewModel user)
         {
-            int dealerId = (int)Session["id"];
+            int dealerId = (int)Session["dealerId"];
             if (_userManager.EditUser(user, dealerId))
             {
                 return Content("Success");
@@ -79,10 +78,26 @@ namespace LMS.Web.Controllers
         [HttpGet]
         public ActionResult LeadList()
         {
-            int dealerId = (int)Session["id"];
+            int dealerId = (int)Session["dealerId"];
             List<DealerLeadViewModel> dealerLeadViewModels = _leadManager.GetDealerLeadList(dealerId);
             return View(dealerLeadViewModels);
         }
 
+        //[HttpGet]
+        //public ActionResult AssignLead(int leadId) //Selected leadId
+        //{
+        //    //Check Lead Type, return Selected Lead, Users based on LeadType
+
+        //    //AssignLeadViewModel
+
+        //    //DealerLeadViewModel selectedLead
+        //    //List<UserViewModel> users
+        //}
+
+        //[HttpPost]
+        //public ActionResult AssignLead(int selectedUserId, int leadId)
+        //{
+        //    //assign selectedUser to Lead
+        //}
     }
 }

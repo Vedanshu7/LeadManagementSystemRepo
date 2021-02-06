@@ -23,13 +23,13 @@ namespace LMS.Web.DAL.Repository
             {
                 var user = _db.Users.Where(u => u.Email == email).FirstOrDefault();
                 var loginResult = new LoginResult();
-                if (user == null)
+                if (user == null) //If user not found
                 {
                     loginResult.result = LoginResultEnum.NotFound;
                     return loginResult; //Not found
                 }
 
-                if (user.Password != password)
+                if (user.Password != password) //If password doesn't match
                 {
                     loginResult.result = LoginResultEnum.Invalid;
                     return loginResult; //Invalid Username or Password
@@ -39,11 +39,15 @@ namespace LMS.Web.DAL.Repository
                 loginResult.LoggedInUserId = user.Id;
                 loginResult.result = LoginResultEnum.Success;
                 loginResult.role = (RolesEnum)user.RoleId;
+
+                if (loginResult.role == RolesEnum.DealerManager) //Set DealerId in LoginResult if it's a Dealer
+                    loginResult.DealerId = user.DealerId;
+
                 return loginResult; //Success
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine(e); //TODO: Log Errors in File (Inner message, Stacktrace)
                 throw;
             }
         }

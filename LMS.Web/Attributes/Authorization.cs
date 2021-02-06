@@ -23,6 +23,11 @@ namespace LMS.Web.Attributes
             {
                 RolesEnum userRole = (RolesEnum)httpContext.Session["role"];
 
+                //If userRole is Dealer, then check if DealerId is set in Session
+                if (userRole == RolesEnum.DealerManager)
+                    if (httpContext.Session["dealerId"] == null)
+                        return false;
+
                 //check if valid role
                 if (allowedRoles.Contains(userRole))
                     return true;

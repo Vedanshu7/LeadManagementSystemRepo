@@ -37,7 +37,7 @@ namespace LMS.Web.BAL.Manager
 
         public bool EditUser(UserViewModel users, int dealerId)
         {
-            Users user=mapper.Map<UserViewModel,Users>(users);
+            Users user = mapper.Map<UserViewModel, Users>(users);
             user.DealerId = dealerId;
             return _userRepository.EditUser(user);
         }
@@ -54,15 +54,20 @@ namespace LMS.Web.BAL.Manager
             {
                 return null;
             }
-           
+
         }
 
         public List<UserViewModel> UserDetail()
         {
             List<Users> usersFromDb = _userRepository.UserDetails();
-            List<UserViewModel> users= mapper.Map<List<Users>, List<UserViewModel>>(usersFromDb);
-            
+            List<UserViewModel> users = mapper.Map<List<Users>, List<UserViewModel>>(usersFromDb);
+
             return users;
+        }
+
+        public int GetDealerId(int loggedInUserId)
+        {
+            return _userRepository.GetDealerId(loggedInUserId);
         }
     }
 }

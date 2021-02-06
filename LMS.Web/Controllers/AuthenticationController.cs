@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using LMS.Web.BAL.Authentication;
 using LMS.Web.BAL.Interface;
 using LMS.Web.BAL.ViewModels;
 using LMS.Web.BAL.Token;
-using WebMatrix.WebData;
-using System.Configuration;
 using System.IO;
 using LMS.Common;
 
@@ -27,12 +21,12 @@ namespace LMS.Web.Controllers
         public ActionResult Login()
         {
             //Check if already logged in
-            if (Session["id"] != null)
+            if (Session["loggedInId"] != null)
             {
                 var currentRole = (RolesEnum)Session["role"];
                 switch (currentRole)
                 {
-                    case RolesEnum.Dealer:
+                    case RolesEnum.DealerManager:
                         return RedirectToAction("Index", "Dealer");
                     case RolesEnum.Sales:
                         return RedirectToAction("Index", "Sales");
@@ -40,7 +34,7 @@ namespace LMS.Web.Controllers
                         return RedirectToAction("Index", "AfterSales");
                 }
             }
-            return View();
+            return View(); //TODO: Redirect to page
         }
 
         // POST: Login
@@ -58,11 +52,12 @@ namespace LMS.Web.Controllers
                 switch (loginResult.result)
                 {
                     case LoginResultEnum.Success:
-                        Session["id"] = loginResult.LoggedInUserId;
+                        Session["loggedInId"] = loginResult.LoggedInUserId;
                         Session["role"] = loginResult.role;
                         switch (loginResult.role)
                         {
-                            case RolesEnum.Dealer:
+                            case RolesEnum.DealerManager:
+                                Session["dealerId"] = loginResult.DealerId;
                                 return RedirectToAction("Index", "Dealer");
                             case RolesEnum.Sales:
                                 return RedirectToAction("Index", "Sales");
@@ -169,8 +164,8 @@ namespace LMS.Web.Controllers
 
         public ActionResult LogOff()
         {
-            Session["email"] = null;
-            Session["role"] = null;
+            Session.Clear();
+            Session.Abandon();
             return RedirectToAction("Login", "Authentication");
         }
 

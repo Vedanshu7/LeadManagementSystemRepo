@@ -20,8 +20,8 @@ namespace LMS.Web.DAL.Repository
         public bool CreateUser(Users user)
         {
             //Check if user already exists or not
-            var emailId = _db.Users.Where(m => m.Email == user.Email).Any();
-            if (emailId != true)
+            var emailId = _db.Users.Any(m => m.Email == user.Email);
+            if (!emailId)
             {
                 user.CreatedBy = user.DealerId;
                 user.CreatedDate = DateTime.UtcNow;
@@ -73,10 +73,16 @@ namespace LMS.Web.DAL.Repository
 
         public List<Users> UserDetails()
         {
-           
+
             List<Users> list = _db.Users.ToList();
 
             return list;
+        }
+
+        public int GetDealerId(int loggedInUserId)
+        {
+            var dealerInDb = _db.Users.Find(loggedInUserId);
+            return dealerInDb.DealerId;
         }
     }
 }

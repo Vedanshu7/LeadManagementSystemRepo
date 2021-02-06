@@ -11,6 +11,6 @@ namespace LMS.Common
         Sales = 1,
         AfterSales,
         Admin,
-        Dealer
+        DealerManager
     }
 }

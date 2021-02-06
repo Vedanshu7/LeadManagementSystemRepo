@@ -12,7 +12,7 @@ namespace LMS.Web.Attributes
     {
         public void OnAuthentication(AuthenticationContext filterContext)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(filterContext.HttpContext.Session["id"])))
+            if (string.IsNullOrEmpty(Convert.ToString(filterContext.HttpContext.Session["loggedInId"])))
             {
                 filterContext.Result = new HttpUnauthorizedResult();
             }
