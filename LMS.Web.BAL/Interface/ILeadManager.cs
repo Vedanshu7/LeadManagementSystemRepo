@@ -11,5 +11,7 @@ namespace LMS.Web.BAL.Interface
     {
         List<DealerLeadViewModel> GetDealerLeadList(int dealerId);
         DealerLeadViewModel GetLead(int leadId);
+
+        bool AssignLead(int selectedUserId, int leadId);
     }
 }

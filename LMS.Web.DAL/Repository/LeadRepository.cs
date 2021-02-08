@@ -2,6 +2,7 @@
 using LMS.Web.DAL.Interface;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,15 @@ namespace LMS.Web.DAL.Repository
         public Leads GetLead(int leadId)
         {
             return _db.Leads.Find(leadId);
+        }
+
+        public bool AssignLead(int selectedUserId,int leadId)
+        {
+            var lead = _db.Leads.Find(leadId);
+            lead.AssignedUserId = selectedUserId;
+            _db.Entry(lead).State = EntityState.Modified;
+            _db.SaveChanges();
+            return true;
         }
     }
 }

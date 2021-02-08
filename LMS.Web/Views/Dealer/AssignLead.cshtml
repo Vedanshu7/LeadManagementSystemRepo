@@ -1,15 +1,52 @@
 ﻿@model LMS.Web.BAL.ViewModels.AssignLeadViewModel
 
-@{
-    ViewBag.Title = "AssignLead";
-}
 
-<h2>AssignLead</h2>
 
-<div>
-    <h4>AssignLeadViewModel</h4>
-    <hr />
+<div class="pt-3">
+    <div class="card border-dark" >
+        <div class="card-header">Customer Name: @Html.DisplayFor(model => model.selectedLead.CustomerName)</div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-4">
+                    <p class="card-text">Model Name: @Html.DisplayFor(model => model.selectedLead.ModelName) </p>
+                </div>
+                <div class="col-4">
+                    <p class="card-text">AssignedUser Name: @Html.DisplayFor(model => model.selectedLead.AssignedUserName)</p>
+                </div>
+                <div class="col-4">
+                    <p class="card-text">Lead Status: @Html.DisplayFor(model => model.selectedLead.LeadStatus)</p>
+                </div>
 
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <p class="card-text">Lead Type: @Html.DisplayFor(model => model.selectedLead.LeadType)</p>
+
+                </div>
+                <div class="col-4">
+                    <p class="card-text">
+                        Service Type: @Html.DisplayFor(model => model.selectedLead.ServiceType)
+                    </p>
+                </div>
+                <div class="col-4">
+                    <p class="card-text">
+                        Customer Email:   @Html.DisplayFor(model => model.selectedLead.CustomerEmail)
+                    </p>
+                </div>
+
+            </div>
+
+         
+           
+
+            <p class="card-text">Customer Number:  @Html.DisplayFor(model => model.selectedLead.CustomerContactNumber)</p>
+
+        </div>
+        <div class="card-footer">
+            Comments: @Html.DisplayFor(model => model.selectedLead.Comments)
+        </div>
+    </div>
+ 
     <table class="table">
         <tr>
             <th>
@@ -26,29 +63,31 @@
             </th>
             <th></th>
         </tr>
-
-        @foreach (var item in Model.users)
+        @using (Html.BeginForm("AssignLead", "Dealer", FormMethod.Post))
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MobileNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RoleId)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                </td>
-            </tr>
-        }
+            @Html.Hidden("leadId", Model.selectedLead.Id)
 
+            foreach (var item in Model.users)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MobileNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RoleId)
+                    </td>
+                    @Html.Hidden("selectedUserId", item.Id)
+                    <td>
+                        <input type="submit" name="selectedUserId" value="Assign" class="btn btn-outline-success" />
+                    </td>
+                </tr>
+            }
+        }
     </table>
 </div>

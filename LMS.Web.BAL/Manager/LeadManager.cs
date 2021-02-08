@@ -60,5 +60,10 @@ namespace LMS.Web.BAL.Manager
 
             return dealerLead;
         }
+
+        public bool AssignLead(int selectedUserId, int leadId)
+        {
+            return _leadRepository.AssignLead(selectedUserId, leadId);
+        }
     }
 }

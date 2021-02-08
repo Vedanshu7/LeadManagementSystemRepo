@@ -24,7 +24,7 @@ namespace LMS.Web.Controllers
 
         public ActionResult Index()
         {
-            return Content("This is Dealer");
+            return Content("Dealer Dashboard");
         }
 
         [HttpGet]
@@ -98,10 +98,17 @@ namespace LMS.Web.Controllers
             return View(viewModel);
         }
 
-        //[HttpPost]
-        //public ActionResult AssignLead(int selectedUserId, int leadId)
-        //{
-        //    //assign selectedUser to Lead
-        //}
+        [HttpPost]
+        public ActionResult AssignLead(int selectedUserId, int leadId)
+        {
+            if (_leadManager.AssignLead(selectedUserId, leadId))
+            {
+                return Content("True");
+            }
+            else
+            {
+                return Content("False");
+            }
+        }
     }
 }
