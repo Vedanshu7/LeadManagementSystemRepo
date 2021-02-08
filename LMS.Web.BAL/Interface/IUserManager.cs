@@ -15,5 +15,6 @@ namespace LMS.Web.BAL.Interface
         bool EditUser(UserViewModel users, int dealerId);
         UserViewModel GetUser(int Id);
         int GetDealerId(int loggedInUserId);
+        List<UserViewModel> GetUsers(int leadId);
     }
 }

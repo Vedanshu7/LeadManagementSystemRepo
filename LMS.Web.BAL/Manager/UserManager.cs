@@ -69,5 +69,12 @@ namespace LMS.Web.BAL.Manager
         {
             return _userRepository.GetDealerId(loggedInUserId);
         }
+
+        public List<UserViewModel> GetUsers(int leadId)
+        {
+            var usersFromDb = _userRepository.GetUsers(leadId);
+            List<UserViewModel> users = mapper.Map<List<Users>, List<UserViewModel>>(usersFromDb);
+            return users;
+        }
     }
 }

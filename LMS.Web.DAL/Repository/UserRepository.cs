@@ -26,6 +26,7 @@ namespace LMS.Web.DAL.Repository
                 user.CreatedBy = user.DealerId;
                 user.CreatedDate = DateTime.UtcNow;
                 user.IsActive = true;
+                //TODO: Set DealerId
 
                 _db.Users.Add(user);
                 _db.SaveChanges();
@@ -83,6 +84,18 @@ namespace LMS.Web.DAL.Repository
         {
             var dealerInDb = _db.Users.Find(loggedInUserId);
             return dealerInDb.DealerId;
+        }
+
+        public List<Users> GetUsers(int leadId) //Returns Users concerned with Lead Type (of provided leadId)
+        {
+            var lead = _db.Leads.Find(leadId); //fetching the lead based on leadId
+            var users = _db.Users //fetching users according to the lead type and dealerId
+                .Where(u =>
+                u.RoleId == lead.LeadTypeId &&
+                u.DealerId == lead.DealerId)
+                .ToList();
+
+            return users;
         }
     }
 }

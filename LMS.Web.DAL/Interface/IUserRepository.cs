@@ -14,7 +14,7 @@ namespace LMS.Web.DAL.Interface
         List<Users> UserDetails();
         bool EditUser(Users user);
         Users GetUser(int Id);
-
         int GetDealerId(int loggedInUserId);
+        List<Users> GetUsers(int leadId);
     }
 }

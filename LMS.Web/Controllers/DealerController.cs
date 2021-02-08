@@ -83,16 +83,20 @@ namespace LMS.Web.Controllers
             return View(dealerLeadViewModels);
         }
 
-        //[HttpGet]
-        //public ActionResult AssignLead(int leadId) //Selected leadId
-        //{
-        //    //Check Lead Type, return Selected Lead, Users based on LeadType
+        [HttpGet]
+        public ActionResult AssignLead(int leadId) //Selected leadId
+        {
+            //Check Lead Type, return Selected Lead, Users based on LeadType
 
-        //    //AssignLeadViewModel
+            DealerLeadViewModel selectedLead = _leadManager.GetLead(leadId);
+            List<UserViewModel> users = _userManager.GetUsers(leadId);
 
-        //    //DealerLeadViewModel selectedLead
-        //    //List<UserViewModel> users
-        //}
+            AssignLeadViewModel viewModel = new AssignLeadViewModel();
+            viewModel.selectedLead = selectedLead;
+            viewModel.users = users;
+
+            return View(viewModel);
+        }
 
         //[HttpPost]
         //public ActionResult AssignLead(int selectedUserId, int leadId)

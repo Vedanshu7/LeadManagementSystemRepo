@@ -19,5 +19,9 @@ namespace LMS.Web.DAL.Repository
         {
             return _db.Leads.Where(m => m.DealerId == dealerId).ToList();
         }
+        public Leads GetLead(int leadId)
+        {
+            return _db.Leads.Find(leadId);
+        }
     }
 }
