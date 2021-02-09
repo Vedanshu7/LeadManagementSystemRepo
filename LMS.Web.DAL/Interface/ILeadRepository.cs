@@ -12,5 +12,6 @@ namespace LMS.Web.DAL.Interface
         List<Leads> GetDealerLeadList(int dealerId);
         Leads GetLead(int leadId);
         bool AssignLead(int selectedUserId, int leadId);
+        bool DeAssignLead(int leadId);
     }
 }

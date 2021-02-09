@@ -15,16 +15,16 @@
             Email
         </th>
         <th>
-           Contact
+            Contact
         </th>
         <th>
-           Status
+            Status
         </th>
         <th>
-          Type
+            Type
         </th>
         <th>
-           ServiceType
+            ServiceType
         </th>
         <th>
             Comments
@@ -32,46 +32,51 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.CustomerName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ModelName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AssignedUserName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CustomerEmail)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CustomerContactNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LeadStatus)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LeadType)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ServiceType)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Comments)
-        </td>
-        <td>
-            @if (item.AssignedUserName != null)
-            {
-                <input type="submit" name="selectedUserId" value="De-Assign" class="btn btn-outline-danger" />
-            }
-            else
-            {
-                <input type="submit" name="selectedUserId" value="Assign" class="btn btn-outline-success" />
-            }
-        </td>
-    </tr>
-}
 
-</table>
+        @foreach (var item in Model)
+        {
+           
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModelName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AssignedUserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerEmail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerContactNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeadStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeadType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ServiceType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comments)
+                </td>
+                <td>
+                    @if (item.AssignedUserName != null)
+                    {
+                        @Html.ActionLink("De-Assign", "Modify", new { operation = "DeAssign", leadId = item.Id }, new { @class = "btn btn-outline-danger" })
+
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Assign", "Modify", new { operation = "Assign",leadId = item.Id }, new { @class = "btn btn-outline-success" })
+                    }
+                </td>
+            </tr>
+        }
+    
+
+    </table>

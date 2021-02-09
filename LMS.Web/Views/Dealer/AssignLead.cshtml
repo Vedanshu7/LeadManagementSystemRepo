@@ -63,31 +63,26 @@
             </th>
             <th></th>
         </tr>
-        @using (Html.BeginForm("AssignLead", "Dealer", FormMethod.Post))
+        @foreach (var item in Model.users)
         {
-            @Html.Hidden("leadId", Model.selectedLead.Id)
-
-            foreach (var item in Model.users)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MobileNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.RoleId)
-                    </td>
-                    @Html.Hidden("selectedUserId", item.Id)
-                    <td>
-                        <input type="submit" name="selectedUserId" value="Assign" class="btn btn-outline-success" />
-                    </td>
-                </tr>
-            }
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MobileNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoleId)
+                </td>
+                @Html.Hidden("selectedUserId", item.Id)
+                <td>
+                    @Html.ActionLink("Assign", "AssignLeadConfirm", new { selectedUserId = item.Id, leadId = Model.selectedLead.Id }, new { @class = "btn btn-outline-success" })
+                </td>
+            </tr>
         }
     </table>
 </div>

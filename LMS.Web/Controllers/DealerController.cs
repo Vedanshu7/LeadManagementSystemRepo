@@ -84,7 +84,7 @@ namespace LMS.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult AssignLead(int leadId) //Selected leadId
+        public ActionResult AssignLeadGet(int leadId) //Selected leadId
         {
             //Check Lead Type, return Selected Lead, Users based on LeadType
 
@@ -95,20 +95,52 @@ namespace LMS.Web.Controllers
             viewModel.selectedLead = selectedLead;
             viewModel.users = users;
 
-            return View(viewModel);
+            return View("AssignLead", viewModel);
         }
 
-        [HttpPost]
-        public ActionResult AssignLead(int selectedUserId, int leadId)
+        [HttpGet]
+        public ActionResult AssignLeadConfirm(int selectedUserId, int leadId)
         {
-            if (_leadManager.AssignLead(selectedUserId, leadId))
+            var result = _leadManager.AssignLead(selectedUserId,leadId);
+            if (result)
             {
-                return Content("True");
+                return RedirectToAction("LeadList");
             }
             else
             {
-                return Content("False");
+                //TODO: Add Error Notification
+                return RedirectToAction("LeadList");
             }
+        }
+        
+        [NonAction]
+        public ActionResult DeAssignLead(int leadId)
+        {
+            var result = _leadManager.DeAssignLead(leadId);
+            if (result)
+            {
+                return RedirectToAction("LeadList");
+            }
+            else
+            {
+                //TODO: Add Error Notification
+                return RedirectToAction("LeadList");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult Modify(string operation, int leadId)
+        {
+            switch (operation)
+            {
+                case "Assign":
+                    return RedirectToAction("AssignLeadGet", new { leadId = leadId });
+                case "DeAssign":
+                    return DeAssignLead(leadId);
+                default:
+                    return RedirectToAction("LeadList");
+            }
+           
         }
     }
 }

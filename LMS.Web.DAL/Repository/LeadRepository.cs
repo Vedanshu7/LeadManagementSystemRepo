@@ -27,11 +27,36 @@ namespace LMS.Web.DAL.Repository
 
         public bool AssignLead(int selectedUserId,int leadId)
         {
-            var lead = _db.Leads.Find(leadId);
-            lead.AssignedUserId = selectedUserId;
-            _db.Entry(lead).State = EntityState.Modified;
-            _db.SaveChanges();
-            return true;
+            try
+            {
+                var lead = _db.Leads.Find(leadId);
+                lead.AssignedUserId = selectedUserId;
+                _db.Entry(lead).State = EntityState.Modified;
+                _db.SaveChanges();
+                return true;
+            }
+            catch(Exception e)
+            {
+                //TODO: Add Logger
+                return false;
+            }
+        }
+
+        public bool DeAssignLead(int leadId)
+        {
+            try
+            {
+                var lead = _db.Leads.Find(leadId);
+                lead.AssignedUserId = null;
+                _db.Entry(lead).State = EntityState.Modified;
+                _db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                //TODO: Add Logger
+                return false;
+            }
         }
     }
 }

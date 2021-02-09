@@ -27,7 +27,8 @@ namespace LMS.Web.BAL.Manager
                 dealerLead.Id = lead.Id;
                 dealerLead.CustomerName = lead.CustomerName;
                 dealerLead.ModelName = lead.Models.Name;
-                dealerLead.AssignedUserName = lead.Users.Name;
+                if (lead.AssignedUserId != null)
+                    dealerLead.AssignedUserName = lead.Users.Name;
                 dealerLead.CustomerEmail = lead.CustomerEmail;
                 dealerLead.CustomerContactNumber = lead.CustomerContactNumber;
                 dealerLead.LeadStatus = lead.LeadStatus.DisplayName;
@@ -49,7 +50,8 @@ namespace LMS.Web.BAL.Manager
             dealerLead.Id = lead.Id;
             dealerLead.CustomerName = lead.CustomerName;
             dealerLead.ModelName = lead.Models.Name;
-            dealerLead.AssignedUserName = lead.Users.Name;
+            if (lead.AssignedUserId != null)
+                dealerLead.AssignedUserName = lead.Users.Name;
             dealerLead.CustomerEmail = lead.CustomerEmail;
             dealerLead.CustomerContactNumber = lead.CustomerContactNumber;
             dealerLead.LeadStatus = lead.LeadStatus.DisplayName;
@@ -64,6 +66,11 @@ namespace LMS.Web.BAL.Manager
         public bool AssignLead(int selectedUserId, int leadId)
         {
             return _leadRepository.AssignLead(selectedUserId, leadId);
+        }
+
+        public bool DeAssignLead(int leadId)
+        {
+            return _leadRepository.DeAssignLead(leadId);
         }
     }
 }
