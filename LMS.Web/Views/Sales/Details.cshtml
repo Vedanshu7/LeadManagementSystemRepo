@@ -4,14 +4,13 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2 class="pt-3">Lead Details</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>SalesLeadViewModel</h4>
+
+    <div class="form-horizontal col-md-6">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
@@ -19,22 +18,29 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CustomerName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DisplayFor(m=>m.CustomerName)
-             
+                @Html.DisplayFor(m => m.CustomerName)
+
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.ModelName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-              @Html.DisplayFor(m=>m.ModelName)
+                @Html.DisplayFor(m => m.ModelName)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AssignedUserName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(m => m.AssignedUserName)
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.CustomerEmail, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CustomerEmail, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DisplayFor(model => model.CustomerEmail, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.CustomerEmail, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -42,44 +48,36 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CustomerContactNumber, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CustomerContactNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DisplayFor(model => model.CustomerContactNumber, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.CustomerContactNumber, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.LeadStatus, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.LeadStatusId, "Lead Status", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.LeadStatus, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LeadStatus, "", new { @class = "text-danger" })
+                @Html.DropDownList("LeadStatusId", new List<SelectListItem>
+                {
+                   new SelectListItem{ Text="New", Value = "1" },
+                   new SelectListItem{ Text="Accepted", Value = "2" },
+                   new SelectListItem{ Text="CustomerContacted", Value = "3" },
+                   new SelectListItem{ Text="TestDriveBooked", Value = "4" },
+                   new SelectListItem{ Text="TestDriveDone", Value = "5" },
+                   new SelectListItem{ Text="SalesSuccess", Value = "6" },
+                   new SelectListItem{ Text="SalesLost", Value = "14" },
+                }, new { @class = "form-control" })
             </div>
         </div>
+
 
         <div class="form-group">
             @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-               @Html.DisplayFor(m=>m.Comments)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CreatedDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-               @Html.DisplayFor(m=>m.CreatedDate)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.UpdatedDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(m=>m.UpdatedDate)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.UpdatedBy, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-              @Html.DisplayFor(m=>m.UpdatedBy)
+                @Html.TextArea("Comments", new
+                {
+                    @class = "form-control",
+                    @id = "summernote"
+                })
             </div>
         </div>
 
@@ -94,3 +92,15 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#summernote').summernote({
+                placeholder: 'Your comment',
+                tabsize: 2,
+                height: 100
+            });
+        });
+    </script>
+}

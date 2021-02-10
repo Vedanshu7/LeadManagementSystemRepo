@@ -15,25 +15,24 @@ namespace LMS.Web.Controllers
     public class SalesController : Controller
     {
         //TODO:Add lead assign & deassign.
-        private readonly ISalesLeadManager _salesleadManager;
+        private readonly ISalesLeadManager _salesLeadManager;
         public SalesController(ISalesLeadManager salesleadManager)
         {
-            _salesleadManager = salesleadManager;
+            _salesLeadManager = salesleadManager;
         }
         // GET: Sales
         public ActionResult Index()
         {
-            int dealerId = (int)Session["dealerId"];
             int loggedInUserId = (int)Session["loggedInId"];
-            List<SalesLeadViewModel> list = _salesleadManager.GetSalesLeadList(dealerId,loggedInUserId);
-            return View(list) ;
+            List<SalesLeadViewModel> list = _salesLeadManager.GetSalesLeadList(loggedInUserId);
+            return View(list);
         }
 
         [HttpGet]
         // GET: Sales/Details/5
         public ActionResult Details(int id)
         {
-            SalesLeadViewModel list = _salesleadManager.GetLeadDetail(id);
+            SalesLeadViewModel list = _salesLeadManager.GetLeadDetail(id);
             return View(list);
         }
 
@@ -43,75 +42,40 @@ namespace LMS.Web.Controllers
             //TODO:Dropdown change in lead details page
 
             int loggedInUserId = (int)Session["loggedInId"];
-            bool result = _salesleadManager.UpdateLeadDetails(model,loggedInUserId);
+            bool result = _salesLeadManager.UpdateLeadDetails(model, loggedInUserId);
             if (result)
-                return RedirectToAction("Index","Sales");
-            return View();
+                return RedirectToAction("Index", "Sales");
+            return View(); //TODO: Notify Error Occurred
         }
 
-        // GET: Sales/Create
-        public ActionResult Create()
+        [HttpGet]
+        public ActionResult AssignLead(int leadId)
         {
-            return View();
-        }
-
-        // POST: Sales/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
+            int loggedInUserId = (int)Session["loggedInId"];
+            var result = _salesLeadManager.AssignLead(loggedInUserId, leadId);
+            if (result)
             {
-                // TODO: Add insert logic here
-
                 return RedirectToAction("Index");
             }
-            catch
+            else
             {
-                return View();
-            }
-        }
-
-        // GET: Sales/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Sales/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
+                //TODO: Add Error Notification
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
         }
 
-        // GET: Sales/Delete/5
-        public ActionResult Delete(int id)
+        [HttpGet]
+        public ActionResult DeAssignLead(int leadId)
         {
-            return View();
-        }
-
-        // POST: Sales/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
+            var result = _salesLeadManager.DeAssignLead(leadId);
+            if (result)
             {
-                // TODO: Add delete logic here
-
                 return RedirectToAction("Index");
             }
-            catch
+            else
             {
-                return View();
+                //TODO: Add Error Notification
+                return RedirectToAction("Index");
             }
         }
     }

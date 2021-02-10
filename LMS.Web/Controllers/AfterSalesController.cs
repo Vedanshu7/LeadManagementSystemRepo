@@ -14,6 +14,7 @@ namespace LMS.Web.Controllers
     [Authorization(RolesEnum.AfterSales)]
     public class AfterSalesController : Controller
     {
+        //TODO: Separate AfterSales Manager
         private readonly ISalesLeadManager _salesleadManager;
         public AfterSalesController(ISalesLeadManager salesleadManager)
         {
@@ -22,9 +23,8 @@ namespace LMS.Web.Controllers
         // GET: AfterSales
         public ActionResult Index()
         {
-            int dealerId = (int)Session["dealerId"];
             int loggedInUserId = (int)Session["loggedInId"];
-            List<SalesLeadViewModel> list = _salesleadManager.GetSalesLeadList(dealerId, loggedInUserId);
+            List<SalesLeadViewModel> list = _salesleadManager.GetSalesLeadList(loggedInUserId);
             return View(list);
         }
 

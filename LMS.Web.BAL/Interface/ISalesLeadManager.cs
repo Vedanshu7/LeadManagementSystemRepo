@@ -10,10 +10,11 @@ namespace LMS.Web.BAL.Interface
 {
     public interface ISalesLeadManager
     {
-        List<SalesLeadViewModel> GetSalesLeadList(int dealerId,int loggedInUserId );
-
+        List<SalesLeadViewModel> GetSalesLeadList(int loggedInUserId);
         SalesLeadViewModel GetLeadDetail(int id);
+        bool UpdateLeadDetails(SalesLeadViewModel model, int loggedInUserId);
+        bool AssignLead(int loggedInUserId, int leadId);
+        bool DeAssignLead(int leadId);
 
-        bool UpdateLeadDetails(SalesLeadViewModel model,int loggedInUserId);
     }
 }

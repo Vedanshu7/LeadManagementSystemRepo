@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using LMS.Web.DAL.Database;
-using LMS.Common.Enums;
 
 namespace LMS.Web.BAL.Manager
 {
@@ -26,37 +25,29 @@ namespace LMS.Web.BAL.Manager
                  cfg.CreateMap<Leads, SalesLeadViewModel>();
              });
             mapper = config.CreateMapper();
-
-
-
         }
 
         public SalesLeadViewModel GetLeadDetail(int id)
         {
-
-            Leads leadsFromDb = _salesLeadRepository.GetLeadDetail(id);
-
-
-
-            SalesLeadViewModel salesLeads = mapper.Map<Leads, SalesLeadViewModel>(leadsFromDb);
-            salesLeads.ModelName = leadsFromDb.Models.Name;
-            salesLeads.LastUpdatedBy = leadsFromDb.Users.Name;
-            salesLeads.LeadStatus = leadsFromDb.LeadStatus.DisplayName;
-            return salesLeads;
+            Leads leadFromDb = _salesLeadRepository.GetLeadDetail(id);
+            SalesLeadViewModel salesLead = mapper.Map<Leads, SalesLeadViewModel>(leadFromDb);
+            salesLead.ModelName = leadFromDb.Models.Name;
+            if (leadFromDb.AssignedUserId != null)
+                salesLead.AssignedUserName = leadFromDb.Users.Name;
+            return salesLead;
         }
 
-        public List<SalesLeadViewModel> GetSalesLeadList(int dealerId, int loggedInUserId)
+        public List<SalesLeadViewModel> GetSalesLeadList(int loggedInUserId)
         {
-
-            List<Leads> leadsFromDb = _salesLeadRepository.GetSalesLeadList(dealerId, loggedInUserId);
-
+            List<Leads> leadsFromDb = _salesLeadRepository.GetSalesLeadList(loggedInUserId);
 
             List<SalesLeadViewModel> salesLeads = mapper.Map<List<Leads>, List<SalesLeadViewModel>>(leadsFromDb);
             for (int i = 0; i < salesLeads.Count; i++)
             {
                 salesLeads[i].LeadStatus = leadsFromDb[i].LeadStatus.DisplayName;
                 salesLeads[i].ModelName = leadsFromDb[i].Models.Name;
-                salesLeads[i].LastUpdatedBy = leadsFromDb[i].Users.Name;
+                if (leadsFromDb[i].AssignedUserId != null)
+                    salesLeads[i].AssignedUserName = leadsFromDb[i].Users.Name;
             }
             return salesLeads;
 
@@ -64,11 +55,20 @@ namespace LMS.Web.BAL.Manager
 
         public bool UpdateLeadDetails(SalesLeadViewModel model, int loggedInUserId)
         {
-           //TODO:Map lead status id.
-            Leads lead = mapper.Map<SalesLeadViewModel,Leads>(model);
-            
-            lead.UpdatedBy = loggedInUserId;            
-            return _salesLeadRepository.UpdateLeadDetails(lead,loggedInUserId);
+            //TODO:Map lead status id.
+            Leads lead = mapper.Map<SalesLeadViewModel, Leads>(model);
+            lead.UpdatedBy = loggedInUserId;
+            return _salesLeadRepository.UpdateLeadDetails(lead, loggedInUserId);
+        }
+
+        public bool AssignLead(int loggedInUserId, int leadId)
+        {
+            return _salesLeadRepository.AssignLead(loggedInUserId, leadId);
+        }
+
+        public bool DeAssignLead(int leadId)
+        {
+            return _salesLeadRepository.DeAssignLead(leadId);
         }
     }
 }
