@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using LMS.Common;
 using LMS.Web.Attributes;
+using LMS.Web.BAL.Interface;
+using LMS.Web.BAL.ViewModels;
 
 namespace LMS.Web.Controllers
 {
@@ -12,18 +14,36 @@ namespace LMS.Web.Controllers
     [Authorization(RolesEnum.AfterSales)]
     public class AfterSalesController : Controller
     {
+        private readonly ISalesLeadManager _salesleadManager;
+        public AfterSalesController(ISalesLeadManager salesleadManager)
+        {
+            _salesleadManager = salesleadManager;
+        }
         // GET: AfterSales
         public ActionResult Index()
         {
-            return Content("This is AfterSales");
+            int dealerId = (int)Session["dealerId"];
+            int loggedInUserId = (int)Session["loggedInId"];
+            List<SalesLeadViewModel> list = _salesleadManager.GetSalesLeadList(dealerId, loggedInUserId);
+            return View(list);
         }
 
         // GET: AfterSales/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            SalesLeadViewModel list = _salesleadManager.GetLeadDetail(id);
+            return View(list);
         }
 
+        [HttpPost]
+        public ActionResult Details(SalesLeadViewModel model)
+        {
+            int loggedInUserId = (int)Session["loggedInId"];
+            bool result = _salesleadManager.UpdateLeadDetails(model, loggedInUserId);
+            if (result)
+                return RedirectToAction("Index", "Sales");
+            return View();
+        }
         // GET: AfterSales/Create
         public ActionResult Create()
         {

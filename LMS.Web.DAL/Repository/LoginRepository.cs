@@ -39,6 +39,7 @@ namespace LMS.Web.DAL.Repository
                 loginResult.LoggedInUserId = user.Id;
                 loginResult.result = LoginResultEnum.Success;
                 loginResult.role = (RolesEnum)user.RoleId;
+                loginResult.DealerId = user.DealerId;
 
                 if (loginResult.role == RolesEnum.DealerManager) //Set DealerId in LoginResult if it's a Dealer
                     loginResult.DealerId = user.DealerId;

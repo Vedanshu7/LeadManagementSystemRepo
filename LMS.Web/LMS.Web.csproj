@@ -2106,13 +2106,15 @@
     <Content Include="Views\Dealer\Details.cshtml" />
     <Content Include="Views\Dealer\EditUser.cshtml" />
     <Content Include="Views\Dealer\LeadList.cshtml" />
+    <Content Include="Views\Sales\Index.cshtml" />
+    <Content Include="Views\Sales\Details.cshtml" />
+    <Content Include="Views\AfterSales\Index.cshtml" />
+    <Content Include="Views\AfterSales\Details.cshtml" />
     <Content Include="Views\Dealer\AssignLead.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Admin\" />
-    <Folder Include="Views\AfterSales\" />
-    <Folder Include="Views\Sales\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

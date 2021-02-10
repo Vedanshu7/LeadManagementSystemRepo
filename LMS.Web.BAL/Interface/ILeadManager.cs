@@ -1,4 +1,4 @@
-﻿using LMS.Web.BAL.ViewModels;
+using LMS.Web.BAL.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using LMS.Common;
 using LMS.Web.Attributes;
+using LMS.Web.BAL.Interface;
+using LMS.Web.BAL.ViewModels;
 
 namespace LMS.Web.Controllers
 {
@@ -12,15 +14,38 @@ namespace LMS.Web.Controllers
     [Authorization(RolesEnum.Sales)]
     public class SalesController : Controller
     {
+        //TODO:Add lead assign & deassign.
+        private readonly ISalesLeadManager _salesleadManager;
+        public SalesController(ISalesLeadManager salesleadManager)
+        {
+            _salesleadManager = salesleadManager;
+        }
         // GET: Sales
         public ActionResult Index()
         {
-            return Content("This is Sales");
+            int dealerId = (int)Session["dealerId"];
+            int loggedInUserId = (int)Session["loggedInId"];
+            List<SalesLeadViewModel> list = _salesleadManager.GetSalesLeadList(dealerId,loggedInUserId);
+            return View(list) ;
         }
 
+        [HttpGet]
         // GET: Sales/Details/5
         public ActionResult Details(int id)
         {
+            SalesLeadViewModel list = _salesleadManager.GetLeadDetail(id);
+            return View(list);
+        }
+
+        [HttpPost]
+        public ActionResult Details(SalesLeadViewModel model)
+        {
+            //TODO:Dropdown change in lead details page
+
+            int loggedInUserId = (int)Session["loggedInId"];
+            bool result = _salesleadManager.UpdateLeadDetails(model,loggedInUserId);
+            if (result)
+                return RedirectToAction("Index","Sales");
             return View();
         }
 

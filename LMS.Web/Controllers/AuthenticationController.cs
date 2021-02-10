@@ -60,8 +60,12 @@ namespace LMS.Web.Controllers
                                 Session["dealerId"] = loginResult.DealerId;
                                 return RedirectToAction("Index", "Dealer");
                             case RolesEnum.Sales:
+                                Session["loggedInId"] =loginResult.LoggedInUserId;
+                                Session["dealerId"] = loginResult.DealerId;
                                 return RedirectToAction("Index", "Sales");
                             case RolesEnum.AfterSales:
+                                Session["loggedInId"] = loginResult.LoggedInUserId;
+                                Session["dealerId"] = loginResult.DealerId;
                                 return RedirectToAction("Index", "AfterSales");
                         }
                         break;
