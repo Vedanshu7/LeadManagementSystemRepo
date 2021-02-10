@@ -1,82 +1,140 @@
 ﻿@model IEnumerable<LMS.Web.BAL.ViewModels.DealerLeadViewModel>
-
-<table class="table">
-    <tr>
-        <th>
-            Name
-        </th>
-        <th>
-            Model
-        </th>
-        <th>
-            AssignedTo
-        </th>
-        <th>
-            Email
-        </th>
-        <th>
-            Contact
-        </th>
-        <th>
-            Status
-        </th>
-        <th>
-            Type
-        </th>
-        <th>
-            ServiceType
-        </th>
-        <th>
-            Comments
-        </th>
-        <th></th>
-    </tr>
-
-
-        @foreach (var item in Model)
-        {
+<div class="row pt-3">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Lead List</h3>
+            </div>
            
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CustomerName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ModelName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AssignedUserName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CustomerEmail)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CustomerContactNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LeadStatus)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LeadType)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ServiceType)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Comments)
-                </td>
-                <td>
-                    @if (item.AssignedUserName != null)
-                    {
-                        @Html.ActionLink("De-Assign", "Modify", new { operation = "DeAssign", leadId = item.Id }, new { @class = "btn btn-outline-danger" })
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
 
-                    }
-                    else
-                    {
-                        @Html.ActionLink("Assign", "Modify", new { operation = "Assign",leadId = item.Id }, new { @class = "btn btn-outline-success" })
-                    }
-                </td>
-            </tr>
-        }
-    
+                                <tr>
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th>
+                                        Model
+                                    </th>
+                                    <th>
+                                        AssignedTo
+                                    </th>
+                                    <th>
+                                        Email
+                                    </th>
+                                    <th>
+                                        Contact
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+                                    <th>
+                                        Type
+                                    </th>
+                                    <th>
+                                        ServiceType
+                                    </th>
+                                    <th>
+                                        Comments
+                                    </th>
+                                    <th></th>
+                                </tr>
 
-    </table>
+                            </thead>
+                            <tbody>
+
+
+
+
+                                @foreach (var item in Model)
+                                {
+
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CustomerName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ModelName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.AssignedUserName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CustomerEmail)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CustomerContactNumber)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.LeadStatus)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.LeadType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ServiceType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Comments)
+                                        </td>
+                                        <td>
+                                            @if (item.AssignedUserName != null)
+                                            {
+                                                @Html.ActionLink("De-Assign", "Modify", new { operation = "DeAssign", leadId = item.Id }, new { @class = "btn btn-outline-danger" })
+
+                                            }
+                                            else
+                                            {
+                                                @Html.ActionLink("Assign", "Modify", new { operation = "Assign", leadId = item.Id }, new { @class = "btn btn-outline-success" })
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th>
+                                        Model
+                                    </th>
+                                    <th>
+                                        AssignedTo
+                                    </th>
+                                    <th>
+                                        Email
+                                    </th>
+                                    <th>
+                                        Contact
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+                                    <th>
+                                        Type
+                                    </th>
+                                    <th>
+                                        ServiceType
+                                    </th>
+                                    <th>
+                                        Comments
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>

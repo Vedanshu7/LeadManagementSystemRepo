@@ -3,7 +3,7 @@
 
 
 <div class="pt-3">
-    <div class="card border-dark" >
+    <div class="card border-dark">
         <div class="card-header">Customer Name: @Html.DisplayFor(model => model.selectedLead.CustomerName)</div>
         <div class="card-body">
             <div class="row">
@@ -36,8 +36,8 @@
 
             </div>
 
-         
-           
+
+
 
             <p class="card-text">Customer Number:  @Html.DisplayFor(model => model.selectedLead.CustomerContactNumber)</p>
 
@@ -46,43 +46,60 @@
             Comments: @Html.DisplayFor(model => model.selectedLead.Comments)
         </div>
     </div>
- 
-    <table class="table">
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Email
-            </th>
-            <th>
-                MobileNumber
-            </th>
-            <th>
-                RoleId
-            </th>
-            <th></th>
-        </tr>
-        @foreach (var item in Model.users)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MobileNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RoleId)
-                </td>
-                @Html.Hidden("selectedUserId", item.Id)
-                <td>
-                    @Html.ActionLink("Assign", "AssignLeadConfirm", new { selectedUserId = item.Id, leadId = Model.selectedLead.Id }, new { @class = "btn btn-outline-success" })
-                </td>
-            </tr>
-        }
-    </table>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">User List</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Email
+                                </th>
+                                <th>
+                                    MobileNumber
+                                </th>
+                                <th>
+                                    RoleId
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.users)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.MobileNumber)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.RoleId)
+                                    </td>
+                                    @Html.Hidden("selectedUserId", item.Id)
+                                    <td>
+                                        @Html.ActionLink("Assign", "AssignLeadConfirm", new { selectedUserId = item.Id, leadId = Model.selectedLead.Id }, new { @class = "btn btn-outline-success" })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
 </div>
