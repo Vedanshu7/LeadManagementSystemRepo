@@ -32,8 +32,8 @@ namespace LMS.Web.Controllers
         // GET: Sales/Details/5
         public ActionResult Details(int id)
         {
-            SalesLeadViewModel list = _salesLeadManager.GetLeadDetail(id);
-            return View(list);
+            SalesLeadViewModel lead = _salesLeadManager.GetLeadDetail(id);
+            return View(lead);
         }
 
         [HttpPost]

@@ -57,11 +57,10 @@ namespace LMS.Web.BAL.Manager
 
         }
 
-        public List<UserViewModel> UserDetail()
+        public List<UserViewModel> UserDetails(int dealerId)
         {
-            List<Users> usersFromDb = _userRepository.UserDetails();
+            List<Users> usersFromDb = _userRepository.UserDetails(dealerId);
             List<UserViewModel> users = mapper.Map<List<Users>, List<UserViewModel>>(usersFromDb);
-
             return users;
         }
 

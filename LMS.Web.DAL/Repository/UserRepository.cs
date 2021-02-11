@@ -26,8 +26,6 @@ namespace LMS.Web.DAL.Repository
                 user.CreatedBy = user.DealerId;
                 user.CreatedDate = DateTime.UtcNow;
                 user.IsActive = true;
-                //TODO: Set DealerId
-
                 _db.Users.Add(user);
                 _db.SaveChanges();
                 return true;
@@ -40,18 +38,16 @@ namespace LMS.Web.DAL.Repository
 
         public bool EditUser(Users user)
         {
-            //var emailId = _db.Users.Where(m => m.Email == user.Email).Any();
             var userFromDb = _db.Users.Where(u => u.Id == user.Id).FirstOrDefault();
-
             if (userFromDb != null)
             {
                 userFromDb.Name = user.Name;
                 userFromDb.MobileNumber = user.MobileNumber;
+                userFromDb.Password = user.Password;
                 userFromDb.Email = user.Email;
                 userFromDb.RoleId = user.RoleId;
                 userFromDb.UpdatedBy = user.DealerId;
                 userFromDb.UpdatedDate = DateTime.UtcNow;
-
                 _db.Entry(userFromDb).State = EntityState.Modified;
                 _db.SaveChanges();
                 return true;
@@ -61,10 +57,12 @@ namespace LMS.Web.DAL.Repository
 
         public Users GetUser(int Id)
         {
-            if (Id > 0)
+            //TODO: Return LogedIn Dealers User
+            //TODO: add && u.DealerId==DealerId
+            Users user = _db.Users.Find(Id);
+            if (user!=null) 
             {
-                Users users = _db.Users.Find(Id);
-                return users;
+                return user;
             }
             else
             {
@@ -72,11 +70,9 @@ namespace LMS.Web.DAL.Repository
             }
         }
 
-        public List<Users> UserDetails()
+        public List<Users> UserDetails(int dealerId)
         {
-
-            List<Users> list = _db.Users.ToList();
-
+            List<Users> list = _db.Users.Where(u=> u.DealerId==dealerId && u.RoleId!=4).ToList();
             return list;
         }
 

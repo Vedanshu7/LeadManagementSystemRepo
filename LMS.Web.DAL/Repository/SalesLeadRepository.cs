@@ -20,6 +20,8 @@ namespace LMS.Web.DAL.Repository
 
         public Leads GetLeadDetail(int id)
         {
+            //TODO:Return Only LogedIn Dealers Leads
+            //_db.Leads.Where(l => l.DealerId == dealerId && l.Id==Id).First();
             Leads data = _db.Leads.Find(id);
             return data;
         }

@@ -11,10 +11,10 @@ namespace LMS.Web.BAL.Interface
     public interface IUserManager
     {
         bool CreateUser(UserViewModel users, int dealerId);
-        List<UserViewModel> UserDetail();
         bool EditUser(UserViewModel users, int dealerId);
         UserViewModel GetUser(int Id);
         int GetDealerId(int loggedInUserId);
         List<UserViewModel> GetUsers(int leadId);
+        List<UserViewModel> UserDetails(int dealerId);
     }
 }

@@ -190,7 +190,7 @@
     <Compile Include="Controllers\AfterSalesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
-    <Compile Include="Controllers\DealerController.cs" />
+    <Compile Include="Controllers\DealerManagerController.cs" />
     <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -2102,15 +2102,15 @@
     <Content Include="Views\Authentication\ForgotPassword.cshtml" />
     <Content Include="Views\Authentication\ResetPassword.cshtml" />
     <Content Include="Views\Authentication\EmailNotify.cshtml" />
-    <Content Include="Views\Dealer\CreateUser.cshtml" />
-    <Content Include="Views\Dealer\Details.cshtml" />
-    <Content Include="Views\Dealer\EditUser.cshtml" />
-    <Content Include="Views\Dealer\LeadList.cshtml" />
+    <Content Include="Views\DealerManager\CreateUser.cshtml" />
+    <Content Include="Views\DealerManager\UserDetails.cshtml" />
+    <Content Include="Views\DealerManager\EditUser.cshtml" />
+    <Content Include="Views\DealerManager\LeadList.cshtml" />
     <Content Include="Views\Sales\Index.cshtml" />
     <Content Include="Views\Sales\Details.cshtml" />
     <Content Include="Views\AfterSales\Index.cshtml" />
     <Content Include="Views\AfterSales\Details.cshtml" />
-    <Content Include="Views\Dealer\AssignLead.cshtml" />
+    <Content Include="Views\DealerManager\AssignLead.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

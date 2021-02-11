@@ -22,6 +22,7 @@ namespace LMS.Web.DAL.Repository
         }
         public Leads GetLead(int leadId)
         {
+            //TODO: Returns only LogedIn Dealers Lead
             return _db.Leads.Find(leadId);
         }
 
@@ -29,8 +30,10 @@ namespace LMS.Web.DAL.Repository
         {
             try
             {
+                //TODO: Assign only LogedIn Dealers Lead
                 var lead = _db.Leads.Find(leadId);
                 lead.AssignedUserId = selectedUserId;
+                //TODO: Check the role or LeadStatusCode of lead and change status accordingly 
                 _db.Entry(lead).State = EntityState.Modified;
                 _db.SaveChanges();
                 return true;
@@ -46,7 +49,9 @@ namespace LMS.Web.DAL.Repository
         {
             try
             {
+                //TODO: DeAssign only LogedIn Dealers Lead
                 var lead = _db.Leads.Find(leadId);
+                //TODO: Check the role or LeadStatusCode of lead and change status accordingly 
                 lead.AssignedUserId = null;
                 _db.Entry(lead).State = EntityState.Modified;
                 _db.SaveChanges();

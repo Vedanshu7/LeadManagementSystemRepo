@@ -27,7 +27,7 @@ namespace LMS.Web.Controllers
                 switch (currentRole)
                 {
                     case RolesEnum.DealerManager:
-                        return RedirectToAction("Index", "Dealer");
+                        return RedirectToAction("Index", "DealerManager");
                     case RolesEnum.Sales:
                         return RedirectToAction("Index", "Sales");
                     case RolesEnum.AfterSales:
@@ -58,14 +58,12 @@ namespace LMS.Web.Controllers
                         {
                             case RolesEnum.DealerManager:
                                 Session["dealerId"] = loginResult.DealerId;
-                                return RedirectToAction("Index", "Dealer");
+                                return RedirectToAction("Index", "DealerManager");
                             case RolesEnum.Sales:
                                 Session["loggedInId"] =loginResult.LoggedInUserId;
-                                Session["dealerId"] = loginResult.DealerId;
                                 return RedirectToAction("Index", "Sales");
                             case RolesEnum.AfterSales:
                                 Session["loggedInId"] = loginResult.LoggedInUserId;
-                                Session["dealerId"] = loginResult.DealerId;
                                 return RedirectToAction("Index", "AfterSales");
                         }
                         break;

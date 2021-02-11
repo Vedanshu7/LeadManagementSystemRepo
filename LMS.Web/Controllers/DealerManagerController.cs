@@ -12,11 +12,11 @@ namespace LMS.Web.Controllers
 {
     [Authenticate]
     [Authorization(RolesEnum.DealerManager)]
-    public class DealerController : Controller
+    public class DealerManagerController : Controller
     {
         private readonly IUserManager _userManager;
         private readonly ILeadManager _leadManager;
-        public DealerController(IUserManager userManager, ILeadManager leadManager)
+        public DealerManagerController(IUserManager userManager, ILeadManager leadManager)
         {
             _userManager = userManager;
             _leadManager = leadManager;
@@ -51,9 +51,11 @@ namespace LMS.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Details()
+        public ActionResult UserDetails()
         {
-            return View(_userManager.UserDetail());
+            int dealerId = (int)Session["dealerId"];
+            var users = _userManager.UserDetails(dealerId);
+            return View(users);
         }
 
         [HttpGet]

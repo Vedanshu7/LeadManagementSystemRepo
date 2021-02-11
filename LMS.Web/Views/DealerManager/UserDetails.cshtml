@@ -1,0 +1,69 @@
+﻿@model IEnumerable<LMS.Web.BAL.ViewModels.UserViewModel>
+
+@{
+    ViewBag.Title = "UserDetails";
+}
+<div class="row pt-3">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">User List</h3>
+            </div>
+
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Name)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Email)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MobileNumber)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.RoleId)
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Email)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MobileNumber)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.RoleId)
+                                        </td>
+                                        <td>
+                                            @Html.ActionLink("Edit", "EditUser", new { Id = item.Id },new {@class= "btn btn-outline-primary" })
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+
