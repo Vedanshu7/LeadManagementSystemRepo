@@ -10,8 +10,8 @@ namespace LMS.Web.DAL.Interface
     public interface ILeadRepository
     {
         List<Leads> GetDealerLeadList(int dealerId);
-        Leads GetLead(int leadId);
-        bool AssignLead(int selectedUserId, int leadId);
-        bool DeAssignLead(int leadId);
+        Leads GetLead(int leadId, int dealerId);
+        bool AssignLead(int selectedUserId, int leadId, int dealerId);
+        bool DeAssignLead(int leadId, int dealerId);
     }
 }

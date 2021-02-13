@@ -89,8 +89,8 @@ namespace LMS.Web.Controllers
         public ActionResult AssignLeadGet(int leadId) //Selected leadId
         {
             //Check Lead Type, return Selected Lead, Users based on LeadType
-
-            DealerLeadViewModel selectedLead = _leadManager.GetLead(leadId);
+            int dealerId = (int)Session["dealerId"];
+            DealerLeadViewModel selectedLead = _leadManager.GetLead(leadId, dealerId);
             List<UserViewModel> users = _userManager.GetUsers(leadId);
 
             AssignLeadViewModel viewModel = new AssignLeadViewModel();
@@ -103,7 +103,8 @@ namespace LMS.Web.Controllers
         [HttpGet]
         public ActionResult AssignLeadConfirm(int selectedUserId, int leadId)
         {
-            var result = _leadManager.AssignLead(selectedUserId,leadId);
+            int dealerId = (int)Session["dealerId"];
+            var result = _leadManager.AssignLead(selectedUserId, leadId, dealerId);
             if (result)
             {
                 return RedirectToAction("LeadList");
@@ -114,11 +115,12 @@ namespace LMS.Web.Controllers
                 return RedirectToAction("LeadList");
             }
         }
-        
+
         [NonAction]
         public ActionResult DeAssignLead(int leadId)
         {
-            var result = _leadManager.DeAssignLead(leadId);
+            int dealerId = (int)Session["dealerId"];
+            var result = _leadManager.DeAssignLead(leadId, dealerId);
             if (result)
             {
                 return RedirectToAction("LeadList");
@@ -142,7 +144,7 @@ namespace LMS.Web.Controllers
                 default:
                     return RedirectToAction("LeadList");
             }
-           
+
         }
     }
 }

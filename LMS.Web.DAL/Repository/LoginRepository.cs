@@ -1,4 +1,5 @@
 ﻿using LMS.Common;
+using LMS.Web.DAL.Database;
 using LMS.Web.DAL.Interface;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,11 @@ namespace LMS.Web.DAL.Repository
 {
     public class LoginRepository : ILoginRepository
     {
-        private readonly Database.LMSEntitiesAzure _db;
+        private readonly LMSAzureEntities _db;
 
         public LoginRepository()
         {
-            _db = new Database.LMSEntitiesAzure();
+            _db = new LMSAzureEntities();
         }
 
         public LoginResult Login(string email, string password)
@@ -39,10 +40,9 @@ namespace LMS.Web.DAL.Repository
                 loginResult.LoggedInUserId = user.Id;
                 loginResult.result = LoginResultEnum.Success;
                 loginResult.role = (RolesEnum)user.RoleId;
-                loginResult.DealerId = user.DealerId;
 
                 if (loginResult.role == RolesEnum.DealerManager) //Set DealerId in LoginResult if it's a Dealer
-                    loginResult.DealerId = user.DealerId;
+                    loginResult.DealerId = (int)user.DealerId;
 
                 return loginResult; //Success
             }

@@ -12,10 +12,10 @@ namespace LMS.Web.DAL.Repository
 {
     public class SalesLeadRepository : ISalesLeadRepository
     {
-        private readonly Database.LMSEntitiesAzure _db;
+        private readonly LMSAzureEntities _db;
         public SalesLeadRepository()
         {
-            _db = new Database.LMSEntitiesAzure();
+            _db = new LMSAzureEntities();
         }
 
         public Leads GetLeadDetail(int id)

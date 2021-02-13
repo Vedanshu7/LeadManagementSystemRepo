@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="LMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="LMSAzureModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Brands">
           <Key>
             <PropertyRef Name="Id" />
@@ -126,7 +126,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="DealerId" Type="int" Nullable="false" />
+          <Property Name="DealerId" Type="int" />
           <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Password" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="MobileNumber" Type="varchar" MaxLength="50" />
@@ -258,7 +258,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Users_Dealers">
-          <End Role="Dealers" Type="Self.Dealers" Multiplicity="1" />
+          <End Role="Dealers" Type="Self.Dealers" Multiplicity="0..1" />
           <End Role="Users" Type="Self.Users" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Dealers">
@@ -281,7 +281,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="LMSModelStoreContainer">
+        <EntityContainer Name="LMSAzureModelStoreContainer">
           <EntitySet Name="Brands" EntityType="Self.Brands" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DealerBrandMappings" EntityType="Self.DealerBrandMappings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Dealers" EntityType="Self.Dealers" Schema="dbo" store:Type="Tables" />
@@ -341,10 +341,11 @@
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="LMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="LMSAzureModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Brands">
           <Key>
             <PropertyRef Name="Id" />
@@ -487,7 +488,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="DealerId" Type="Int32" Nullable="false" />
+          <Property Name="DealerId" Type="Int32" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="MobileNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -496,10 +497,10 @@
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
           <Property Name="CreatedBy" Type="Int32" Nullable="false" />
           <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Dealers" Relationship="Self.FK_Users_Dealers" FromRole="Users" ToRole="Dealers" />
           <NavigationProperty Name="Leads" Relationship="Self.FK_Leads_Users" FromRole="Users" ToRole="Leads" />
           <NavigationProperty Name="Roles" Relationship="Self.FK_Users_Roles" FromRole="Users" ToRole="Roles" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_DealerBrand_Brands">
           <End Role="Brands" Type="Self.Brands" Multiplicity="1" />
@@ -550,7 +551,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Users_Dealers">
-          <End Role="Dealers" Type="Self.Dealers" Multiplicity="1" />
+          <End Role="Dealers" Type="Self.Dealers" Multiplicity="0..1" />
           <End Role="Users" Type="Self.Users" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Dealers">
@@ -645,7 +646,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="LMSEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="LMSAzureEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Brands" EntityType="Self.Brands" />
           <EntitySet Name="DealerBrandMappings" EntityType="Self.DealerBrandMappings" />
           <EntitySet Name="Dealers" EntityType="Self.Dealers" />
@@ -710,9 +711,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="LMSModelStoreContainer" CdmEntityContainer="LMSEntities">
+        <EntityContainerMapping StorageEntityContainer="LMSAzureModelStoreContainer" CdmEntityContainer="LMSAzureEntities">
           <EntitySetMapping Name="Brands">
-            <EntityTypeMapping TypeName="LMSModel.Brands">
+            <EntityTypeMapping TypeName="LMSAzureModel.Brands">
               <MappingFragment StoreEntitySet="Brands">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -726,7 +727,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DealerBrandMappings">
-            <EntityTypeMapping TypeName="LMSModel.DealerBrandMappings">
+            <EntityTypeMapping TypeName="LMSAzureModel.DealerBrandMappings">
               <MappingFragment StoreEntitySet="DealerBrandMappings">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="DealerId" ColumnName="DealerId" />
@@ -740,7 +741,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Dealers">
-            <EntityTypeMapping TypeName="LMSModel.Dealers">
+            <EntityTypeMapping TypeName="LMSAzureModel.Dealers">
               <MappingFragment StoreEntitySet="Dealers">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -757,7 +758,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Leads">
-            <EntityTypeMapping TypeName="LMSModel.Leads">
+            <EntityTypeMapping TypeName="LMSAzureModel.Leads">
               <MappingFragment StoreEntitySet="Leads">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
@@ -777,7 +778,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="LeadStatus">
-            <EntityTypeMapping TypeName="LMSModel.LeadStatus">
+            <EntityTypeMapping TypeName="LMSAzureModel.LeadStatus">
               <MappingFragment StoreEntitySet="LeadStatus">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
@@ -787,7 +788,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="LeadType">
-            <EntityTypeMapping TypeName="LMSModel.LeadType">
+            <EntityTypeMapping TypeName="LMSAzureModel.LeadType">
               <MappingFragment StoreEntitySet="LeadType">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
@@ -796,7 +797,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Models">
-            <EntityTypeMapping TypeName="LMSModel.Models">
+            <EntityTypeMapping TypeName="LMSAzureModel.Models">
               <MappingFragment StoreEntitySet="Models">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -817,7 +818,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Roles">
-            <EntityTypeMapping TypeName="LMSModel.Roles">
+            <EntityTypeMapping TypeName="LMSAzureModel.Roles">
               <MappingFragment StoreEntitySet="Roles">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -826,7 +827,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Services">
-            <EntityTypeMapping TypeName="LMSModel.Services">
+            <EntityTypeMapping TypeName="LMSAzureModel.Services">
               <MappingFragment StoreEntitySet="Services">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
@@ -836,9 +837,8 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="LMSModel.Users">
+            <EntityTypeMapping TypeName="LMSAzureModel.Users">
               <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="DealerId" ColumnName="DealerId" />
@@ -850,6 +850,7 @@
                 <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

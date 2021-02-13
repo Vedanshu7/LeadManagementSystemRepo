@@ -22,7 +22,7 @@ namespace LMS.Web.DAL.Database
     
         public int Id { get; set; }
         public string Name { get; set; }
-        public int DealerId { get; set; }
+        public Nullable<int> DealerId { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public string MobileNumber { get; set; }

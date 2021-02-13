@@ -13,10 +13,10 @@ namespace LMS.Web.DAL.Database
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class LMSEntities : DbContext
+    public partial class LMSAzureEntities : DbContext
     {
-        public LMSEntities()
-            : base("name=LMSEntities")
+        public LMSAzureEntities()
+            : base("name=LMSAzureEntities")
         {
         }
     

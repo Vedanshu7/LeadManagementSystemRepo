@@ -12,10 +12,10 @@ namespace LMS.Web.DAL.Repository
 {
     public class UserRepository : IUserRepository
     {
-        private readonly Database.LMSEntitiesAzure _db;
+        private readonly LMSAzureEntities _db;
         public UserRepository()
         {
-            _db = new Database.LMSEntitiesAzure();
+            _db = new LMSAzureEntities();
         }
         public bool CreateUser(Users user)
         {
@@ -23,7 +23,7 @@ namespace LMS.Web.DAL.Repository
             var emailId = _db.Users.Any(m => m.Email == user.Email);
             if (!emailId)
             {
-                user.CreatedBy = user.DealerId;
+                user.CreatedBy = (int)user.DealerId;
                 user.CreatedDate = DateTime.UtcNow;
                 user.IsActive = true;
                 _db.Users.Add(user);
@@ -60,7 +60,7 @@ namespace LMS.Web.DAL.Repository
             //TODO: Return LogedIn Dealers User
             //TODO: add && u.DealerId==DealerId
             Users user = _db.Users.Find(Id);
-            if (user!=null) 
+            if (user != null)
             {
                 return user;
             }
@@ -72,14 +72,14 @@ namespace LMS.Web.DAL.Repository
 
         public List<Users> UserDetails(int dealerId)
         {
-            List<Users> list = _db.Users.Where(u=> u.DealerId==dealerId && u.RoleId!=4).ToList();
+            List<Users> list = _db.Users.Where(u => u.DealerId == dealerId && u.RoleId != 4).ToList();
             return list;
         }
 
         public int GetDealerId(int loggedInUserId)
         {
             var dealerInDb = _db.Users.Find(loggedInUserId);
-            return dealerInDb.DealerId;
+            return (int)dealerInDb.DealerId;
         }
 
         public List<Users> GetUsers(int leadId) //Returns Users concerned with Lead Type (of provided leadId)

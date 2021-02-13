@@ -42,9 +42,9 @@ namespace LMS.Web.BAL.Manager
             return dealerLeads;
         }
 
-        public DealerLeadViewModel GetLead(int leadId)
+        public DealerLeadViewModel GetLead(int leadId, int dealerId)
         {
-            var lead = _leadRepository.GetLead(leadId);
+            var lead = _leadRepository.GetLead(leadId, dealerId);
 
             DealerLeadViewModel dealerLead = new DealerLeadViewModel();
             dealerLead.Id = lead.Id;
@@ -63,14 +63,14 @@ namespace LMS.Web.BAL.Manager
             return dealerLead;
         }
 
-        public bool AssignLead(int selectedUserId, int leadId)
+        public bool AssignLead(int selectedUserId, int leadId, int dealerId)
         {
-            return _leadRepository.AssignLead(selectedUserId, leadId);
+            return _leadRepository.AssignLead(selectedUserId, leadId, dealerId);
         }
 
-        public bool DeAssignLead(int leadId)
+        public bool DeAssignLead(int leadId, int dealerId)
         {
-            return _leadRepository.DeAssignLead(leadId);
+            return _leadRepository.DeAssignLead(leadId, dealerId);
         }
     }
 }
