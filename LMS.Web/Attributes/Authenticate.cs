@@ -14,6 +14,9 @@ namespace LMS.Web.Attributes
         {
             if (string.IsNullOrEmpty(Convert.ToString(filterContext.HttpContext.Session["loggedInId"])))
             {
+                
+                string path = filterContext.HttpContext.Request.Path;
+                filterContext.HttpContext.Session["RedirectUrl"] = path;
                 filterContext.Result = new HttpUnauthorizedResult();
             }
         }

@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Encryption\AESAlgorithm.cs" />
     <Compile Include="Enums\LoginResultEnum.cs" />
     <Compile Include="Enums\RolesEnum.cs" />
     <Compile Include="Models\LoginResult.cs" />

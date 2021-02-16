@@ -1,6 +1,7 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -11,8 +12,7 @@ namespace LMS.Web.BAL.Token
 {
     public class TokenManager
     {
-        private static string Key = "eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTYw" +
-            "OTY4NTQzNCwiaWF0IjoxNjA5Njg1NDM0fQ";
+        private static string Key =ConfigurationManager.AppSettings.Get("jwtkey") ;
         public static string GenerateToken(string email)
         {
 

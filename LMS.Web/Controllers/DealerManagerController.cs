@@ -40,6 +40,7 @@ namespace LMS.Web.Controllers
             if (ModelState.IsValid)
             {
                 int dealerId = (int)Session["dealerId"];
+                user.Password = PasswordEncryptor.Encryptor.Encryption(user.Password);
                 var data = _userManager.CreateUser(user, dealerId);
                 if (data == true)
                 {

@@ -44,10 +44,15 @@ namespace LMS.Web.Controllers
             if (ModelState.IsValid)
             {
                 loginViewObj.Email = loginViewObj.Email.ToLower();
-
+                loginViewObj.Password = PasswordEncryptor.Encryptor.Encryption(loginViewObj.Password);
                 //Log in the user
                 var loginResult = _loginManager.Login(loginViewObj);
-
+                string path = string.Empty;
+                if (Session["RedirectUrl"] != null)
+                {
+                    path = Session["RedirectUrl"].ToString();
+                    Session["RedirectUrlUrl"] = null;
+                }
                 //Check result
                 switch (loginResult.result)
                 {
@@ -58,12 +63,18 @@ namespace LMS.Web.Controllers
                         {
                             case RolesEnum.DealerManager:
                                 Session["dealerId"] = loginResult.DealerId;
+                                if (!path.Equals(string.Empty))
+                                    return Redirect(path);
                                 return RedirectToAction("Index", "DealerManager");
                             case RolesEnum.Sales:
-                                Session["loggedInId"] =loginResult.LoggedInUserId;
+                                Session["loggedInId"] = loginResult.LoggedInUserId;
+                                if (!path.Equals(string.Empty))
+                                    return Redirect(path);
                                 return RedirectToAction("Index", "Sales");
                             case RolesEnum.AfterSales:
                                 Session["loggedInId"] = loginResult.LoggedInUserId;
+                                if (!path.Equals(string.Empty))
+                                    return Redirect(path);
                                 return RedirectToAction("Index", "AfterSales");
                         }
                         break;
@@ -105,7 +116,7 @@ namespace LMS.Web.Controllers
                 {
                     string token = Session["token"].ToString();
                     string userEmail = TokenManager.ValidateToken(token);
-
+                    resetPassword.Password = PasswordEncryptor.Encryptor.Encryption(resetPassword.Password);
                     string result = _loginManager.ResetPassword(userEmail, resetPassword);
                     Session["token"] = null;
 
