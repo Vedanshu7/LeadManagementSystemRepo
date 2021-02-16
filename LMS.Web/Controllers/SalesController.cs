@@ -44,8 +44,17 @@ namespace LMS.Web.Controllers
             int loggedInUserId = (int)Session["loggedInId"];
             bool result = _salesLeadManager.UpdateLeadDetails(model, loggedInUserId);
             if (result)
+            {
+                TempData["NotificationSuccess"] = "Lead details updated successfully.";               
                 return RedirectToAction("Index", "Sales");
-            return View(); //TODO: Notify Error Occurred
+            }
+            else
+            {
+                TempData["NotificationInfo"] = "Error occured while updating the Lead details.";
+                return View(); //TODO: Notify Error Occurred
+            }
+
+          
         }
 
         [HttpGet]
@@ -55,11 +64,13 @@ namespace LMS.Web.Controllers
             var result = _salesLeadManager.AssignLead(loggedInUserId, leadId);
             if (result)
             {
+                TempData["NotificationSuccess"] = "Lead assign successfully.";
                 return RedirectToAction("Index");
             }
             else
             {
                 //TODO: Add Error Notification
+                TempData["NotificationInfo"] = "Error occure while assigning the user.";
                 return RedirectToAction("Index");
             }
         }
@@ -70,11 +81,13 @@ namespace LMS.Web.Controllers
             var result = _salesLeadManager.DeAssignLead(leadId);
             if (result)
             {
+                TempData["NotificationSuccess"] = "Lead De-Assign successful.";
                 return RedirectToAction("Index");
             }
             else
             {
                 //TODO: Add Error Notification
+                TempData["NotificationInfo"] = "Error occure while De-Assigning from the user.";
                 return RedirectToAction("Index");
             }
         }

@@ -127,3 +127,19 @@
     </div>
 </div>
 
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/jquery")
+
+<script>
+    $(document).ready(function () {
+        if ('@TempData["NotificationSuccess"]' != '') {
+            toastr.success('@TempData["NotificationSuccess"]');
+        }
+        if ('@TempData["NotificationInfo"]' != '') {
+            toastr.error('@TempData["NotificationInfo"]');
+        }
+    });
+
+
+
+</script>

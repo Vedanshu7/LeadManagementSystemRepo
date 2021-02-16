@@ -50,7 +50,7 @@
                                             @Html.DisplayFor(modelItem => item.RoleId)
                                         </td>
                                         <td>
-                                            @Html.ActionLink("Edit", "EditUser", new { Id = item.Id },new {@class= "btn btn-outline-primary" })
+                                            @Html.ActionLink("Edit", "EditUser", new { Id = item.Id }, new { @class = "btn btn-outline-primary" })
                                         </td>
                                     </tr>
                                 }
@@ -67,3 +67,19 @@
     </div>
 </div>
 
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/jquery")
+
+<script>
+    $(document).ready(function () {
+        if ('@TempData["NotificationSuccess"]' != '') {
+            toastr.success('@TempData["NotificationSuccess"]');
+        }
+        if ('@TempData["NotificationInfo"]' != '') {
+            toastr.error('@TempData["NotificationInfo"]');
+        }
+    });
+
+
+
+</script>

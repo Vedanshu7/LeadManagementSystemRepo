@@ -55,9 +55,9 @@ namespace LMS.Web.DAL.Repository
                 {
                     leadFromDb.UpdatedBy = loggedInUserId;
                     leadFromDb.UpdatedDate = DateTime.Now;
-                    leadFromDb.CustomerEmail = model.CustomerEmail;
-                    leadFromDb.CustomerContactNumber = model.CustomerContactNumber;
+                   
                     leadFromDb.LeadStatusId = model.LeadStatusId;
+                    leadFromDb.Comments = model.Comments;
 
                     _db.Entry(leadFromDb).State = EntityState.Modified;
                     _db.SaveChanges();

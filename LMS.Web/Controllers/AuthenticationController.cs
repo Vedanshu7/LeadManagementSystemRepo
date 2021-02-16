@@ -149,11 +149,13 @@ namespace LMS.Web.Controllers
 
                     Session["IsEmailSent"] = true;
 
+                    TempData["NotificationSuccess"] = "Password Reset link has been sent to your mail id.";
                     return View("Login"); //TODO: Mail Has Been Sent View/Notification
                 }
                 else
                 {
-                    return Content("User not found"); //TODO: Pass error to view
+                    TempData["NotificationInfo"] = "User not found.";
+                    return View(); //TODO: Pass error to view
                 }
             }
             return View();

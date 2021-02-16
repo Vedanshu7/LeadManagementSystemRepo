@@ -5,7 +5,7 @@
             <div class="card-header">
                 <h3 class="card-title">Lead List</h3>
             </div>
-           
+
             <!-- /.card-header -->
             <div class="card-body">
                 <div class="table-responsive">
@@ -131,10 +131,26 @@
                         </table>
                     </div>
                 </div>
-                
+
             </div>
             <!-- /.card-body -->
         </div>
         <!-- /.card -->
     </div>
 </div>
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/jquery")
+
+<script>
+    $(document).ready(function () {
+        if ('@TempData["NotificationSuccess"]' != '') {
+            toastr.success('@TempData["NotificationSuccess"]');
+        }
+        if ('@TempData["NotificationInfo"]' != '') {
+            toastr.error('@TempData["NotificationInfo"]');
+        }
+    });
+
+
+
+</script>
