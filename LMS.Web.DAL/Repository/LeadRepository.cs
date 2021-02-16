@@ -26,19 +26,31 @@ namespace LMS.Web.DAL.Repository
         {
             return _db.Leads.Where(l => l.Id == leadId && l.DealerId == dealerId).FirstOrDefault();
         }
-        public bool AssignLeadForDealer(int selectedUserId, int leadId, int dealerId)
+        public string AssignLeadForDealer(int selectedUserId, int leadId, int dealerId)
         {
             try
             {
                 var lead = _db.Leads.Where(l => l.Id == leadId && l.DealerId == dealerId).FirstOrDefault();
                 if (lead != null)
                 {
-                    lead.AssignedUserId = selectedUserId;
+                    var userToBeAssigned = _db.Users.Where(u => u.Id == selectedUserId && u.DealerId == dealerId).FirstOrDefault();
+                    if (userToBeAssigned == null)
+                    {
+                        return "Invalid User";
+                    }
 
                     //Check if it's Sales - 1 or AfterSales - 2
 
                     if (lead.LeadType.LeadTypeCode == "SL") //If it's Sales
                     {
+                        //Only assign if userToBeAssigned is Sales
+                        if (userToBeAssigned.Roles.RoleCode != "S")
+                        {
+                            return "Invalid user role.";
+                        }
+
+                        lead.AssignedUserId = selectedUserId;
+
                         //Change Lead Status - If it's New -> Change to Accepted
                         if (lead.LeadStatus.LeadStatusCode == "S-N1")
                         {
@@ -48,6 +60,14 @@ namespace LMS.Web.DAL.Repository
                     }
                     else //If it's AfterSales
                     {
+                        //Only assign if userToBeAssigned is AfterSales
+                        if (userToBeAssigned.Roles.RoleCode != "AS")
+                        {
+                            return "Invalid user role.";
+                        }
+
+                        lead.AssignedUserId = selectedUserId;
+
                         //Change Lead Status - If it's New -> Change to Accepted
                         if (lead.LeadStatus.LeadStatusCode == "AS-N8")
                         {
@@ -58,17 +78,17 @@ namespace LMS.Web.DAL.Repository
 
                     _db.Entry(lead).State = EntityState.Modified;
                     _db.SaveChanges();
-                    return true;
+                    return "Success";
                 }
-                return false;
+                return "Lead not found";
             }
             catch (Exception e)
             {
                 //TODO: Add Logger
-                return false;
+                return "Error occurred";
             }
         }
-        public bool DeAssignLeadForDealer(int leadId, int dealerId)
+        public string DeAssignLeadForDealer(int leadId, int dealerId)
         {
             try
             {
@@ -99,24 +119,46 @@ namespace LMS.Web.DAL.Repository
                     lead.AssignedUserId = null;
                     _db.Entry(lead).State = EntityState.Modified;
                     _db.SaveChanges();
-                    return true;
+                    return "Success";
                 }
-                return false;
+                return "Invalid Lead";
             }
             catch (Exception e)
             {
                 //TODO: Add Logger
-                return false;
+                return "Error occurred";
             }
         }
 
         //Users
-        public Leads GetLeadDetailForUser(int id)
+        public Leads GetLeadDetailForUser(int loggedInUserId, int id)
         {
             //TODO:Return Only LogedIn Dealers Leads
-            //_db.Leads.Where(l => l.DealerId == dealerId && l.Id==Id).First();
-            Leads data = _db.Leads.Find(id);
-            return data;
+            var user = _db.Users.Where(u => u.Id == loggedInUserId).First();
+            var lead = _db.Leads.Where(l => l.Id == id && l.DealerId == user.DealerId).FirstOrDefault();
+            if (lead == null)
+            {
+                return null;
+            }
+
+            if (lead.LeadType.LeadTypeCode == "SL") //If it's Sales
+            {
+                //Only return if both the roles match
+                if (user.Roles.RoleCode == "S")
+                {
+                    return lead;
+                }
+                return null;
+            }
+            else //If it's AfterSales
+            {
+                //Only assign if userToBeAssigned is AfterSales
+                if (user.Roles.RoleCode == "AS")
+                {
+                    return lead;
+                }
+                return null;
+            }
         }
         public List<Leads> GetUserLeadList(int loggedInUserId)
         {
@@ -137,7 +179,7 @@ namespace LMS.Web.DAL.Repository
                 throw;
             }
         }
-        public bool UpdateLeadDetails(Leads model, int loggedInUserId)
+        public string UpdateLeadDetails(Leads model, int loggedInUserId)
         {
             try
             {
@@ -146,15 +188,14 @@ namespace LMS.Web.DAL.Repository
                 {
                     leadFromDb.UpdatedBy = loggedInUserId;
                     leadFromDb.UpdatedDate = DateTime.Now;
-                    leadFromDb.CustomerEmail = model.CustomerEmail;
-                    leadFromDb.CustomerContactNumber = model.CustomerContactNumber;
+                    leadFromDb.Comments = model.Comments;
                     leadFromDb.LeadStatusId = model.LeadStatusId;
 
                     _db.Entry(leadFromDb).State = EntityState.Modified;
                     _db.SaveChanges();
-                    return true;
+                    return "Success";
                 }
-                return false;
+                return "Error occurred";
             }
             catch (Exception e)
             {
@@ -162,54 +203,117 @@ namespace LMS.Web.DAL.Repository
                 throw;
             }
         }
-        public bool AssignLeadForUser(int loggedInUserId, int leadId)
+        public string AssignLeadForUser(int loggedInUserId, int leadId)
         {
             try
             {
-                var lead = _db.Leads.Find(leadId);
-                lead.AssignedUserId = loggedInUserId;
-
-                //Change Lead Status - If it's New -> Change to Accepted
-                if (lead.LeadStatus.LeadStatusCode == "S-N1")
+                var userToBeAssigned = _db.Users.Where(u => u.Id == loggedInUserId).First();
+                var lead = _db.Leads.Where(l => l.Id == leadId && l.DealerId == userToBeAssigned.DealerId).FirstOrDefault();
+                if (lead == null)
                 {
-                    var idOfStatusCode = _db.LeadStatus.Where(s => s.LeadStatusCode == "S-A2").First().Id;
-                    lead.LeadStatusId = idOfStatusCode;
+                    return "Error occurred";
                 }
 
+                if (lead.LeadType.LeadTypeCode == "SL") //If it's Sales
+                {
+                    //Only assign if userToBeAssigned is Sales
+                    if (userToBeAssigned.Roles.RoleCode != "S")
+                    {
+                        return "Invalid user role.";
+                    }
 
+                    lead.AssignedUserId = loggedInUserId;
+
+                    //Change Lead Status - If it's New -> Change to Accepted
+                    if (lead.LeadStatus.LeadStatusCode == "S-N1")
+                    {
+                        var idOfStatusCode = _db.LeadStatus.Where(s => s.LeadStatusCode == "S-A2").First().Id;
+                        lead.LeadStatusId = idOfStatusCode;
+                    }
+                }
+                else //If it's AfterSales
+                {
+                    //Only assign if userToBeAssigned is AfterSales
+                    if (userToBeAssigned.Roles.RoleCode != "AS")
+                    {
+                        return "Invalid user role.";
+                    }
+
+                    lead.AssignedUserId = loggedInUserId;
+
+                    //Change Lead Status - If it's New -> Change to Accepted
+                    if (lead.LeadStatus.LeadStatusCode == "AS-N8")
+                    {
+                        var idOfStatusCode = _db.LeadStatus.Where(s => s.LeadStatusCode == "AS-A9").First().Id;
+                        lead.LeadStatusId = idOfStatusCode;
+                    }
+                }
 
                 _db.Entry(lead).State = EntityState.Modified;
                 _db.SaveChanges();
-                return true;
+                return "Success";
             }
             catch (Exception e)
             {
                 //TODO: Add Logger
-                return false;
+                return "Error occurred";
             }
         }
-        public bool DeAssignLeadForUser(int leadId)
+
+        public string DeAssignLeadForUser(int loggedInUserId, int leadId)
         {
             try
             {
-                var lead = _db.Leads.Find(leadId);
-                lead.AssignedUserId = null;
-
-                //Change Lead Status - If it's Accepted -> Change to New
-                if (lead.LeadStatus.LeadStatusCode == "S-A2")
+                var userToBeAssigned = _db.Users.Where(u => u.Id == loggedInUserId).First();
+                var lead = _db.Leads.Where(l => l.Id == leadId && l.DealerId == userToBeAssigned.DealerId).FirstOrDefault();
+                if (lead == null)
                 {
-                    var idOfStatusCode = _db.LeadStatus.Where(s => s.LeadStatusCode == "S-N1").First().Id;
-                    lead.LeadStatusId = idOfStatusCode;
+                    return "Error occurred";
+                }
+
+                if (lead.LeadType.LeadTypeCode == "SL") //If it's Sales
+                {
+                    //Only assign if userToBeAssigned is Sales
+                    if (userToBeAssigned.Roles.RoleCode != "S")
+                    {
+                        return "Invalid user role.";
+                    }
+
+                    lead.AssignedUserId = null;
+
+                    //Change Lead Status - If it's Accepted -> Change to New
+                    if (lead.LeadStatus.LeadStatusCode == "S-A2")
+                    {
+                        var idOfStatusCode = _db.LeadStatus.Where(s => s.LeadStatusCode == "S-N1").First().Id;
+                        lead.LeadStatusId = idOfStatusCode;
+                    }
+                }
+                else //If it's AfterSales
+                {
+                    //Only assign if userToBeAssigned is AfterSales
+                    if (userToBeAssigned.Roles.RoleCode != "AS")
+                    {
+                        return "Invalid user role.";
+                    }
+
+                    lead.AssignedUserId = loggedInUserId;
+
+                    //Change Lead Status - If it's Accepted-> Change to New 
+                    if (lead.LeadStatus.LeadStatusCode == "AS-A9")
+                    {
+                        var idOfStatusCode = _db.LeadStatus.Where(s => s.LeadStatusCode == "AS-N8").First().Id;
+                        lead.LeadStatusId = idOfStatusCode;
+                    }
                 }
 
                 _db.Entry(lead).State = EntityState.Modified;
                 _db.SaveChanges();
-                return true;
+                return "Success";
             }
             catch (Exception e)
             {
                 //TODO: Add Logger
-                return false;
+                return "Error occurred";
             }
         }
     }

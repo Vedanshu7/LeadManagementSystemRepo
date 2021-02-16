@@ -52,7 +52,7 @@
 
                                 @foreach (var item in Model)
                                 {
-                                    <tr onclick="return window.location.href = 'Sales/Details/@item.Id'" ) style="cursor:pointer;">
+                                    <tr onclick="return window.location.href = '/Sales/LeadDetails/@item.Id'" ) style="cursor:pointer;">
                                         <td>
                                             @Html.DisplayFor(modelItem => item.CustomerName)
                                         </td>

@@ -12,14 +12,14 @@ namespace LMS.Web.BAL.Interface
         //Dealer
         List<DealerLeadViewModel> GetDealerLeadList(int dealerId);
         DealerLeadViewModel GetLeadDetailForDealer(int leadId, int dealerId);
-        bool AssignLeadForDealer(int selectedUserId, int leadId, int dealerId);
-        bool DeAssignLeadForDealer(int leadId, int dealerId);
+        string AssignLeadForDealer(int selectedUserId, int leadId, int dealerId);
+        string DeAssignLeadForDealer(int leadId, int dealerId);
 
         //User
         List<UserLeadViewModel> GetUserLeadList(int loggedInUserId);
-        UserLeadViewModel GetLeadDetailForUser(int id);
-        bool UpdateLeadDetails(UserLeadViewModel model, int loggedInUserId);
-        bool AssignLeadForUser(int loggedInUserId, int leadId);
-        bool DeAssignLeadForUser(int leadId);
+        UserLeadViewModel GetLeadDetailForUser(int loggedInUserId, int id);
+        string UpdateLeadDetails(UserLeadViewModel model, int loggedInUserId);
+        string AssignLeadForUser(int loggedInUserId, int leadId);
+        string DeAssignLeadForUser(int loggedInUserId, int leadId);
     }
 }

@@ -55,11 +55,9 @@ namespace LMS.Web.DAL.Repository
             return false;
         }
 
-        public Users GetUser(int Id)
+        public Users GetUser(int dealerId, int Id)
         {
-            //TODO: Return LogedIn Dealers User
-            //TODO: add && u.DealerId==DealerId
-            Users user = _db.Users.Find(Id);
+            Users user = _db.Users.Where(u => u.Id == Id && u.DealerId == dealerId).FirstOrDefault();
             if (user != null)
             {
                 return user;

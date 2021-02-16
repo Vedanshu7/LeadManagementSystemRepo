@@ -11,6 +11,7 @@ using LMS.Web.DAL.Database;
 
 namespace LMS.Web.BAL.Manager
 {
+    //TODO: Check for Null in every method
     public class LeadManager : ILeadManager
     {
         private readonly ILeadRepository _leadRepository;
@@ -56,40 +57,47 @@ namespace LMS.Web.BAL.Manager
         {
             var lead = _leadRepository.GetLeadDetailForDealer(leadId, dealerId);
 
-            DealerLeadViewModel dealerLead = new DealerLeadViewModel();
-            dealerLead.Id = lead.Id;
-            dealerLead.CustomerName = lead.CustomerName;
-            dealerLead.ModelName = lead.Models.Name;
-            if (lead.AssignedUserId != null)
-                dealerLead.AssignedUserName = lead.Users.Name;
-            dealerLead.CustomerEmail = lead.CustomerEmail;
-            dealerLead.CustomerContactNumber = lead.CustomerContactNumber;
-            dealerLead.LeadStatus = lead.LeadStatus.DisplayName;
-            dealerLead.LeadType = lead.LeadType.DisplayName;
-            if (lead.ServiceId != null)
-                dealerLead.ServiceType = lead.Services.Type;
-            dealerLead.Comments = lead.Comments;
-
-            return dealerLead;
+            if (lead != null)
+            {
+                DealerLeadViewModel dealerLead = new DealerLeadViewModel();
+                dealerLead.Id = lead.Id;
+                dealerLead.CustomerName = lead.CustomerName;
+                dealerLead.ModelName = lead.Models.Name;
+                if (lead.AssignedUserId != null)
+                    dealerLead.AssignedUserName = lead.Users.Name;
+                dealerLead.CustomerEmail = lead.CustomerEmail;
+                dealerLead.CustomerContactNumber = lead.CustomerContactNumber;
+                dealerLead.LeadStatus = lead.LeadStatus.DisplayName;
+                dealerLead.LeadType = lead.LeadType.DisplayName;
+                if (lead.ServiceId != null)
+                    dealerLead.ServiceType = lead.Services.Type;
+                dealerLead.Comments = lead.Comments;
+                return dealerLead;
+            }
+            return null;
         }
-        public bool AssignLeadForDealer(int selectedUserId, int leadId, int dealerId)
+        public string AssignLeadForDealer(int selectedUserId, int leadId, int dealerId)
         {
             return _leadRepository.AssignLeadForDealer(selectedUserId, leadId, dealerId);
         }
-        public bool DeAssignLeadForDealer(int leadId, int dealerId)
+        public string DeAssignLeadForDealer(int leadId, int dealerId)
         {
             return _leadRepository.DeAssignLeadForDealer(leadId, dealerId);
         }
 
         //Users
-        public UserLeadViewModel GetLeadDetailForUser(int id)
+        public UserLeadViewModel GetLeadDetailForUser(int loggedInUserId, int id)
         {
-            Leads leadFromDb = _leadRepository.GetLeadDetailForUser(id);
-            UserLeadViewModel salesLead = mapper.Map<Leads, UserLeadViewModel>(leadFromDb);
-            salesLead.ModelName = leadFromDb.Models.Name;
-            if (leadFromDb.AssignedUserId != null)
-                salesLead.AssignedUserName = leadFromDb.Users.Name;
-            return salesLead;
+            Leads leadFromDb = _leadRepository.GetLeadDetailForUser(loggedInUserId, id);
+            if (leadFromDb != null)
+            {
+                UserLeadViewModel salesLead = mapper.Map<Leads, UserLeadViewModel>(leadFromDb);
+                salesLead.ModelName = leadFromDb.Models.Name;
+                if (leadFromDb.AssignedUserId != null)
+                    salesLead.AssignedUserName = leadFromDb.Users.Name;
+                return salesLead;
+            }
+            return null;
         }
         public List<UserLeadViewModel> GetUserLeadList(int loggedInUserId)
         {
@@ -106,20 +114,20 @@ namespace LMS.Web.BAL.Manager
             return salesLeads;
 
         }
-        public bool UpdateLeadDetails(UserLeadViewModel model, int loggedInUserId)
+        public string UpdateLeadDetails(UserLeadViewModel model, int loggedInUserId)
         {
             //TODO:Map lead status id.
             Leads lead = mapper.Map<UserLeadViewModel, Leads>(model);
             lead.UpdatedBy = loggedInUserId;
             return _leadRepository.UpdateLeadDetails(lead, loggedInUserId);
         }
-        public bool AssignLeadForUser(int loggedInUserId, int leadId)
+        public string AssignLeadForUser(int loggedInUserId, int leadId)
         {
             return _leadRepository.AssignLeadForUser(loggedInUserId, leadId);
         }
-        public bool DeAssignLeadForUser(int leadId)
+        public string DeAssignLeadForUser(int loggedInUserId, int leadId)
         {
-            return _leadRepository.DeAssignLeadForUser(leadId);
+            return _leadRepository.DeAssignLeadForUser(loggedInUserId, leadId);
         }
     }
 }

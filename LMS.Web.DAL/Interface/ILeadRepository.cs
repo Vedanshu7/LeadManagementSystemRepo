@@ -12,14 +12,14 @@ namespace LMS.Web.DAL.Interface
         //Dealer
         List<Leads> GetDealerLeadList(int dealerId);
         Leads GetLeadDetailForDealer(int leadId, int dealerId);
-        bool AssignLeadForDealer(int selectedUserId, int leadId, int dealerId);
-        bool DeAssignLeadForDealer(int leadId, int dealerId);
+        string AssignLeadForDealer(int selectedUserId, int leadId, int dealerId);
+        string DeAssignLeadForDealer(int leadId, int dealerId);
 
         //User
         List<Leads> GetUserLeadList(int loggedInUserId);
-        Leads GetLeadDetailForUser(int id);
-        bool UpdateLeadDetails(Leads model, int loggedInUserId);
-        bool AssignLeadForUser(int loggedInUserId, int leadId);
-        bool DeAssignLeadForUser(int leadId);
+        Leads GetLeadDetailForUser(int loggedInUserId, int id);
+        string UpdateLeadDetails(Leads model, int loggedInUserId);
+        string AssignLeadForUser(int loggedInUserId, int leadId);
+        string DeAssignLeadForUser(int loggedInUserId, int leadId);
     }
 }

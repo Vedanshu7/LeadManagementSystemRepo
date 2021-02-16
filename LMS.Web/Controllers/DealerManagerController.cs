@@ -45,12 +45,12 @@ namespace LMS.Web.Controllers
                 if (data == true)
                 {
                     TempData["NotificationSuccess"] = "User created successfully.";
-                    return RedirectToAction("UserDetails","DealerManager");
+                    return RedirectToAction("UserDetails", "DealerManager");
                 }
                 else
                 {
-                      TempData["NotificationInfo"] = "User already register with this details.";
-                      return View();
+                    TempData["NotificationInfo"] = "User already register with this details.";
+                    return View();
                 }
             }
             return View(user);
@@ -67,7 +67,8 @@ namespace LMS.Web.Controllers
         [HttpGet]
         public ActionResult EditUser(int Id)
         {
-            UserViewModel user = _userManager.GetUser(Id);
+            int dealerId = (int)Session["dealerId"];
+            UserViewModel user = _userManager.GetUser(dealerId, Id);
             return View(user);
         }
 
@@ -79,7 +80,7 @@ namespace LMS.Web.Controllers
             if (_userManager.EditUser(user, dealerId))
             {
                 TempData["NotificationSuccess"] = "User details update successfully.";
-                return RedirectToAction("UserDetails","DealerManager");
+                return RedirectToAction("UserDetails", "DealerManager");
             }
             else
             {
@@ -102,6 +103,10 @@ namespace LMS.Web.Controllers
             //Check Lead Type, return Selected Lead, Users based on LeadType
             int dealerId = (int)Session["dealerId"];
             DealerLeadViewModel selectedLead = _leadManager.GetLeadDetailForDealer(leadId, dealerId);
+            if (selectedLead == null)
+            {
+                return RedirectToAction("LeadList");
+            }
             List<UserViewModel> users = _userManager.GetUsers(leadId);
 
             AssignLeadViewModel viewModel = new AssignLeadViewModel();
@@ -116,15 +121,14 @@ namespace LMS.Web.Controllers
         {
             int dealerId = (int)Session["dealerId"];
             var result = _leadManager.AssignLeadForDealer(selectedUserId, leadId, dealerId);
-            if (result)
+            if (result == "Success")
             {
-                TempData["NotificationSuccess"] = "Lead assign successfully to the user.";
+                TempData["NotificationSuccess"] = result;
                 return RedirectToAction("LeadList");
             }
             else
             {
-                //TODO: Add Error Notification
-                TempData["NotificationInfo"] = "Error occure while assigning the user.";
+                TempData["NotificationInfo"] = result;
                 return RedirectToAction("LeadList");
             }
         }
@@ -134,15 +138,14 @@ namespace LMS.Web.Controllers
         {
             int dealerId = (int)Session["dealerId"];
             var result = _leadManager.DeAssignLeadForDealer(leadId, dealerId);
-            if (result)
+            if (result == "Success")
             {
-                TempData["NotificationSuccess"] = "Lead De-Assign successful.";
+                TempData["NotificationSuccess"] = result;
                 return RedirectToAction("LeadList");
             }
             else
             {
-                //TODO: Add Error Notification
-                TempData["NotificationInfo"] = "Error occure while De-Assigning from the user.";
+                TempData["NotificationInfo"] = result;
                 return RedirectToAction("LeadList");
             }
         }

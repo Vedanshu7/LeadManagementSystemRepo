@@ -13,7 +13,7 @@ namespace LMS.Web.DAL.Interface
         bool CreateUser(Users users);
         List<Users> UserDetails(int dealerId);
         bool EditUser(Users user);
-        Users GetUser(int Id);
+        Users GetUser(int dealerId, int Id);
         int GetDealerId(int loggedInUserId);
         List<Users> GetUsers(int leadId);
 

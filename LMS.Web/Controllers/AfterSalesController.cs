@@ -31,7 +31,8 @@ namespace LMS.Web.Controllers
         // GET: AfterSales/Details/5
         public ActionResult Details(int id)
         {
-            UserLeadViewModel list = _leadManager.GetLeadDetailForUser(id);
+            int loggedInUserId = (int)Session["loggedInId"];
+            UserLeadViewModel list = _leadManager.GetLeadDetailForUser(loggedInUserId, id);
             return View(list);
         }
 
@@ -39,8 +40,8 @@ namespace LMS.Web.Controllers
         public ActionResult Details(UserLeadViewModel model)
         {
             int loggedInUserId = (int)Session["loggedInId"];
-            bool result = _leadManager.UpdateLeadDetails(model, loggedInUserId);
-            if (result)
+            string result = _leadManager.UpdateLeadDetails(model, loggedInUserId);
+            if (result == "Success")
                 return RedirectToAction("Index", "Sales");
             return View();
         }

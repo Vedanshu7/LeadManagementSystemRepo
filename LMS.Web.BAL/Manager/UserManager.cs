@@ -42,9 +42,9 @@ namespace LMS.Web.BAL.Manager
             return _userRepository.EditUser(user);
         }
 
-        public UserViewModel GetUser(int Id)
+        public UserViewModel GetUser(int dealerId, int Id)
         {
-            Users users = _userRepository.GetUser(Id);
+            Users users = _userRepository.GetUser(dealerId, Id);
             if (users != null)
             {
                 UserViewModel user = mapper.Map<Users, UserViewModel>(users);
