@@ -15,31 +15,31 @@ namespace LMS.Web.Controllers
     public class AfterSalesController : Controller
     {
         //TODO: Separate AfterSales Manager
-        private readonly ISalesLeadManager _salesleadManager;
-        public AfterSalesController(ISalesLeadManager salesleadManager)
+        private readonly ILeadManager _leadManager;
+        public AfterSalesController(ILeadManager leadManager)
         {
-            _salesleadManager = salesleadManager;
+            _leadManager = leadManager;
         }
         // GET: AfterSales
         public ActionResult Index()
         {
             int loggedInUserId = (int)Session["loggedInId"];
-            List<SalesLeadViewModel> list = _salesleadManager.GetSalesLeadList(loggedInUserId);
+            List<UserLeadViewModel> list = _leadManager.GetUserLeadList(loggedInUserId);
             return View(list);
         }
 
         // GET: AfterSales/Details/5
         public ActionResult Details(int id)
         {
-            SalesLeadViewModel list = _salesleadManager.GetLeadDetail(id);
+            UserLeadViewModel list = _leadManager.GetLeadDetailForUser(id);
             return View(list);
         }
 
         [HttpPost]
-        public ActionResult Details(SalesLeadViewModel model)
+        public ActionResult Details(UserLeadViewModel model)
         {
             int loggedInUserId = (int)Session["loggedInId"];
-            bool result = _salesleadManager.UpdateLeadDetails(model, loggedInUserId);
+            bool result = _leadManager.UpdateLeadDetails(model, loggedInUserId);
             if (result)
                 return RedirectToAction("Index", "Sales");
             return View();

@@ -15,36 +15,40 @@ namespace LMS.Web.Controllers
     public class SalesController : Controller
     {
         //TODO:Add lead assign & deassign.
-        private readonly ISalesLeadManager _salesLeadManager;
-        public SalesController(ISalesLeadManager salesleadManager)
+        private readonly ILeadManager _leadManager;
+        public SalesController(ILeadManager leadManager)
         {
-            _salesLeadManager = salesleadManager;
+            _leadManager = leadManager;
         }
-        // GET: Sales
+
         public ActionResult Index()
         {
+            return RedirectToAction("LeadList");
+        }
+
+        public ActionResult LeadList()
+        {
             int loggedInUserId = (int)Session["loggedInId"];
-            List<SalesLeadViewModel> list = _salesLeadManager.GetSalesLeadList(loggedInUserId);
+            List<UserLeadViewModel> list = _leadManager.GetUserLeadList(loggedInUserId);
             return View(list);
         }
 
         [HttpGet]
-        // GET: Sales/Details/5
-        public ActionResult Details(int id)
+        public ActionResult LeadDetails(int id)
         {
-            SalesLeadViewModel lead = _salesLeadManager.GetLeadDetail(id);
+            UserLeadViewModel lead = _leadManager.GetLeadDetailForUser(id);
             return View(lead);
         }
 
         [HttpPost]
-        public ActionResult Details(SalesLeadViewModel model)
+        public ActionResult LeadDetails(UserLeadViewModel model)
         {
             //TODO:Dropdown change in lead details page
 
             int loggedInUserId = (int)Session["loggedInId"];
-            bool result = _salesLeadManager.UpdateLeadDetails(model, loggedInUserId);
+            bool result = _leadManager.UpdateLeadDetails(model, loggedInUserId);
             if (result)
-                return RedirectToAction("Index", "Sales");
+                return RedirectToAction("LeadList", "Sales");
             return View(); //TODO: Notify Error Occurred
         }
 
@@ -52,30 +56,30 @@ namespace LMS.Web.Controllers
         public ActionResult AssignLead(int leadId)
         {
             int loggedInUserId = (int)Session["loggedInId"];
-            var result = _salesLeadManager.AssignLead(loggedInUserId, leadId);
+            var result = _leadManager.AssignLeadForUser(loggedInUserId, leadId);
             if (result)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("LeadList");
             }
             else
             {
                 //TODO: Add Error Notification
-                return RedirectToAction("Index");
+                return RedirectToAction("LeadList");
             }
         }
 
         [HttpGet]
         public ActionResult DeAssignLead(int leadId)
         {
-            var result = _salesLeadManager.DeAssignLead(leadId);
+            var result = _leadManager.DeAssignLeadForUser(leadId);
             if (result)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("LeadList");
             }
             else
             {
                 //TODO: Add Error Notification
-                return RedirectToAction("Index");
+                return RedirectToAction("LeadList");
             }
         }
     }

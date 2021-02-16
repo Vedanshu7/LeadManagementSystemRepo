@@ -9,9 +9,17 @@ namespace LMS.Web.BAL.Interface
 {
     public interface ILeadManager
     {
+        //Dealer
         List<DealerLeadViewModel> GetDealerLeadList(int dealerId);
-        DealerLeadViewModel GetLead(int leadId, int dealerId);
-        bool AssignLead(int selectedUserId, int leadId, int dealerId);
-        bool DeAssignLead(int leadId, int dealerId);
+        DealerLeadViewModel GetLeadDetailForDealer(int leadId, int dealerId);
+        bool AssignLeadForDealer(int selectedUserId, int leadId, int dealerId);
+        bool DeAssignLeadForDealer(int leadId, int dealerId);
+
+        //User
+        List<UserLeadViewModel> GetUserLeadList(int loggedInUserId);
+        UserLeadViewModel GetLeadDetailForUser(int id);
+        bool UpdateLeadDetails(UserLeadViewModel model, int loggedInUserId);
+        bool AssignLeadForUser(int loggedInUserId, int leadId);
+        bool DeAssignLeadForUser(int leadId);
     }
 }

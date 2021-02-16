@@ -2103,11 +2103,11 @@
     <Content Include="Views\Authentication\ResetPassword.cshtml" />
     <Content Include="Views\Authentication\EmailNotify.cshtml" />
     <Content Include="Views\DealerManager\CreateUser.cshtml" />
-    <Content Include="Views\DealerManager\UserDetails.cshtml" />
+    <Content Include="Views\DealerManager\UserList.cshtml" />
     <Content Include="Views\DealerManager\EditUser.cshtml" />
     <Content Include="Views\DealerManager\LeadList.cshtml" />
-    <Content Include="Views\Sales\Index.cshtml" />
-    <Content Include="Views\Sales\Details.cshtml" />
+    <Content Include="Views\Sales\LeadList.cshtml" />
+    <Content Include="Views\Sales\LeadDetails.cshtml" />
     <Content Include="Views\AfterSales\Index.cshtml" />
     <Content Include="Views\AfterSales\Details.cshtml" />
     <Content Include="Views\DealerManager\AssignLead.cshtml" />

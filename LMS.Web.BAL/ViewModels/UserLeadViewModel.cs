@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LMS.Web.BAL.ViewModels
 {
-    public class SalesLeadViewModel
+    public class UserLeadViewModel
     {
         public int Id { get; set; }
         public string CustomerName { get; set; }
