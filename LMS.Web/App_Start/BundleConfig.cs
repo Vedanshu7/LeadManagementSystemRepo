@@ -42,7 +42,8 @@ namespace LMS.Web
                         "~/adminlte/plugins/pdfmake/vfs_fonts.js",
                         "~/adminlte/plugins/datatables-buttons/js/buttons.html5.min.js",
                         "~/adminlte/plugins/datatables-buttons/js/buttons.print.min.js",
-                        "~/adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js"
+                        "~/adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js",
+                        "~/adminlte/plugins/toastr/toastr.min.js"
                         ));
         
 
@@ -53,7 +54,9 @@ namespace LMS.Web
                         "~/adminlte/plugins/summernote/summernote-bs4.min.css",
                         "~/adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css",
                         "~/adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css",
-                        "~/adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css"
+                        "~/adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css",
+                        "~/adminlte/plugins/toastr/toastr.min.css",
+                        "~/adminlte/plugins/toastr/toastr.css"
                         ));
             bundles.Add(new StyleBundle("~/Content/LoginCss").Include(
                  "~/Content/site.css"

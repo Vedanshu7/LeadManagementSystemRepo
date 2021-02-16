@@ -43,9 +43,14 @@ namespace LMS.Web.Controllers
                 var data = _userManager.CreateUser(user, dealerId);
                 if (data == true)
                 {
-                    return Content("Success");
+                    TempData["NotificationSuccess"] = "User created successfully.";
+                    return RedirectToAction("UserDetails","DealerManager");
                 }
-                return Content("User Already Exist");
+                else
+                {
+                      TempData["NotificationInfo"] = "User already register with this details.";
+                      return View();
+                }
             }
             return View(user);
         }
@@ -72,9 +77,14 @@ namespace LMS.Web.Controllers
             int dealerId = (int)Session["dealerId"];
             if (_userManager.EditUser(user, dealerId))
             {
-                return Content("Success");
+                TempData["NotificationSuccess"] = "User details update successfully.";
+                return RedirectToAction("UserDetails","DealerManager");
             }
-            return Content("Failed!!");
+            else
+            {
+                TempData["NotificationInfo"] = "Error occure while update details.";
+                return View();
+            }
         }
 
         [HttpGet]
@@ -107,11 +117,13 @@ namespace LMS.Web.Controllers
             var result = _leadManager.AssignLeadForDealer(selectedUserId, leadId, dealerId);
             if (result)
             {
+                TempData["NotificationSuccess"] = "Lead assign successfully to the user.";
                 return RedirectToAction("LeadList");
             }
             else
             {
                 //TODO: Add Error Notification
+                TempData["NotificationInfo"] = "Error occure while assigning the user.";
                 return RedirectToAction("LeadList");
             }
         }
@@ -123,11 +135,13 @@ namespace LMS.Web.Controllers
             var result = _leadManager.DeAssignLeadForDealer(leadId, dealerId);
             if (result)
             {
+                TempData["NotificationSuccess"] = "Lead De-Assign successful.";
                 return RedirectToAction("LeadList");
             }
             else
             {
                 //TODO: Add Error Notification
+                TempData["NotificationInfo"] = "Error occure while De-Assigning from the user.";
                 return RedirectToAction("LeadList");
             }
         }
