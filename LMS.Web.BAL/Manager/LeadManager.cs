@@ -93,6 +93,7 @@ namespace LMS.Web.BAL.Manager
                 salesLead.ModelName = leadFromDb.Models.Name;
                 if (leadFromDb.AssignedUserId != null)
                     salesLead.AssignedUserName = leadFromDb.Users.Name;
+                salesLead.LeadStatus = leadFromDb.LeadStatus.DisplayName;
                 return salesLead;
             }
             return null;
@@ -128,9 +129,9 @@ namespace LMS.Web.BAL.Manager
             return _leadRepository.DeAssignLeadForUser(loggedInUserId, leadId);
         }
 
-        public IEnumerable<LeadStatusViewModel> GetLeadStatusDropDown()
+        public IEnumerable<LeadStatusViewModel> GetLeadStatusDropDown(int leadId)
         {
-            var leadStatusFromDb = _leadRepository.GetLeadStatusDropDown();
+            var leadStatusFromDb = _leadRepository.GetLeadStatusDropDown(leadId);
             var leadStatusViewModels = mapper.Map<IEnumerable<LeadStatus>, IEnumerable<LeadStatusViewModel>>(leadStatusFromDb);
             return leadStatusViewModels;
         }

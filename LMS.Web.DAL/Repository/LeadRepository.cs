@@ -12,7 +12,6 @@ namespace LMS.Web.DAL.Repository
     public class LeadRepository : ILeadRepository
     {
         private readonly LMSAzureEntities _db;
-        public readonly Logger logger = LogManager.GetCurrentClassLogger();
         public LeadRepository()
         {
             _db = new LMSAzureEntities();
@@ -23,14 +22,12 @@ namespace LMS.Web.DAL.Repository
         {
             try
             {
-                logger.Info("Display dealer list");
                 return _db.Leads.Where(m => m.DealerId == dealerId).ToList();
 
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 //TODO: Add Logger.
-                logger.Error(e," Error occured while fetchiing dealer lead list ");               
                 throw;
             }
         }
@@ -40,10 +37,9 @@ namespace LMS.Web.DAL.Repository
             {
                 return _db.Leads.Where(l => l.Id == leadId && l.DealerId == dealerId).FirstOrDefault();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 //TODO : Add Logger.
-                logger.Error("Error occured while fetchiing perticualr lead detail for dealer. " + e.Message);
                 throw;
             }
         }
@@ -158,7 +154,7 @@ namespace LMS.Web.DAL.Repository
         {
             try
             {
-                //TODO:Return Only LoggedIn Dealers Leads
+                //TODO:Return Only LogedIn Dealers Leads
                 var user = _db.Users.Where(u => u.Id == loggedInUserId).First();
                 var lead = _db.Leads.Where(l => l.Id == id && l.DealerId == user.DealerId).FirstOrDefault();
                 if (lead == null)
@@ -166,13 +162,10 @@ namespace LMS.Web.DAL.Repository
                     return null;
                 }
 
-            if (lead.LeadType.LeadTypeCode == Constants.LeadType.Sales) //If it's Sales
-            {
-                //Only return if both the roles match
-                if (user.Roles.RoleCode == Constants.Roles.Sales)
+                if (lead.LeadType.LeadTypeCode == Constants.LeadType.Sales) //If it's Sales
                 {
                     //Only return if both the roles match
-                    if (user.Roles.RoleCode == "S")
+                    if (user.Roles.RoleCode == Constants.Roles.Sales)
                     {
                         return lead;
                     }
@@ -180,21 +173,16 @@ namespace LMS.Web.DAL.Repository
                 }
                 else //If it's AfterSales
                 {
-                    //Only assign if userToBeAssigned is AfterSales
-                    if (user.Roles.RoleCode == "AS")
+                    //Only return if both the roles match
+                    if (user.Roles.RoleCode == Constants.Roles.AfterSales)
                     {
                         return lead;
                     }
                     return null;
                 }
             }
-            catch(Exception e)
+            catch (Exception)
             {
-                //Only return if both the roles match
-                if (user.Roles.RoleCode == Constants.Roles.AfterSales)
-                {
-                    return lead;
-                }
                 return null;
                 throw;
             }
@@ -374,12 +362,13 @@ namespace LMS.Web.DAL.Repository
             {
                 //TODO: Add Logger
                 return "Error occurd.";
-                throw;               
+                throw;
             }
         }
-        public IEnumerable<LeadStatus> GetLeadStatusDropDown()
+        public IEnumerable<LeadStatus> GetLeadStatusDropDown(int leadId)
         {
-            return _db.LeadStatus;
+            var leadTypeId = _db.Leads.Where(l => l.Id == leadId).First().LeadTypeId;
+            return _db.LeadStatus.Where(x => x.LeadTypeId == leadTypeId);
         }
     }
 }

@@ -29,9 +29,8 @@ namespace LMS.Web.Controllers
                     case RolesEnum.DealerManager:
                         return RedirectToAction("Index", "DealerManager");
                     case RolesEnum.Sales:
-                        return RedirectToAction("Index", "Sales");
                     case RolesEnum.AfterSales:
-                        return RedirectToAction("Index", "AfterSales");
+                        return RedirectToAction("Index", "User");
                 }
             }
             return View(); //TODO: Redirect to page
@@ -67,15 +66,11 @@ namespace LMS.Web.Controllers
                                     return Redirect(path);
                                 return RedirectToAction("Index", "DealerManager");
                             case RolesEnum.Sales:
-                                Session["loggedInId"] = loginResult.LoggedInUserId;
-                                if (!path.Equals(string.Empty))
-                                    return Redirect(path);
-                                return RedirectToAction("Index", "Sales");
                             case RolesEnum.AfterSales:
                                 Session["loggedInId"] = loginResult.LoggedInUserId;
                                 if (!path.Equals(string.Empty))
                                     return Redirect(path);
-                                return RedirectToAction("Index", "AfterSales");
+                                return RedirectToAction("Index", "User");
                         }
                         break;
 

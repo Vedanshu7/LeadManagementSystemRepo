@@ -20,7 +20,7 @@ namespace LMS.Web.DAL.Repository
         }
 
         //Dealer Methods
-        public bool CreateUser(Users user)
+        public string CreateUser(Users user)
         {
             try
             {
@@ -47,7 +47,7 @@ namespace LMS.Web.DAL.Repository
                 throw;
             }
         }
-        public bool EditUser(Users user)
+        public string EditUser(Users user)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace LMS.Web.DAL.Repository
                 }
                 return "Error occured";
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 //TODO:Add logger.
                 return "Error occured";
@@ -110,7 +110,7 @@ namespace LMS.Web.DAL.Repository
                 return 0;
                 throw;
             }
-           
+
         }
         public List<Users> GetUsersByLeadType(int leadId)
         {

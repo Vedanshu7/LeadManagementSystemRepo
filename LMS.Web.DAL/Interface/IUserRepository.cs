@@ -11,7 +11,7 @@ namespace LMS.Web.DAL.Interface
     public interface IUserRepository
     {
         string CreateUser(Users users);
-        List<Users> UserDetails(int dealerId);
+        List<Users> GetUsers(int dealerId);
         string EditUser(Users user);
         Users GetUser(int dealerId, int Id);
         int GetDealerId(int loggedInUserId);

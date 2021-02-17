@@ -187,11 +187,10 @@
     <Compile Include="Attributes\Authenticate.cs" />
     <Compile Include="Attributes\Authorization.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\AfterSalesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\DealerManagerController.cs" />
-    <Compile Include="Controllers\SalesController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -2107,10 +2106,8 @@
     <Content Include="Views\DealerManager\UserList.cshtml" />
     <Content Include="Views\DealerManager\EditUser.cshtml" />
     <Content Include="Views\DealerManager\LeadList.cshtml" />
-    <Content Include="Views\Sales\LeadList.cshtml" />
-    <Content Include="Views\Sales\LeadDetails.cshtml" />
-    <Content Include="Views\AfterSales\LeadList.cshtml" />
-    <Content Include="Views\AfterSales\LeadDetails.cshtml" />
+    <Content Include="Views\User\LeadList.cshtml" />
+    <Content Include="Views\User\LeadDetails.cshtml" />
     <Content Include="Views\DealerManager\AssignLead.cshtml" />
   </ItemGroup>
   <ItemGroup>

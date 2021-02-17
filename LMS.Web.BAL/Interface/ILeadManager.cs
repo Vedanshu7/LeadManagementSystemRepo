@@ -17,6 +17,6 @@ namespace LMS.Web.BAL.Interface
         string UpdateLeadDetails(UserLeadViewModel model, int loggedInUserId);
         string AssignLeadForUser(int loggedInUserId, int leadId);
         string DeAssignLeadForUser(int loggedInUserId, int leadId);
-        IEnumerable<LeadStatusViewModel> GetLeadStatusDropDown();
+        IEnumerable<LeadStatusViewModel> GetLeadStatusDropDown(int leadId);
     }
 }

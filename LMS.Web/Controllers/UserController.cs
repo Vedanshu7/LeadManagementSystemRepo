@@ -8,14 +8,15 @@ using LMS.Web.BAL.ViewModels;
 namespace LMS.Web.Controllers
 {
     [Authenticate]
-    [Authorization(RolesEnum.AfterSales)]
-    public class AfterSalesController : Controller
-    { 
+    [Authorization(RolesEnum.Sales, RolesEnum.AfterSales)]
+    public class UserController : Controller
+    {
         private readonly ILeadManager _leadManager;
-        public AfterSalesController(ILeadManager leadManager)
+        public UserController(ILeadManager leadManager)
         {
             _leadManager = leadManager;
         }
+
         public ActionResult Index()
         {
             return RedirectToAction("LeadList");
@@ -35,26 +36,26 @@ namespace LMS.Web.Controllers
             UserLeadViewModel lead = _leadManager.GetLeadDetailForUser(loggedInUserId, id);
             if (lead != null)
             {
+                //Populating LeadStatus DropDown
+                ViewBag.LeadStatusId = new SelectList(_leadManager.GetLeadStatusDropDown(id), "Id", "DisplayName");
                 return View(lead);
             }
             else
             {
                 TempData["NotificationInfo"] = "Invalid operation";
-                return RedirectToAction("Index", "AfterSales");
+                return RedirectToAction("Index", "Sales");
             }
         }
 
         [HttpPost]
         public ActionResult LeadDetails(UserLeadViewModel model)
         {
-            //TODO:Dropdown change in lead details page
-
             int loggedInUserId = (int)Session["loggedInId"];
             string result = _leadManager.UpdateLeadDetails(model, loggedInUserId);
             if (result == "Success")
             {
                 TempData["NotificationSuccess"] = result;
-                return RedirectToAction("Index", "AfterSales");
+                return RedirectToAction("Index", "User");
             }
             else
             {
@@ -94,7 +95,7 @@ namespace LMS.Web.Controllers
             }
             else
             {
-                //TODO: Add Error Notification
+
                 TempData["NotificationInfo"] = result;
                 return RedirectToAction("LeadList");
             }
