@@ -50,6 +50,7 @@ namespace LMS.Web
                           bundles.Add(new StyleBundle("~/Content/css").Include(
                         "~/Content/bootstrap.css",
                         "~/adminlte/css/adminlte.min.css",
+                        "~/adminlte/plugins/daterangepicker/daterangepicker.css",
                         "~/adminlte/plugins/fontawesome-free/css/all.min.css",
                         "~/adminlte/plugins/summernote/summernote-bs4.min.css",
                         "~/adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css",

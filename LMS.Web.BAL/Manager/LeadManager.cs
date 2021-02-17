@@ -42,6 +42,7 @@ namespace LMS.Web.BAL.Manager
                 dealerLead.CustomerEmail = lead.CustomerEmail;
                 dealerLead.CustomerContactNumber = lead.CustomerContactNumber;
                 dealerLead.LeadStatus = lead.LeadStatus.DisplayName;
+                dealerLead.CreatedDate = lead.CreatedDate;
                 dealerLead.LeadType = lead.LeadType.DisplayName;
                 if (lead.ServiceId != null)
                     dealerLead.ServiceType = lead.Services.Type;
@@ -67,6 +68,7 @@ namespace LMS.Web.BAL.Manager
                 dealerLead.CustomerContactNumber = lead.CustomerContactNumber;
                 dealerLead.LeadStatus = lead.LeadStatus.DisplayName;
                 dealerLead.LeadType = lead.LeadType.DisplayName;
+                dealerLead.CreatedDate = lead.CreatedDate;
                 if (lead.ServiceId != null)
                     dealerLead.ServiceType = lead.Services.Type;
                 dealerLead.Comments = lead.Comments;
