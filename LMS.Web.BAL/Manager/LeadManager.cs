@@ -1,10 +1,6 @@
 ﻿using LMS.Web.BAL.Interface;
 using LMS.Web.BAL.ViewModels;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LMS.Web.DAL.Interface;
 using AutoMapper;
 using LMS.Web.DAL.Database;
@@ -25,6 +21,8 @@ namespace LMS.Web.BAL.Manager
              {
                  cfg.CreateMap<UserLeadViewModel, Leads>();
                  cfg.CreateMap<Leads, UserLeadViewModel>();
+                 cfg.CreateMap<LeadStatusViewModel, LeadStatus>();
+                 cfg.CreateMap<LeadStatus, LeadStatusViewModel>();
              });
             mapper = config.CreateMapper();
         }
@@ -128,6 +126,13 @@ namespace LMS.Web.BAL.Manager
         public string DeAssignLeadForUser(int loggedInUserId, int leadId)
         {
             return _leadRepository.DeAssignLeadForUser(loggedInUserId, leadId);
+        }
+
+        public IEnumerable<LeadStatusViewModel> GetLeadStatusDropDown()
+        {
+            var leadStatusFromDb = _leadRepository.GetLeadStatusDropDown();
+            var leadStatusViewModels = mapper.Map<IEnumerable<LeadStatus>, IEnumerable<LeadStatusViewModel>>(leadStatusFromDb);
+            return leadStatusViewModels;
         }
     }
 }

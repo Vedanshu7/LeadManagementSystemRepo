@@ -1,0 +1,152 @@
+﻿@model IEnumerable<LMS.Web.BAL.ViewModels.UserLeadViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<head>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+</head>
+
+<div class="row pt-3">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Lead List</h3>
+            </div>
+
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayName("Customer Name")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Model")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Assigned To")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Email")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Contact Number")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Status")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Comments")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Action")
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr onclick="return window.location.href = '/Sales/LeadDetails/@item.Id'" ) style="cursor:pointer;">
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CustomerName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ModelName)
+                                        </td>
+                                        <td>
+                                            @if (item.AssignedUserName != null)
+                                            {
+                                                @Html.DisplayName("Self")
+                                            }
+                                            else
+                                            {
+                                                @Html.DisplayFor(modelItem => item.AssignedUserName)
+                                            }
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CustomerEmail)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CustomerContactNumber)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.LeadStatus)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Comments)
+                                        </td>
+                                        <td>
+                                            @if (item.AssignedUserName != null)
+                                            {
+                                                @Html.ActionLink("De-Assign", "DeAssignLead", new { leadId = item.Id }, new { @class = "btn btn-outline-danger" })
+                                            }
+                                            else
+                                            {
+                                                @Html.ActionLink("Assign", "AssignLead", new { leadId = item.Id }, new { @class = "btn btn-outline-success" })
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+
+                                <tr>
+                                    <th>
+                                        @Html.DisplayName("Name")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Model")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Assigned To")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Email")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Contact Number")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Status")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Comments")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Action")
+                                    </th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/jquery")
+
+<script>
+    $(document).ready(function () {
+        if ('@TempData["NotificationSuccess"]' != '') {
+            toastr.success('@TempData["NotificationSuccess"]');
+        }
+        if ('@TempData["NotificationInfo"]' != '') {
+            toastr.error('@TempData["NotificationInfo"]');
+        }
+    });
+
+
+
+</script>

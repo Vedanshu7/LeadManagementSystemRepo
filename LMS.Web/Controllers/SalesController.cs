@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using LMS.Common;
 using LMS.Web.Attributes;
@@ -14,7 +11,6 @@ namespace LMS.Web.Controllers
     [Authorization(RolesEnum.Sales)]
     public class SalesController : Controller
     {
-        //TODO:Add lead assign & deassign.
         private readonly ILeadManager _leadManager;
         public SalesController(ILeadManager leadManager)
         {
@@ -40,6 +36,8 @@ namespace LMS.Web.Controllers
             UserLeadViewModel lead = _leadManager.GetLeadDetailForUser(loggedInUserId, id);
             if (lead != null)
             {
+                //Populating LeadStatus DropDown
+                ViewBag.LeadStatusId = new SelectList(_leadManager.GetLeadStatusDropDown(), "Id", "DisplayName");
                 return View(lead);
             }
             else
@@ -99,7 +97,7 @@ namespace LMS.Web.Controllers
             }
             else
             {
-                //TODO: Add Error Notification
+                
                 TempData["NotificationInfo"] = result;
                 return RedirectToAction("LeadList");
             }

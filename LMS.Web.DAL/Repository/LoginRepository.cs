@@ -2,10 +2,7 @@
 using LMS.Web.DAL.Database;
 using LMS.Web.DAL.Interface;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LMS.Web.DAL.Repository
 {
@@ -52,7 +49,6 @@ namespace LMS.Web.DAL.Repository
                 throw;
             }
         }
-
         public string ResetPassword(string email, string password) //TODO: Change Return type to LoginResultEnum
         {
             try
@@ -77,7 +73,6 @@ namespace LMS.Web.DAL.Repository
                 throw;
             }
         }
-
         public bool IsValidUser(string userEmail)
         {
 

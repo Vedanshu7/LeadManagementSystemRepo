@@ -10,12 +10,13 @@ namespace LMS.Web.DAL.Interface
 {
     public interface IUserRepository
     {
-        bool CreateUser(Users users);
+        string CreateUser(Users users);
         List<Users> UserDetails(int dealerId);
-        bool EditUser(Users user);
+        string EditUser(Users user);
         Users GetUser(int dealerId, int Id);
         int GetDealerId(int loggedInUserId);
-        List<Users> GetUsers(int leadId);
+        List<Users> GetUsersByLeadType(int leadId);
+        IEnumerable<Roles> GetUserRoleDropDown();
 
     }
 }

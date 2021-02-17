@@ -1,6 +1,7 @@
 ﻿
 using LMS.Web.DAL.Database;
 using LMS.Web.DAL.Interface;
+using Constants = LMS.Common.Constants;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -17,79 +18,128 @@ namespace LMS.Web.DAL.Repository
         {
             _db = new LMSAzureEntities();
         }
+
+        //Dealer Methods
         public bool CreateUser(Users user)
         {
-            //Check if user already exists or not
-            var emailId = _db.Users.Any(m => m.Email == user.Email);
-            if (!emailId)
+            try
             {
-                user.CreatedBy = (int)user.DealerId;
-                user.CreatedDate = DateTime.UtcNow;
-                user.IsActive = true;
-                _db.Users.Add(user);
-                _db.SaveChanges();
-                return true;
+                //Check if user already exists or not
+                var emailId = _db.Users.Any(m => m.Email == user.Email);
+                if (!emailId)
+                {
+                    user.CreatedBy = (int)user.DealerId;
+                    user.CreatedDate = DateTime.UtcNow;
+                    user.IsActive = true;
+                    _db.Users.Add(user);
+                    _db.SaveChanges();
+                    return "Success";
+                }
+                else
+                {
+                    return "Error occured.";
+                }
             }
-            else
+            catch (Exception)
             {
-                return false;
+                //TODO:Add Logger.
+                return "Error occured.";
+                throw;
             }
         }
-
         public bool EditUser(Users user)
         {
-            var userFromDb = _db.Users.Where(u => u.Id == user.Id).FirstOrDefault();
-            if (userFromDb != null)
+            try
             {
-                userFromDb.Name = user.Name;
-                userFromDb.MobileNumber = user.MobileNumber;
-                userFromDb.Password = user.Password;
-                userFromDb.Email = user.Email;
-                userFromDb.RoleId = user.RoleId;
-                userFromDb.UpdatedBy = user.DealerId;
-                userFromDb.UpdatedDate = DateTime.UtcNow;
-                _db.Entry(userFromDb).State = EntityState.Modified;
-                _db.SaveChanges();
-                return true;
+                var userFromDb = _db.Users.Where(u => u.Id == user.Id).FirstOrDefault();
+                if (userFromDb != null)
+                {
+                    userFromDb.Name = user.Name;
+                    userFromDb.MobileNumber = user.MobileNumber;
+                    userFromDb.Password = user.Password;
+                    userFromDb.Email = user.Email;
+                    userFromDb.RoleId = user.RoleId;
+                    userFromDb.UpdatedBy = user.DealerId;
+                    userFromDb.UpdatedDate = DateTime.UtcNow;
+                    _db.Entry(userFromDb).State = EntityState.Modified;
+                    _db.SaveChanges();
+                    return "Success";
+                }
+                return "Error occured";
             }
-            return false;
+            catch(Exception e)
+            {
+                //TODO:Add logger.
+                return "Error occured";
+                throw;
+            }
         }
-
         public Users GetUser(int dealerId, int Id)
         {
-            Users user = _db.Users.Where(u => u.Id == Id && u.DealerId == dealerId).FirstOrDefault();
-            if (user != null)
+            try
             {
-                return user;
-            }
-            else
-            {
+                Users user = _db.Users.Where(u => u.Id == Id && u.DealerId == dealerId).FirstOrDefault();
+                if (user != null)
+                {
+                    return user;
+                }
                 return null;
             }
+            catch (Exception)
+            {
+                //TODO:Add logger.
+                return null;
+                throw;
+            }
         }
-
-        public List<Users> UserDetails(int dealerId)
+        public List<Users> GetUsers(int dealerId)
         {
-            List<Users> list = _db.Users.Where(u => u.DealerId == dealerId && u.RoleId != 4).ToList();
+            List<Users> list = _db.Users.Where(u => u.DealerId == dealerId && u.Roles.RoleCode != Constants.Roles.Dealer).ToList();
             return list;
         }
-
         public int GetDealerId(int loggedInUserId)
         {
-            var dealerInDb = _db.Users.Find(loggedInUserId);
-            return (int)dealerInDb.DealerId;
+            try
+            {
+                var dealerInDb = _db.Users.Find(loggedInUserId);
+                return (int)dealerInDb.DealerId;
+            }
+            catch (Exception e)
+            {
+                //TODO:Add logger.
+                return 0;
+                throw;
+            }
+           
         }
-
-        public List<Users> GetUsers(int leadId) //Returns Users concerned with Lead Type (of provided leadId)
+        public List<Users> GetUsersByLeadType(int leadId)
         {
-            var lead = _db.Leads.Find(leadId); //fetching the lead based on leadId
-            var users = _db.Users //fetching users according to the lead type and dealerId
+            var lead = _db.Leads.Find(leadId);
+
+            //If Leads are Sales Leads, return Sales Users
+            if (lead.LeadType.LeadTypeCode == Constants.LeadType.Sales)
+            {
+                var users = _db.Users //fetching users according to the lead type and dealerId
                 .Where(u =>
-                u.RoleId == lead.LeadTypeId &&
+                    u.Roles.RoleCode == Constants.Roles.Sales &&
+                    u.DealerId == lead.DealerId)
+                    .ToList();
+                return users;
+            }
+            else //Return AfterSales Users
+            {
+                var users = _db.Users //fetching users according to the lead type and dealerId
+                .Where(u =>
+                u.Roles.RoleCode == Constants.Roles.AfterSales &&
                 u.DealerId == lead.DealerId)
                 .ToList();
+                return users;
+            }
+        }
 
-            return users;
+        public IEnumerable<Roles> GetUserRoleDropDown()
+        {
+            return _db.Roles;
         }
     }
 }

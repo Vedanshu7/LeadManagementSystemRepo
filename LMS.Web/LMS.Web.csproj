@@ -2109,8 +2109,8 @@
     <Content Include="Views\DealerManager\LeadList.cshtml" />
     <Content Include="Views\Sales\LeadList.cshtml" />
     <Content Include="Views\Sales\LeadDetails.cshtml" />
-    <Content Include="Views\AfterSales\Index.cshtml" />
-    <Content Include="Views\AfterSales\Details.cshtml" />
+    <Content Include="Views\AfterSales\LeadList.cshtml" />
+    <Content Include="Views\AfterSales\LeadDetails.cshtml" />
     <Content Include="Views\DealerManager\AssignLead.cshtml" />
   </ItemGroup>
   <ItemGroup>

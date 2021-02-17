@@ -24,18 +24,20 @@ namespace LMS.Web.BAL.Manager
             {
                 cfg.CreateMap<UserViewModel, Users>();
                 cfg.CreateMap<Users, UserViewModel>();
+                cfg.CreateMap<UserRoleViewModel, Roles>();
+                cfg.CreateMap<Roles, UserRoleViewModel>();
             });
 
             mapper = config.CreateMapper();
         }
-        public bool CreateUser(UserViewModel users, int dealerId)
+        public string CreateUser(UserViewModel users, int dealerId)
         {
             Users user = mapper.Map<UserViewModel, Users>(users);
             user.DealerId = dealerId;
             return _userRepository.CreateUser(user);
         }
 
-        public bool EditUser(UserViewModel users, int dealerId)
+        public string EditUser(UserViewModel users, int dealerId)
         {
             Users user = mapper.Map<UserViewModel, Users>(users);
             user.DealerId = dealerId;
@@ -57,10 +59,16 @@ namespace LMS.Web.BAL.Manager
 
         }
 
-        public List<UserViewModel> UserDetails(int dealerId)
+        public List<UserViewModel> GetUsers(int dealerId)
         {
-            List<Users> usersFromDb = _userRepository.UserDetails(dealerId);
+            List<Users> usersFromDb = _userRepository.GetUsers(dealerId);
             List<UserViewModel> users = mapper.Map<List<Users>, List<UserViewModel>>(usersFromDb);
+
+            //Populating Role Name Field
+            for (int i = 0; i < users.Count; i++)
+            {
+                users[i].Role = usersFromDb[i].Roles.Name;
+            }
             return users;
         }
 
@@ -69,11 +77,25 @@ namespace LMS.Web.BAL.Manager
             return _userRepository.GetDealerId(loggedInUserId);
         }
 
-        public List<UserViewModel> GetUsers(int leadId)
+        public List<UserViewModel> GetUsersByLeadType(int leadId)
         {
-            var usersFromDb = _userRepository.GetUsers(leadId);
+            var usersFromDb = _userRepository.GetUsersByLeadType(leadId);
             List<UserViewModel> users = mapper.Map<List<Users>, List<UserViewModel>>(usersFromDb);
+
+            //Populating Role Name Field
+            for (int i = 0; i < users.Count; i++)
+            {
+                users[i].Role = usersFromDb[i].Roles.Name;
+            }
+
             return users;
+        }
+
+        public IEnumerable<UserRoleViewModel> GetUserRoleDropDown()
+        {
+            var userRoleFromDb = _userRepository.GetUserRoleDropDown();
+            IEnumerable<UserRoleViewModel> roles = mapper.Map<IEnumerable<Roles>, IEnumerable<UserRoleViewModel>>(userRoleFromDb);
+            return roles;
         }
     }
 }

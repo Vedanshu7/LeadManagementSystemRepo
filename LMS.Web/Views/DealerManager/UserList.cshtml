@@ -28,7 +28,7 @@
                                         @Html.DisplayNameFor(model => model.MobileNumber)
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.RoleId)
+                                        @Html.DisplayNameFor(model => model.Role)
                                     </th>
                                     <th></th>
                                 </tr>
@@ -47,7 +47,7 @@
                                             @Html.DisplayFor(modelItem => item.MobileNumber)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.RoleId)
+                                            @Html.DisplayFor(modelItem => item.Role)
                                         </td>
                                         <td>
                                             @Html.ActionLink("Edit", "EditUser", new { Id = item.Id }, new { @class = "btn btn-outline-primary" })

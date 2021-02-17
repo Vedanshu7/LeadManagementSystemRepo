@@ -56,8 +56,16 @@
         <div class="form-group">
             @Html.LabelFor(model => model.LeadStatusId, "Lead Status", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("LeadStatusId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.LeadStatusId, "", new { @class = "text-danger" })
+                @Html.DropDownList("LeadStatusId", new List<SelectListItem>
+                {
+                   new SelectListItem{ Text="New", Value = "1" },
+                   new SelectListItem{ Text="Accepted", Value = "2" },
+                   new SelectListItem{ Text="CustomerContacted", Value = "3" },
+                   new SelectListItem{ Text="TestDriveBooked", Value = "4" },
+                   new SelectListItem{ Text="TestDriveDone", Value = "5" },
+                   new SelectListItem{ Text="SalesSuccess", Value = "6" },
+                   new SelectListItem{ Text="SalesLost", Value = "14" },
+                }, new { @class = "form-control" })
             </div>
         </div>
 

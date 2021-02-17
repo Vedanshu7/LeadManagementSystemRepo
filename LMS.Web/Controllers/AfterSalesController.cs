@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using LMS.Common;
 using LMS.Web.Attributes;
@@ -13,101 +10,93 @@ namespace LMS.Web.Controllers
     [Authenticate]
     [Authorization(RolesEnum.AfterSales)]
     public class AfterSalesController : Controller
-    {
-        //TODO: Separate AfterSales Manager
+    { 
         private readonly ILeadManager _leadManager;
         public AfterSalesController(ILeadManager leadManager)
         {
             _leadManager = leadManager;
         }
-        // GET: AfterSales
         public ActionResult Index()
+        {
+            return RedirectToAction("LeadList");
+        }
+
+        public ActionResult LeadList()
         {
             int loggedInUserId = (int)Session["loggedInId"];
             List<UserLeadViewModel> list = _leadManager.GetUserLeadList(loggedInUserId);
             return View(list);
         }
 
-        // GET: AfterSales/Details/5
-        public ActionResult Details(int id)
+        [HttpGet]
+        public ActionResult LeadDetails(int id)
         {
             int loggedInUserId = (int)Session["loggedInId"];
-            UserLeadViewModel list = _leadManager.GetLeadDetailForUser(loggedInUserId, id);
-            return View(list);
+            UserLeadViewModel lead = _leadManager.GetLeadDetailForUser(loggedInUserId, id);
+            if (lead != null)
+            {
+                return View(lead);
+            }
+            else
+            {
+                TempData["NotificationInfo"] = "Invalid operation";
+                return RedirectToAction("Index", "AfterSales");
+            }
         }
 
         [HttpPost]
-        public ActionResult Details(UserLeadViewModel model)
+        public ActionResult LeadDetails(UserLeadViewModel model)
         {
+            //TODO:Dropdown change in lead details page
+
             int loggedInUserId = (int)Session["loggedInId"];
             string result = _leadManager.UpdateLeadDetails(model, loggedInUserId);
             if (result == "Success")
-                return RedirectToAction("Index", "Sales");
-            return View();
-        }
-        // GET: AfterSales/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: AfterSales/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                TempData["NotificationSuccess"] = result;
+                return RedirectToAction("Index", "AfterSales");
             }
-            catch
+            else
             {
+                TempData["NotificationInfo"] = result;
                 return View();
             }
+
+
         }
 
-        // GET: AfterSales/Edit/5
-        public ActionResult Edit(int id)
+        [HttpGet]
+        public ActionResult AssignLead(int leadId)
         {
-            return View();
-        }
-
-        // POST: AfterSales/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
+            int loggedInUserId = (int)Session["loggedInId"];
+            var result = _leadManager.AssignLeadForUser(loggedInUserId, leadId);
+            if (result == "Success")
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                TempData["NotificationSuccess"] = result;
+                return RedirectToAction("LeadList");
             }
-            catch
+            else
             {
-                return View();
+                TempData["NotificationInfo"] = result;
+                return RedirectToAction("LeadList");
             }
         }
 
-        // GET: AfterSales/Delete/5
-        public ActionResult Delete(int id)
+        [HttpGet]
+        public ActionResult DeAssignLead(int leadId)
         {
-            return View();
-        }
-
-        // POST: AfterSales/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
+            int loggedInUserId = (int)Session["loggedInId"];
+            var result = _leadManager.DeAssignLeadForUser(loggedInUserId, leadId);
+            if (result == "Success")
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                TempData["NotificationSuccess"] = result;
+                return RedirectToAction("LeadList");
             }
-            catch
+            else
             {
-                return View();
+                //TODO: Add Error Notification
+                TempData["NotificationInfo"] = result;
+                return RedirectToAction("LeadList");
             }
         }
     }

@@ -1,6 +1,5 @@
 ﻿using LMS.Web.BAL.Interface;
 using LMS.Web.BAL.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -30,6 +29,7 @@ namespace LMS.Web.Controllers
         [HttpGet]
         public ActionResult CreateUser()
         {
+            ViewBag.RoleId = new SelectList(_userManager.GetUserRoleDropDown(), "Id", "Name");
             return View();
         }
 
@@ -41,15 +41,15 @@ namespace LMS.Web.Controllers
             {
                 int dealerId = (int)Session["dealerId"];
                 user.Password = PasswordEncryptor.Encryptor.Encryption(user.Password);
-                var data = _userManager.CreateUser(user, dealerId);
-                if (data == true)
+                var result = _userManager.CreateUser(user, dealerId);
+                if (result == "Success")
                 {
-                    TempData["NotificationSuccess"] = "User created successfully.";
-                    return RedirectToAction("UserDetails", "DealerManager");
+                    TempData["NotificationSuccess"] = result;
+                    return RedirectToAction("UserList", "DealerManager");
                 }
                 else
                 {
-                    TempData["NotificationInfo"] = "User already register with this details.";
+                    TempData["NotificationInfo"] = result;
                     return View();
                 }
             }
@@ -60,7 +60,7 @@ namespace LMS.Web.Controllers
         public ActionResult UserList()
         {
             int dealerId = (int)Session["dealerId"];
-            var users = _userManager.UserDetails(dealerId);
+            var users = _userManager.GetUsers(dealerId);
             return View(users);
         }
 
@@ -69,6 +69,8 @@ namespace LMS.Web.Controllers
         {
             int dealerId = (int)Session["dealerId"];
             UserViewModel user = _userManager.GetUser(dealerId, Id);
+
+            ViewBag.RoleId = new SelectList(_userManager.GetUserRoleDropDown(), "Id", "Name");
             return View(user);
         }
 
@@ -77,14 +79,15 @@ namespace LMS.Web.Controllers
         public ActionResult EditUser(UserViewModel user)
         {
             int dealerId = (int)Session["dealerId"];
-            if (_userManager.EditUser(user, dealerId))
+            var result = _userManager.EditUser(user, dealerId);
+            if (result=="Success")
             {
-                TempData["NotificationSuccess"] = "User details update successfully.";
-                return RedirectToAction("UserDetails", "DealerManager");
+                TempData["NotificationSuccess"] = result;
+                return RedirectToAction("UserList", "DealerManager");
             }
             else
             {
-                TempData["NotificationInfo"] = "Error occure while update details.";
+                TempData["NotificationInfo"] = result;
                 return View();
             }
         }
@@ -107,7 +110,7 @@ namespace LMS.Web.Controllers
             {
                 return RedirectToAction("LeadList");
             }
-            List<UserViewModel> users = _userManager.GetUsers(leadId);
+            List<UserViewModel> users = _userManager.GetUsersByLeadType(leadId);
 
             AssignLeadViewModel viewModel = new AssignLeadViewModel();
             viewModel.selectedLead = selectedLead;
