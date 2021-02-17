@@ -5,10 +5,82 @@
             <div class="card-header">
                 <h3 class="card-title">Lead List</h3>
             </div>
-
+           
             <!-- /.card-header -->
             <div class="card-body">
-                <div class="table-responsive">
+                <div class="row ">
+                    <div class="col-1">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default">Filter</button>
+                            <button type="button" class="btn btn-default dropdown-toggle dropdown-hover dropdown-icon" data-toggle="dropdown">
+                                <span class="sr-only">Toggle Dropdown</span>
+                                <div class="dropdown-menu" role="menu">
+                                    <a id="filters1" class="dropdown-item" href="#">Lead Type</a>
+                                    <a id="filters2" class="dropdown-item" href="#">Lead Status</a>
+                                    <a id="filters3" class="dropdown-item" href="#">Date</a>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="col-5" id="leadtypefilter" style="display:none">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    Lead Type
+                                </button>
+                                <ul class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; ">
+                                    <a id="type1" class="dropdown-item">SalesLead</a>
+                                    <a id="type2" class="dropdown-item">AfterSalesLead</a>
+                                </ul>
+                            </div>
+                            <input type="text" id="leadtypetext" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-5" id="leadstatusfilter" style="display:none">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    Lead Status
+                                </button>
+                                <ul class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; ">
+                                    <a id="status1" class="dropdown-item">New</a>
+                                    <a id="status2" class="dropdown-item">Accepted</a>
+                                </ul>
+                            </div>
+                            <input type="text" id="leadstatustext" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 pt-3" id="datefilter" style="display:none">
+                    <div class="row">
+                        <div class="col-sm-4 col-form-label">
+                            <label>Select Start And End Date:</label>
+                        </div>
+                        <div class="col-6">
+                            <div class="input-group">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <button type="button" class="btn btn-default float-right" id="daterange-btn">
+                                            <i class="far fa-calendar-alt"></i> Select Dates
+                                            <i class="fas fa-caret-down"></i>
+
+                                        </button>
+                                    </div>
+                                    <div class="col-1">
+                                        <button class="btn btn-danger" id="reset-date">Reset</button>
+                                    </div>
+                                    <span id="rangevalue"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1" id="datefilter3">
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="table-responsive pt-2">
                     <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
@@ -23,12 +95,7 @@
                                     <th>
                                         AssignedTo
                                     </th>
-                                    <th>
-                                        Email
-                                    </th>
-                                    <th>
-                                        Contact
-                                    </th>
+                                   
                                     <th>
                                         Status
                                     </th>
@@ -39,8 +106,9 @@
                                         ServiceType
                                     </th>
                                     <th>
-                                        Comments
+                                        Date
                                     </th>
+                                    
                                     <th></th>
                                 </tr>
 
@@ -59,12 +127,7 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.AssignedUserName)
                                         </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CustomerEmail)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CustomerContactNumber)
-                                        </td>
+                                       
                                         <td>
                                             @Html.DisplayFor(modelItem => item.LeadStatus)
                                         </td>
@@ -75,8 +138,9 @@
                                             @Html.DisplayFor(modelItem => item.ServiceType)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Comments)
+                                            @item.CreatedDate.ToString("dd/MM/yyyy")
                                         </td>
+                                        
                                         <td>
                                             @if (item.AssignedUserName != null)
                                             {
@@ -92,38 +156,7 @@
                                 }
 
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>
-                                        Name
-                                    </th>
-                                    <th>
-                                        Model
-                                    </th>
-                                    <th>
-                                        AssignedTo
-                                    </th>
-                                    <th>
-                                        Email
-                                    </th>
-                                    <th>
-                                        Contact
-                                    </th>
-                                    <th>
-                                        Status
-                                    </th>
-                                    <th>
-                                        Type
-                                    </th>
-                                    <th>
-                                        ServiceType
-                                    </th>
-                                    <th>
-                                        Comments
-                                    </th>
-                                    <th></th>
-                                </tr>
-                            </tfoot>
+                           
                         </table>
                     </div>
                 </div>
@@ -146,7 +179,39 @@
             toastr.error('@TempData["NotificationInfo"]');
         }
     });
+</script>
+<script>
+    $(document).ready(function () {
 
+        // Setup - add a text input to each footer cell
+        $("#filters1", this).click(function () {
+            $("#leadtypefilter").show();
 
+        });
+        $("#filters2", this).click(function () {
+            $("#leadstatusfilter").show();
 
+        });
+        $("#filters3", this).click(function () {
+            $("#datefilter").show();
+        });
+
+        $("#type1", this).click(function () {
+
+            $("#leadtypetext").val($(this).html().toString());
+        });
+        $("#type2", this).click(function () {
+
+            $("#leadtypetext").val($(this).html().toString());
+        });
+
+        $("#status1", this).click(function () {
+
+            $("#leadstatustext").val($(this).html().toString());
+        });
+        $("#status2", this).click(function () {
+
+            $("#leadstatustext").val($(this).html().toString());
+        });
+    });
 </script>

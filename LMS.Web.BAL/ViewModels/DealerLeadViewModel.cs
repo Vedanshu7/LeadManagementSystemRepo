@@ -17,6 +17,7 @@ namespace LMS.Web.BAL.ViewModels
         public string LeadStatus { get; set; }
         public string LeadType { get; set; }
         public string ServiceType { get; set; }
+        public DateTime CreatedDate { get; set; }
         public string Comments { get; set; }
     }
 }
