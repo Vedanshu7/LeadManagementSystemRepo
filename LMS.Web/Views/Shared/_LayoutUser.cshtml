@@ -29,7 +29,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    @Html.ActionLink("Home", "Index", "DealerManager", null, new { @class = "nav-link" })
+                    @Html.ActionLink("Home", "Index", "User", null, new { @class = "nav-link" })
                 </li>
             </ul>
 
@@ -40,8 +40,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <!-- Messages Dropdown Menu -->
                
                 <!-- Notifications Dropdown Menu -->
-                <li class="nav-item ">
-                    <a class="nav-link"  href="/Authentication/LogOff">
+                <li class="nav-item">
+                    <a class="nav-link" href="/Authentication/LogOff">
                         Log Out
                     </a>
                    
@@ -100,16 +100,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </ul>
                         </li>*@
                         <li class="nav-item">
-                            <a href="/DealerManager/UserList" class="nav-link">
-                                <i class="nav-icon fas fa-user"></i>
-                                <p>
-                                    Users
-
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/DealerManager/LeadList" class="nav-link">
+                            <a href="/User/LeadList" class="nav-link">
                                 <i class="nav-icon fas fa-list-ul "></i>
                                 <p>
                                     Leads
