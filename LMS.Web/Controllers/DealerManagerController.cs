@@ -34,6 +34,7 @@ namespace LMS.Web.Controllers
         }
 
         // POST: User
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult CreateUser(UserViewModel user)
         {
@@ -74,7 +75,7 @@ namespace LMS.Web.Controllers
             return View(user);
         }
 
-
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult EditUser(UserViewModel user)
         {

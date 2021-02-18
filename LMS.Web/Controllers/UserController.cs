@@ -47,6 +47,7 @@ namespace LMS.Web.Controllers
             }
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult LeadDetails(UserLeadViewModel model)
         {
