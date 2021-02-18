@@ -5,7 +5,7 @@
             <div class="card-header">
                 <h3 class="card-title">Lead List</h3>
             </div>
-           
+
             <!-- /.card-header -->
             <div class="card-body">
                 <div class="row ">
@@ -30,6 +30,7 @@
                                     Lead Type
                                 </button>
                                 <ul class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; ">
+                                    <a id="type0" class="dropdown-item">Clear</a>
                                     <a id="type1" class="dropdown-item">SalesLead</a>
                                     <a id="type2" class="dropdown-item">AfterSalesLead</a>
                                 </ul>
@@ -44,6 +45,7 @@
                                     Lead Status
                                 </button>
                                 <ul class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; ">
+                                    <a id="status0" class="dropdown-item">Clear</a>
                                     <a id="status1" class="dropdown-item">New</a>
                                     <a id="status2" class="dropdown-item">Accepted</a>
                                 </ul>
@@ -52,34 +54,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6 pt-3" id="datefilter" style="display:none">
-                    <div class="row">
-                        <div class="col-sm-4 col-form-label">
-                            <label>Select Start And End Date:</label>
-                        </div>
-                        <div class="col-6">
-                            <div class="input-group">
-                                <div class="row">
-                                    <div class="col-8">
-                                        <button type="button" class="btn btn-default float-right" id="daterange-btn">
-                                            <i class="far fa-calendar-alt"></i> Select Dates
-                                            <i class="fas fa-caret-down"></i>
-
-                                        </button>
-                                    </div>
-                                    <div class="col-1">
-                                        <button class="btn btn-danger" id="reset-date">Reset</button>
-                                    </div>
-                                    <span id="rangevalue"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-1" id="datefilter3">
-
-                        </div>
-                    </div>
-
-                </div>
+               
+               
                 <div class="table-responsive pt-2">
                     <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                         <table id="example1" class="table table-bordered table-striped">
@@ -95,7 +71,7 @@
                                     <th>
                                         AssignedTo
                                     </th>
-                                   
+
                                     <th>
                                         Status
                                     </th>
@@ -108,7 +84,7 @@
                                     <th>
                                         Date
                                     </th>
-                                    
+
                                     <th></th>
                                 </tr>
 
@@ -127,7 +103,7 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.AssignedUserName)
                                         </td>
-                                       
+
                                         <td>
                                             @Html.DisplayFor(modelItem => item.LeadStatus)
                                         </td>
@@ -137,10 +113,8 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.ServiceType)
                                         </td>
-                                        <td>
-                                            @item.CreatedDate.ToString("dd/MM/yyyy")
-                                        </td>
-                                        
+                                        <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
+
                                         <td>
                                             @if (item.AssignedUserName != null)
                                             {
@@ -156,7 +130,7 @@
                                 }
 
                             </tbody>
-                           
+
                         </table>
                     </div>
                 </div>
@@ -167,9 +141,164 @@
         <!-- /.card -->
     </div>
 </div>
-@Scripts.Render("~/bundles/jqueryval")
+
 @Scripts.Render("~/bundles/jquery")
 
+
+
+
+<script>
+    $(document).ready(function () {
+        var table = $('#example1').DataTable({
+            "dom": '<"toolbar">frtip'
+        });
+
+       
+        $("div.toolbar").html('<div class="input-group pt-2" id="datefilter" style="display:none;"> <div class="col-sm-2 col-form-label"> <label> Select Start And End Date:</label> </div> <input id="date_range" class="form-control col-sm-2"  placeholder="Select Dates" type="text"></div>');
+        //END of the data table
+
+        // Date range script - Start of the sscript
+        $("#date_range").daterangepicker({
+            autoUpdateInput: false,
+            locale: {
+                "cancelLabel": "Clear",
+            }
+        });
+
+        $("#date_range").on('apply.daterangepicker', function (ev, picker) {
+            $(this).val(picker.startDate.format('DD-MM-YYYY') + ' to ' + picker.endDate.format('DD-MM-YYYY'));
+            table.draw();
+        });
+
+        $("#date_range").on('cancel.daterangepicker', function (ev, picker) {
+            $(this).val('');
+            table.draw();
+        });
+        // Date range script - END of the script
+        $("#leadtypetext").keyup(function () {
+            if (table.column(4).search() !== $("#leadtypetext").val()) {
+                table
+                    .column(4)
+                    .search($("#leadtypetext").val())
+                    .draw();
+            }
+           
+        });
+
+        $("#type0,#type1,#type2", this).click(function () {
+
+            var value = $(this).html();
+            if (value == "Clear") {
+                value = "";
+            }
+            $("#leadtypetext").val(value.toString());
+            if (table.column(4).search() !== value.toString()) {
+                table
+                    .column(4)
+                    .search(value.toString())
+                    .draw();
+            }
+        });
+        $("#status0,#status1,#status2", this).click(function () {
+            var value = $(this).html();
+            if (value == "Clear") {
+                value = "";
+            }
+            $("#leadstatustext").val(value.toString());
+            if (table.column(3).search() !== value.toString()) {
+                table
+                    .column(3)
+                    .search(value.toString())
+                    .draw();
+            }
+        });
+       
+        $.fn.dataTable.ext.search.push(
+            function (settings, data, dataIndex) {
+                var value1 = $("#leadtypetext").val();
+                var value2 = $("#leadstatustext").val();
+                if (data[4].toString().startsWith(value1) && value1 !== "") {
+                    if (value2 !== "") {
+                        if (data[3].toString().startsWith(value2) && value2 !== "") {
+                            return true;
+                        }
+                        else {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+                if (data[3].toString().startsWith(value2) && value2 !== "") {
+                    if (value1 !== "") {
+                        if (data[4].toString().startsWith(value1) && value1 !== "") {
+                            return true;
+                        }
+                        else {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+                if (value1 === "") {
+                    if (value2 === "") {
+                        return true;
+                    }
+                    else {
+                        if (data[3].toString().startsWith(value2)) {
+                            return true;
+                        }
+                        else {
+                            return false;
+                        }
+                    }
+                }
+                if (value2 === "") {
+                    if (value1 === "") {
+                        return true;
+                    }
+                    else {
+                        if (data[4].toString().startsWith(value1)) {
+                            return true;
+                        }
+                        else {
+                            return false;
+                        }
+                    }
+                }
+                return false;
+            }
+        );
+        $.fn.dataTableExt.afnFiltering.push(
+            function (oSettings, aData, iDataIndex) {
+
+                var grab_daterange = $("#date_range").val();
+                var give_results_daterange = grab_daterange.split(" to ");
+                var filterstart = give_results_daterange[0];
+                var filterend = give_results_daterange[1];
+                var iStartDateCol = 6; //using column 2 in this instance
+                var iEndDateCol = 6;
+                var tabledatestart = aData[iStartDateCol];
+                var tabledateend = aData[iEndDateCol];
+
+                if (!filterstart && !filterend) {
+                    return true;
+                }
+                else if ((moment(filterstart).isSame(tabledatestart) || moment(filterstart).isBefore(tabledatestart)) && filterend === "") {
+                    return true;
+                }
+                else if ((moment(filterstart).isSame(tabledatestart) || moment(filterstart).isAfter(tabledatestart)) && filterstart === "") {
+                    return true;
+                }
+                else if ((moment(filterstart).isSame(tabledatestart) || moment(filterstart).isBefore(tabledatestart)) && (moment(filterend).isSame(tabledateend) || moment(filterend).isAfter(tabledateend))) {
+                    return true;
+                }
+                return false;
+            }
+        );
+
+        //End of the datable
+    });
+</script>
 <script>
     $(document).ready(function () {
         if ('@TempData["NotificationSuccess"]' != '') {
@@ -180,6 +309,7 @@
         }
     });
 </script>
+
 <script>
     $(document).ready(function () {
 
@@ -196,10 +326,7 @@
             $("#datefilter").show();
         });
 
-        $("#type1", this).click(function () {
-
-            $("#leadtypetext").val($(this).html().toString());
-        });
+       
         $("#type2", this).click(function () {
 
             $("#leadtypetext").val($(this).html().toString());
@@ -213,5 +340,6 @@
 
             $("#leadstatustext").val($(this).html().toString());
         });
+
     });
 </script>

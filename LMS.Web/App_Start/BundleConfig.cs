@@ -9,10 +9,10 @@ namespace LMS.Web
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/adminlte/plugins/jquery/jquery.min.js"));
+                        "~/Scripts/jquery-3.4.1.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*"));
+                        "~/Scripts/jquery.validate.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.
@@ -26,13 +26,12 @@ namespace LMS.Web
 
 
                      bundles.Add(new ScriptBundle("~/adminlte/js").Include(
-                        "~/adminlte/js/adminlte.min.js",
-                        "~/adminlte/js/demo.js",
-                        "~/adminlte/plugins/summernote/summernote-bs4.min.js",
-                        "~/adminlte/plugins/jquery/jquery.min.js",
-                        "~/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js",
-                        "~/adminlte/plugins/datatables/jquery.dataTables.min.js",
-                        "~/adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js",
+                         "~/adminlte/plugins/jquery/jquery.min.js",
+                         "~/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js",
+                         "~/adminlte/plugins/daterangepicker/moment.min.js",
+                         "~/adminlte/plugins/daterangepicker/daterangepicker.js",
+                          "~/adminlte/plugins/datatables/jquery.dataTables.min.js",
+                          "~/adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js",
                         "~/adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js",
                         "~/adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js",
                         "~/adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js",
@@ -43,7 +42,9 @@ namespace LMS.Web
                         "~/adminlte/plugins/datatables-buttons/js/buttons.html5.min.js",
                         "~/adminlte/plugins/datatables-buttons/js/buttons.print.min.js",
                         "~/adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js",
-                        "~/adminlte/plugins/toastr/toastr.min.js"
+                        "~/adminlte/plugins/toastr/toastr.min.js",
+                        "~/adminlte/js/adminlte.min.js",
+                        "~/adminlte/js/demo.js"
                         ));
         
 
