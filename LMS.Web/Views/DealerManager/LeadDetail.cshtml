@@ -1,0 +1,57 @@
+﻿@model LMS.Web.BAL.ViewModels.DealerLeadViewModel
+
+@{
+    ViewBag.Title = "LeadDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="pt-3">
+    <div class="card border-dark">
+        <div class="card-header"><b>Customer Name : </b> @Html.DisplayFor(model => model.CustomerName)</div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-4">
+                    <p class="card-text"><b>Model Name : </b> @Html.DisplayFor(model => model.ModelName) </p>
+                </div>
+                <div class="col-4">
+                    <p class="card-text"><b>AssignedUser Name : </b> @Html.DisplayFor(model => model.AssignedUserName)</p>
+                </div>
+                <div class="col-4">
+                    <p class="card-text"><b>Lead Status : </b> @Html.DisplayFor(model => model.LeadStatus)</p>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <p class="card-text"><b>Lead Type:</b> @Html.DisplayFor(model => model.LeadType)</p>
+
+                </div>
+                <div class="col-4">
+                    <p class="card-text">
+                        <b> Service Type:</b> @Html.DisplayFor(model => model.ServiceType)
+                    </p>
+                </div>
+                <div class="col-4">
+                    <p class="card-text">
+                        <b> Customer Email:</b>   @Html.DisplayFor(model => model.CustomerEmail)
+                    </p>
+                </div>
+
+            </div>
+
+
+
+
+            <p class="card-text"><b>Customer Number:</b>  @Html.DisplayFor(model => model.CustomerContactNumber)</p>
+
+        </div>
+        <div class="card-footer">
+            <b>Comments:</b> @Html.DisplayFor(model => model.Comments)
+        </div>
+    </div>
+
+    <p>
+
+        @Html.ActionLink("Back to List", "LeadList")
+    </p>
+</div>
