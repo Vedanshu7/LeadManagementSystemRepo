@@ -152,7 +152,8 @@
         var table = $('#example1').DataTable({
             "dom": '<"toolbar">frtip'
         });
-
+        var minDateFilter = "";
+        var  maxDateFilter = "";
 
         $("div.toolbar").html('<div class="input-group pt-2" id="datefilter" style="display:none;"> <div class="col-sm-2 col-form-label"> <label> Select Start And End Date:</label> </div> <input id="date_range" class="form-control col-sm-2"  placeholder="Select Dates" type="text"></div>');
         //END of the data table
@@ -166,12 +167,16 @@
         });
 
         $("#date_range").on('apply.daterangepicker', function (ev, picker) {
-            $(this).val(picker.startDate.format('DD-MM-YYYY') + ' to ' + picker.endDate.format('DD-MM-YYYY'));
+            $(this).val(picker.startDate.format('DD/MM/YYYY') + ' to ' + picker.endDate.format('DD/MM/YYYY'));
+            minDateFilter = new Date(picker.startDate.format('DD/MM/YYYY')).getTime();
+            maxDateFilter = new Date(picker.endDate.format('DD/MM/YYYY')).getTime();
             table.draw();
         });
 
         $("#date_range").on('cancel.daterangepicker', function (ev, picker) {
             $(this).val('');
+            minDateFilter = "";
+            maxDateFilter = "";
             table.draw();
         });
         // Date range script - END of the script
@@ -185,6 +190,15 @@
 
         });
 
+        $("#leadstatustext").keyup(function () {
+            if (table.column(3).search() !== $("#leadstatustext").val()) {
+                table
+                    .column(3)
+                    .search($("#leadstatustext").val())
+                    .draw();
+            }
+
+        });
         $("#leadstatustext").keyup(function () {
             if (table.column(3).search() !== $("#leadstatustext").val()) {
                 table
@@ -280,29 +294,23 @@
         );
         $.fn.dataTableExt.afnFiltering.push(
             function (oSettings, aData, iDataIndex) {
+                if (typeof aData._date == 'undefined') {
+                    aData._date = new Date(aData[6]).getTime();
+                }
+                aData._date = new Date(aData[6]).getTime();
+                if (minDateFilter && !isNaN(minDateFilter)) {
+                    if (aData._date < minDateFilter) {
+                        return false;
+                    }
+                }
 
-                var grab_daterange = $("#date_range").val();
-                var give_results_daterange = grab_daterange.split(" to ");
-                var filterstart = give_results_daterange[0];
-                var filterend = give_results_daterange[1];
-                var iStartDateCol = 6; //using column 2 in this instance
-                var iEndDateCol = 6;
-                var tabledatestart = aData[iStartDateCol];
-                var tabledateend = aData[iEndDateCol];
+                if (maxDateFilter && !isNaN(maxDateFilter)) {
+                    if (aData._date > maxDateFilter) {
+                        return false;
+                    }
+                }
 
-                if (!filterstart && !filterend) {
-                    return true;
-                }
-                else if ((moment(filterstart).isSame(tabledatestart) || moment(filterstart).isBefore(tabledatestart)) && filterend === "") {
-                    return true;
-                }
-                else if ((moment(filterstart).isSame(tabledatestart) || moment(filterstart).isAfter(tabledatestart)) && filterstart === "") {
-                    return true;
-                }
-                else if ((moment(filterstart).isSame(tabledatestart) || moment(filterstart).isBefore(tabledatestart)) && (moment(filterend).isSame(tabledateend) || moment(filterend).isAfter(tabledateend))) {
-                    return true;
-                }
-                return false;
+                return true;
             }
         );
 
