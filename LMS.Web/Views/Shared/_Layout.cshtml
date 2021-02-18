@@ -14,7 +14,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
-
+    
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -167,7 +167,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     @RenderSection("scripts", required: false)
     <script>
         $(function () {
-            $("#example1").DataTable({
+            $("#example").DataTable({
                 "responsive": true, "lengthChange": false, "autoWidth": false,
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
