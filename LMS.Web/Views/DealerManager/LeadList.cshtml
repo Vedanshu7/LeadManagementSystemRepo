@@ -54,8 +54,8 @@
                         </div>
                     </div>
                 </div>
-               
-               
+
+
                 <div class="table-responsive pt-2">
                     <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                         <table id="example1" class="table table-bordered table-striped">
@@ -93,7 +93,7 @@
                                 @foreach (var item in Model)
                                 {
 
-                                    <tr>
+                                    <tr onclick="return window.location.href = '/DealerManager/LeadDetail/@item.Id'" ) style="cursor:pointer;">
                                         <td>
                                             @Html.DisplayFor(modelItem => item.CustomerName)
                                         </td>
@@ -152,9 +152,9 @@
         var table = $('#example1').DataTable({
             "dom": '<"toolbar">frtip'
         });
-
         var minDateFilter = "";
         var  maxDateFilter = "";
+
         $("div.toolbar").html('<div class="input-group pt-2" id="datefilter" style="display:none;"> <div class="col-sm-2 col-form-label"> <label> Select Start And End Date:</label> </div> <input id="date_range" class="form-control col-sm-2"  placeholder="Select Dates" type="text"></div>');
         //END of the data table
 
@@ -187,7 +187,17 @@
                     .search($("#leadtypetext").val())
                     .draw();
             }
-           
+
+        });
+
+        $("#leadstatustext").keyup(function () {
+            if (table.column(3).search() !== $("#leadstatustext").val()) {
+                table
+                    .column(3)
+                    .search($("#leadstatustext").val())
+                    .draw();
+            }
+
         });
         $("#leadstatustext").keyup(function () {
             if (table.column(3).search() !== $("#leadstatustext").val()) {
@@ -226,7 +236,7 @@
                     .draw();
             }
         });
-       
+
         $.fn.dataTable.ext.search.push(
             function (settings, data, dataIndex) {
                 var value1 = $("#leadtypetext").val();
@@ -334,7 +344,7 @@
             $("#datefilter").show();
         });
 
-       
+
         $("#type2", this).click(function () {
 
             $("#leadtypetext").val($(this).html().toString());

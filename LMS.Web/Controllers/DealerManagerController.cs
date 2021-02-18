@@ -66,6 +66,22 @@ namespace LMS.Web.Controllers
         }
 
         [HttpGet]
+        public ActionResult UserDetail(int Id)
+        {
+            int dealerId = (int)Session["dealerId"];
+            UserViewModel user = _userManager.GetUser(dealerId, Id);
+            return View(user);
+        }
+
+        [HttpGet]
+        public ActionResult LeadDetail(int Id)
+        {
+            int dealerId = (int)Session["dealerId"];
+            DealerLeadViewModel selectedLead = _leadManager.GetLeadDetailForDealer(Id, dealerId);
+            return View(selectedLead);
+        }
+
+        [HttpGet]
         public ActionResult EditUser(int Id)
         {
             int dealerId = (int)Session["dealerId"];
@@ -81,7 +97,7 @@ namespace LMS.Web.Controllers
         {
             int dealerId = (int)Session["dealerId"];
             var result = _userManager.EditUser(user, dealerId);
-            if (result=="Success")
+            if (result == "Success")
             {
                 TempData["NotificationSuccess"] = result;
                 return RedirectToAction("UserList", "DealerManager");

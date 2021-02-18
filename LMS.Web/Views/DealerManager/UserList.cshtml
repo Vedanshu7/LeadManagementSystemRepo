@@ -13,7 +13,7 @@
 
             <!-- /.card-header -->
             <div class="card-body">
-                
+
                 <div class="table-responsive">
                     <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                         <table id="example1" class="table table-bordered table-striped">
@@ -38,7 +38,7 @@
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                    <tr>
+                                    <tr onclick="return window.location.href = '/DealerManager/UserDetail/@item.Id'" ) style="cursor:pointer;">
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Name)
                                         </td>

@@ -1,0 +1,29 @@
+﻿@model LMS.Web.BAL.ViewModels.UserViewModel
+
+@{
+    ViewBag.Title = "UserDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="pt-3">
+    <div class="card border-dark">
+        <div class="card-header"><b>User Name:</b> @Html.DisplayFor(model => model.Name)</div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-4">
+                    <p class="card-text"><b>Email:</b> @Html.DisplayFor(model => model.Email) </p>
+                </div>
+                <div class="col-4">
+                    <p class="card-text"><b>Mobile no:</b>  @Html.DisplayFor(model => model.MobileNumber)</p>
+                </div>
+                <div class="col-4">
+                    <p class="card-text"><b>Role:</b> @Html.DisplayFor(model => model.RoleId)</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <p>
+        @Html.ActionLink("Back to List", "UserList")
+    </p>
+</div>
