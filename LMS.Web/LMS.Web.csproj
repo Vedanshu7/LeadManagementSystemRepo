@@ -2109,6 +2109,7 @@
     <Content Include="Views\User\LeadList.cshtml" />
     <Content Include="Views\User\LeadDetails.cshtml" />
     <Content Include="Views\DealerManager\AssignLead.cshtml" />
+    <Content Include="Views\Shared\_LayoutUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
