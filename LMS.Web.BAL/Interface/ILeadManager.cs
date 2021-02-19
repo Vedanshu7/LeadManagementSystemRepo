@@ -10,6 +10,7 @@ namespace LMS.Web.BAL.Interface
         DealerLeadViewModel GetLeadDetailForDealer(int leadId, int dealerId);
         string AssignLeadForDealer(int selectedUserId, int leadId, int dealerId);
         string DeAssignLeadForDealer(int leadId, int dealerId);
+        List<DealerLeadViewModel> GetFilteredLeadList(FilterLeadListViewModel filterLead);
 
         //User
         List<UserLeadViewModel> GetUserLeadList(int loggedInUserId);
@@ -18,5 +19,6 @@ namespace LMS.Web.BAL.Interface
         string AssignLeadForUser(int loggedInUserId, int leadId);
         string DeAssignLeadForUser(int loggedInUserId, int leadId);
         IEnumerable<LeadStatusViewModel> GetLeadStatusDropDown(int leadId);
+        IEnumerable<LeadTypeViewModel> GetLeadTypeDropDown();
     }
 }

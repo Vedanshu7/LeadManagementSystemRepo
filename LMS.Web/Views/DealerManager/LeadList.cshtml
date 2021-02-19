@@ -8,315 +8,155 @@
 
             <!-- /.card-header -->
             <div class="card-body">
+            
+           
+            @using (Html.BeginForm("GetFilteredLeadList", "DealerManager", FormMethod.Post))
+            {
                 <div class="row ">
-                    <div class="col-1">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default">Filter</button>
-                            <button type="button" class="btn btn-default dropdown-toggle dropdown-hover dropdown-icon" data-toggle="dropdown">
-                                <span class="sr-only">Toggle Dropdown</span>
-                                <div class="dropdown-menu" role="menu">
-                                    <a id="filters1" class="dropdown-item" href="#">Lead Type</a>
-                                    <a id="filters2" class="dropdown-item" href="#">Lead Status</a>
-                                    <a id="filters3" class="dropdown-item" href="#">Date</a>
+                    <div class="col-3" id="leadtypefilter">
+                        <div class="row">
+                            <div class="col-3 col-form-label">
+                                @Html.Label("LeadType")
+                            </div>
+                            <div class="col-9">
+                                @Html.DropDownList("LeadTypeId", null, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3" id="leadstatusfilter">
+                        <div class="row">
+                            <div class="col-4 col-form-label">
+                                @Html.Label("LeadStatus")
+                            </div>
+                            <div class="col-8">
+                                @Html.DropDownList("LeadStatusId", null, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-5">
+
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="col-3 col-form-label">
+                                        @Html.Label("From:")
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="date" class="form-control" name="startDate" />
+                                    </div>
                                 </div>
-                            </button>
+                            </div>
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="col-3 col-form-label">
+                                        @Html.Label("To:")
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="date" class="form-control" name="endDate" />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="col-5" id="leadtypefilter" style="display:none">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    Lead Type
-                                </button>
-                                <ul class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; ">
-                                    <a id="type0" class="dropdown-item">Clear</a>
-                                    <a id="type1" class="dropdown-item">SalesLead</a>
-                                    <a id="type2" class="dropdown-item">AfterSalesLead</a>
-                                </ul>
-                            </div>
-                            <input type="text" id="leadtypetext" class="form-control">
-                        </div>
+
                     </div>
-                    <div class="col-5" id="leadstatusfilter" style="display:none">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    Lead Status
-                                </button>
-                                <ul class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; ">
-                                    <a id="status0" class="dropdown-item">Clear</a>
-                                    <a id="status1" class="dropdown-item">New</a>
-                                    <a id="status2" class="dropdown-item">Accepted</a>
-                                </ul>
-                            </div>
-                            <input type="text" id="leadstatustext" class="form-control">
-                        </div>
+                    <div class="col-1">
+                        <input type="submit" value="Filter" class="btn btn-outline-success" />
                     </div>
                 </div>
+            }
 
+            <div class="table-responsive pt-2">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
 
-                <div class="table-responsive pt-2">
-                    <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
-                        <table id="example1" class="table table-bordered table-striped">
-                            <thead>
+                            <tr>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Model
+                                </th>
+                                <th>
+                                    AssignedTo
+                                </th>
 
-                                <tr>
-                                    <th>
-                                        Name
-                                    </th>
-                                    <th>
-                                        Model
-                                    </th>
-                                    <th>
-                                        AssignedTo
-                                    </th>
+                                <th>
+                                    Status
+                                </th>
+                                <th>
+                                    Type
+                                </th>
+                                <th>
+                                    ServiceType
+                                </th>
+                                <th>
+                                    Date
+                                </th>
 
-                                    <th>
-                                        Status
-                                    </th>
-                                    <th>
-                                        Type
-                                    </th>
-                                    <th>
-                                        ServiceType
-                                    </th>
-                                    <th>
-                                        Date
-                                    </th>
+                                <th></th>
+                            </tr>
 
-                                    <th></th>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+
+                                <tr onclick="return window.location.href = '/DealerManager/LeadDetail/@item.Id'" ) style="cursor:pointer;">
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CustomerName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ModelName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.AssignedUserName)
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.LeadStatus)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.LeadType)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ServiceType)
+                                    </td>
+                                    <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
+
+                                    <td>
+                                        @if (item.AssignedUserName != null)
+                                        {
+                                            @Html.ActionLink("De-Assign", "Modify", new { operation = "DeAssign", leadId = item.Id }, new { @class = "btn btn-outline-danger" })
+
+                                        }
+                                        else
+                                        {
+                                            @Html.ActionLink("Assign", "Modify", new { operation = "Assign", leadId = item.Id }, new { @class = "btn btn-outline-success" })
+                                        }
+                                    </td>
                                 </tr>
+                            }
 
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model)
-                                {
+                        </tbody>
 
-                                    <tr onclick="return window.location.href = '/DealerManager/LeadDetail/@item.Id'" ) style="cursor:pointer;">
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CustomerName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ModelName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.AssignedUserName)
-                                        </td>
-
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.LeadStatus)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.LeadType)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ServiceType)
-                                        </td>
-                                        <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
-
-                                        <td>
-                                            @if (item.AssignedUserName != null)
-                                            {
-                                                @Html.ActionLink("De-Assign", "Modify", new { operation = "DeAssign", leadId = item.Id }, new { @class = "btn btn-outline-danger" })
-
-                                            }
-                                            else
-                                            {
-                                                @Html.ActionLink("Assign", "Modify", new { operation = "Assign", leadId = item.Id }, new { @class = "btn btn-outline-success" })
-                                            }
-                                        </td>
-                                    </tr>
-                                }
-
-                            </tbody>
-
-                        </table>
-                    </div>
+                    </table>
                 </div>
-
             </div>
-            <!-- /.card-body -->
+
         </div>
-        <!-- /.card -->
+       
     </div>
+    <!-- /.card -->
+</div>
 </div>
 
 @Scripts.Render("~/bundles/jquery")
 
-
-
-
-<script>
-    $(document).ready(function () {
-        var table = $('#example1').DataTable({
-            "dom": '<"toolbar">frtip'
-        });
-        var minDateFilter = "";
-        var  maxDateFilter = "";
-
-        $("div.toolbar").html('<div class="input-group pt-2" id="datefilter" style="display:none;"> <div class="col-sm-2 col-form-label"> <label> Select Start And End Date:</label> </div> <input id="date_range" class="form-control col-sm-2"  placeholder="Select Dates" type="text"></div>');
-        //END of the data table
-
-        // Date range script - Start of the sscript
-        $("#date_range").daterangepicker({
-            autoUpdateInput: false,
-            locale: {
-                "cancelLabel": "Clear",
-            }
-        });
-
-        $("#date_range").on('apply.daterangepicker', function (ev, picker) {
-            $(this).val(picker.startDate.format('DD/MM/YYYY') + ' to ' + picker.endDate.format('DD/MM/YYYY'));
-            minDateFilter = new Date(picker.startDate.format('DD/MM/YYYY')).getTime();
-            maxDateFilter = new Date(picker.endDate.format('DD/MM/YYYY')).getTime();
-            table.draw();
-        });
-
-        $("#date_range").on('cancel.daterangepicker', function (ev, picker) {
-            $(this).val('');
-            minDateFilter = "";
-            maxDateFilter = "";
-            table.draw();
-        });
-        // Date range script - END of the script
-        $("#leadtypetext").keyup(function () {
-            if (table.column(4).search() !== $("#leadtypetext").val()) {
-                table
-                    .column(4)
-                    .search($("#leadtypetext").val())
-                    .draw();
-            }
-
-        });
-
-        $("#leadstatustext").keyup(function () {
-            if (table.column(3).search() !== $("#leadstatustext").val()) {
-                table
-                    .column(3)
-                    .search($("#leadstatustext").val())
-                    .draw();
-            }
-
-        });
-        $("#leadstatustext").keyup(function () {
-            if (table.column(3).search() !== $("#leadstatustext").val()) {
-                table
-                    .column(3)
-                    .search($("#leadstatustext").val())
-                    .draw();
-            }
-
-        });
-
-        $("#type0,#type1,#type2", this).click(function () {
-
-            var value = $(this).html();
-            if (value == "Clear") {
-                value = "";
-            }
-            $("#leadtypetext").val(value.toString());
-            if (table.column(4).search() !== value.toString()) {
-                table
-                    .column(4)
-                    .search(value.toString())
-                    .draw();
-            }
-        });
-        $("#status0,#status1,#status2", this).click(function () {
-            var value = $(this).html();
-            if (value == "Clear") {
-                value = "";
-            }
-            $("#leadstatustext").val(value.toString());
-            if (table.column(3).search() !== value.toString()) {
-                table
-                    .column(3)
-                    .search(value.toString())
-                    .draw();
-            }
-        });
-
-        $.fn.dataTable.ext.search.push(
-            function (settings, data, dataIndex) {
-                var value1 = $("#leadtypetext").val();
-                var value2 = $("#leadstatustext").val();
-                if (data[4].toString().startsWith(value1) && value1 !== "") {
-                    if (value2 !== "") {
-                        if (data[3].toString().startsWith(value2) && value2 !== "") {
-                            return true;
-                        }
-                        else {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-                if (data[3].toString().startsWith(value2) && value2 !== "") {
-                    if (value1 !== "") {
-                        if (data[4].toString().startsWith(value1) && value1 !== "") {
-                            return true;
-                        }
-                        else {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-                if (value1 === "") {
-                    if (value2 === "") {
-                        return true;
-                    }
-                    else {
-                        if (data[3].toString().startsWith(value2)) {
-                            return true;
-                        }
-                        else {
-                            return false;
-                        }
-                    }
-                }
-                if (value2 === "") {
-                    if (value1 === "") {
-                        return true;
-                    }
-                    else {
-                        if (data[4].toString().startsWith(value1)) {
-                            return true;
-                        }
-                        else {
-                            return false;
-                        }
-                    }
-                }
-                return false;
-            }
-        );
-        $.fn.dataTableExt.afnFiltering.push(
-            function (oSettings, aData, iDataIndex) {
-                if (typeof aData._date == 'undefined') {
-                    aData._date = new Date(aData[6]).getTime();
-                }
-                aData._date = new Date(aData[6]).getTime();
-                if (minDateFilter && !isNaN(minDateFilter)) {
-                    if (aData._date < minDateFilter) {
-                        return false;
-                    }
-                }
-
-                if (maxDateFilter && !isNaN(maxDateFilter)) {
-                    if (aData._date > maxDateFilter) {
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-        );
-
-        //End of the datable
-    });
-</script>
 <script>
     $(document).ready(function () {
         if ('@TempData["NotificationSuccess"]' != '') {
@@ -325,39 +165,5 @@
         if ('@TempData["NotificationInfo"]' != '') {
             toastr.error('@TempData["NotificationInfo"]');
         }
-    });
-</script>
-
-<script>
-    $(document).ready(function () {
-
-        // Setup - add a text input to each footer cell
-        $("#filters1", this).click(function () {
-            $("#leadtypefilter").show();
-
-        });
-        $("#filters2", this).click(function () {
-            $("#leadstatusfilter").show();
-
-        });
-        $("#filters3", this).click(function () {
-            $("#datefilter").show();
-        });
-
-
-        $("#type2", this).click(function () {
-
-            $("#leadtypetext").val($(this).html().toString());
-        });
-
-        $("#status1", this).click(function () {
-
-            $("#leadstatustext").val($(this).html().toString());
-        });
-        $("#status2", this).click(function () {
-
-            $("#leadstatustext").val($(this).html().toString());
-        });
-
     });
 </script>

@@ -421,5 +421,10 @@ namespace LMS.Web.DAL.Repository
             var leadTypeId = _db.Leads.Where(l => l.Id == leadId).First().LeadTypeId;
             return _db.LeadStatus.Where(x => x.LeadTypeId == leadTypeId);
         }
+
+        public IEnumerable<LeadType> GetLeadTypeDropDown()
+        {
+            return _db.LeadType;
+        }
     }
 }

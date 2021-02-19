@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using LMS.Web.Attributes;
 using LMS.Common;
+using System;
 
 namespace LMS.Web.Controllers
 {
@@ -112,6 +113,8 @@ namespace LMS.Web.Controllers
         {
             int dealerId = (int)Session["dealerId"];
             List<DealerLeadViewModel> dealerLeadViewModels = _leadManager.GetDealerLeadList(dealerId);
+            ViewBag.LeadTypeId = new SelectList(_leadManager.GetLeadTypeDropDown(), "Id", "DisplayName");
+            ViewBag.LeadStatusId = new SelectList(_leadManager.GetLeadStatusDropDown(1), "Id", "DisplayName");
             return View(dealerLeadViewModels);
         }
 
@@ -181,6 +184,15 @@ namespace LMS.Web.Controllers
                     return RedirectToAction("LeadList");
             }
 
+        }
+
+        [HttpPost]
+        public ActionResult GetFilteredLeadList(FilterLeadListViewModel filterlead)
+        {
+            filterlead.loggedInUserId = (int)Session["loggedInId"];
+            //TODO: Check Start And End Date Is Valid Rnage
+            var leadList = _leadManager.GetFilteredLeadList(filterlead);
+            return View("LeadList",leadList);
         }
     }
 }

@@ -103,7 +103,9 @@
     <Compile Include="Token\TokenManager.cs" />
     <Compile Include="ViewModels\AssignLeadViewModel.cs" />
     <Compile Include="ViewModels\DealerLeadViewModel.cs" />
+    <Compile Include="ViewModels\FilterLeadListViewModel.cs" />
     <Compile Include="ViewModels\LeadStatusViewModel.cs" />
+    <Compile Include="ViewModels\LeadTypeViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="ViewModels\UserLeadViewModel.cs" />

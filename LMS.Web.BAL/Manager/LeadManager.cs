@@ -23,6 +23,7 @@ namespace LMS.Web.BAL.Manager
                  cfg.CreateMap<Leads, UserLeadViewModel>();
                  cfg.CreateMap<LeadStatusViewModel, LeadStatus>();
                  cfg.CreateMap<LeadStatus, LeadStatusViewModel>();
+                 cfg.CreateMap<LeadType, LeadTypeViewModel>();
              });
             mapper = config.CreateMapper();
         }
@@ -135,6 +136,18 @@ namespace LMS.Web.BAL.Manager
             var leadStatusFromDb = _leadRepository.GetLeadStatusDropDown(leadId);
             var leadStatusViewModels = mapper.Map<IEnumerable<LeadStatus>, IEnumerable<LeadStatusViewModel>>(leadStatusFromDb);
             return leadStatusViewModels;
+        }
+
+        public List<DealerLeadViewModel> GetFilteredLeadList(FilterLeadListViewModel filterLead)
+        {
+            return null;
+        }
+
+        public IEnumerable<LeadTypeViewModel> GetLeadTypeDropDown()
+        {
+            var leadType = _leadRepository.GetLeadTypeDropDown();
+            var leadTypeViewModel = mapper.Map<IEnumerable<LeadType>, IEnumerable<LeadTypeViewModel>>(leadType);
+            return leadTypeViewModel;
         }
     }
 }
