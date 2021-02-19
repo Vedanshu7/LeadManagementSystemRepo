@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using LMS.Web.DAL.Interface;
 using AutoMapper;
 using LMS.Web.DAL.Database;
+using System;
 
 namespace LMS.Web.BAL.Manager
 {
@@ -131,16 +132,36 @@ namespace LMS.Web.BAL.Manager
         {
             return _leadRepository.DeAssignLeadForUser(loggedInUserId, leadId);
         }
-        public IEnumerable<LeadStatusViewModel> GetLeadStatusDropDown(int leadId)
+        public IEnumerable<LeadStatusViewModel> GetLeadStatusDropDown(int loggedInUserId)
         {
-            var leadStatusFromDb = _leadRepository.GetLeadStatusDropDown(leadId);
+            var leadStatusFromDb = _leadRepository.GetLeadStatusDropDown(loggedInUserId);
             var leadStatusViewModels = mapper.Map<IEnumerable<LeadStatus>, IEnumerable<LeadStatusViewModel>>(leadStatusFromDb);
             return leadStatusViewModels;
         }
 
-        public List<DealerLeadViewModel> GetFilteredLeadList(FilterLeadListViewModel filterLead)
+        public List<DealerLeadViewModel> GetFilteredLeadList(FilterLeadListViewModel filter, int loggedInUserId)
         {
-            return null;
+            var leads = _leadRepository.GetFilteredLeadList(filter.startDate, filter.endDate, filter.leadStatusId, filter.leadTypeId, loggedInUserId);
+            List<DealerLeadViewModel> dealerLeads = new List<DealerLeadViewModel>();
+            foreach (var lead in leads)
+            {
+                DealerLeadViewModel dealerLead = new DealerLeadViewModel();
+                dealerLead.Id = lead.Id;
+                dealerLead.CustomerName = lead.CustomerName;
+                dealerLead.ModelName = lead.Models.Name;
+                if (lead.AssignedUserId != null)
+                    dealerLead.AssignedUserName = lead.Users.Name;
+                dealerLead.CustomerEmail = lead.CustomerEmail;
+                dealerLead.CustomerContactNumber = lead.CustomerContactNumber;
+                dealerLead.LeadStatus = lead.LeadStatus.DisplayName;
+                dealerLead.CreatedDate = lead.CreatedDate;
+                dealerLead.LeadType = lead.LeadType.DisplayName;
+                if (lead.ServiceId != null)
+                    dealerLead.ServiceType = lead.Services.Type;
+                dealerLead.Comments = lead.Comments;
+                dealerLeads.Add(dealerLead);
+            }
+            return dealerLeads;
         }
 
         public IEnumerable<LeadTypeViewModel> GetLeadTypeDropDown()

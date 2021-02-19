@@ -112,10 +112,28 @@ namespace LMS.Web.Controllers
         public ActionResult LeadList()
         {
             int dealerId = (int)Session["dealerId"];
+            int loggedInUserId = (int)Session["loggedInId"];
             List<DealerLeadViewModel> dealerLeadViewModels = _leadManager.GetDealerLeadList(dealerId);
             ViewBag.LeadTypeId = new SelectList(_leadManager.GetLeadTypeDropDown(), "Id", "DisplayName");
-            ViewBag.LeadStatusId = new SelectList(_leadManager.GetLeadStatusDropDown(1), "Id", "DisplayName");
-            return View(dealerLeadViewModels);
+            ViewBag.LeadStatusId = new SelectList(_leadManager.GetLeadStatusDropDown(loggedInUserId), "Id", "DisplayName");
+
+            var viewModel = new LeadViewModel() { Dealers = dealerLeadViewModels };
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult LeadList(LeadViewModel viewModel)
+        {
+            var loggedInUserId = (int)Session["loggedInId"];
+            //TODO: Check Start And End Date Is Valid Range
+            var leadList = _leadManager.GetFilteredLeadList(viewModel.Filters, loggedInUserId);
+
+            ViewBag.LeadTypeId = new SelectList(_leadManager.GetLeadTypeDropDown(), "Id", "DisplayName");
+            ViewBag.LeadStatusId = new SelectList(_leadManager.GetLeadStatusDropDown(loggedInUserId), "Id", "DisplayName");
+
+            viewModel.Dealers = leadList;
+
+            return View(viewModel);
         }
 
         [HttpGet]
@@ -184,15 +202,6 @@ namespace LMS.Web.Controllers
                     return RedirectToAction("LeadList");
             }
 
-        }
-
-        [HttpPost]
-        public ActionResult GetFilteredLeadList(FilterLeadListViewModel filterlead)
-        {
-            filterlead.loggedInUserId = (int)Session["loggedInId"];
-            //TODO: Check Start And End Date Is Valid Rnage
-            var leadList = _leadManager.GetFilteredLeadList(filterlead);
-            return View("LeadList",leadList);
         }
     }
 }

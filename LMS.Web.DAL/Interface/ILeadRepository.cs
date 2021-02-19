@@ -20,7 +20,7 @@ namespace LMS.Web.DAL.Interface
         string UpdateLeadDetails(Leads model, int loggedInUserId);
         string AssignLeadForUser(int loggedInUserId, int leadId);
         string DeAssignLeadForUser(int loggedInUserId, int leadId);
-        IEnumerable<LeadStatus> GetLeadStatusDropDown(int leadId);
+        IEnumerable<LeadStatus> GetLeadStatusDropDown(int loggedInUserId);
         IEnumerable<LeadType> GetLeadTypeDropDown();
     }
 }

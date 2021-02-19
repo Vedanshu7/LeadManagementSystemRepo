@@ -158,12 +158,11 @@ namespace LMS.Web.DAL.Repository
                 {
                     case Constants.Roles.Dealer:
                         var dealerLeads = _db.Leads.Where(l =>
-                            l.DealerId == loggedInUser.DealerId &&
-                            (leadStatusId == null ? true : l.LeadStatusId == leadStatusId) &&
-                            (leadTypeId == null ? true : l.LeadTypeId == leadTypeId) &&
-                            (startDate == null ? true : (l.CreatedDate >= startDate && l.CreatedDate <= endDate))
-                            )
-                            .ToList();
+                        l.DealerId == loggedInUser.DealerId &&
+                        (leadTypeId == null ? true : l.LeadTypeId == leadTypeId) &&
+                        (leadStatusId == null ? true : l.LeadStatusId == leadStatusId) &&
+                        (startDate == null ? true : (l.CreatedDate >= startDate && l.CreatedDate <= endDate)))
+                        .ToList();
                         return dealerLeads;
 
                     case Constants.Roles.Sales:
@@ -171,8 +170,8 @@ namespace LMS.Web.DAL.Repository
                            l.DealerId == loggedInUser.DealerId &&
                            l.LeadType.LeadTypeCode == Constants.LeadType.Sales && //Only return Sales Leads
                            (l.AssignedUserId == null || l.AssignedUserId == loggedInUserId) && //It has to be unassigned or assigned to self
-                           (leadStatusId == null ? true : l.LeadStatusId == leadStatusId) &&
                            (leadTypeId == null ? true : l.LeadTypeId == leadTypeId) &&
+                           (leadStatusId == null ? true : l.LeadStatusId == leadStatusId) &&
                            (startDate == null ? true : (l.CreatedDate >= startDate && l.CreatedDate <= endDate)))
                            .ToList();
                         return salesLeads;
@@ -182,8 +181,8 @@ namespace LMS.Web.DAL.Repository
                            l.DealerId == loggedInUser.DealerId &&
                            l.LeadType.LeadTypeCode == Constants.LeadType.AfterSales && //Only return Sales Leads
                            (l.AssignedUserId == null || l.AssignedUserId == loggedInUserId) && //It has to be unassigned or assigned to self
-                           (leadStatusId == null ? true : l.LeadStatusId == leadStatusId) &&
                            (leadTypeId == null ? true : l.LeadTypeId == leadTypeId) &&
+                           (leadStatusId == null ? true : l.LeadStatusId == leadStatusId) &&
                            (startDate == null ? true : (l.CreatedDate >= startDate && l.CreatedDate <= endDate)))
                            .ToList();
                         return afterSalesLeads;
@@ -204,7 +203,6 @@ namespace LMS.Web.DAL.Repository
         {
             try
             {
-                //TODO:Return Only LogedIn Dealers Leads
                 var user = _db.Users.Where(u => u.Id == loggedInUserId).First();
                 var lead = _db.Leads.Where(l => l.Id == id && l.DealerId == user.DealerId).FirstOrDefault();
                 if (lead == null)
@@ -237,7 +235,6 @@ namespace LMS.Web.DAL.Repository
                 throw;
             }
         }
-
         public List<Leads> GetUserLeadList(int loggedInUserId)
         {
             //TODO: Return both the lead types based on User Role type
@@ -416,12 +413,24 @@ namespace LMS.Web.DAL.Repository
                 throw;
             }
         }
-        public IEnumerable<LeadStatus> GetLeadStatusDropDown(int leadId)
-        {
-            var leadTypeId = _db.Leads.Where(l => l.Id == leadId).First().LeadTypeId;
-            return _db.LeadStatus.Where(x => x.LeadTypeId == leadTypeId);
-        }
 
+        //Dropdown Methods
+        public IEnumerable<LeadStatus> GetLeadStatusDropDown(int loggedInUserId)
+        {
+            var loggedInUser = _db.Users.Where(u => u.Id == loggedInUserId).First();
+
+            switch (loggedInUser.Roles.RoleCode)
+            {
+                case Constants.Roles.Dealer:
+                    return _db.LeadStatus;
+                case Constants.Roles.Sales:
+                    return _db.LeadStatus.Where(x => x.LeadType.LeadTypeCode == Constants.LeadType.Sales);
+                case Constants.Roles.AfterSales:
+                    return _db.LeadStatus.Where(x => x.LeadType.LeadTypeCode == Constants.LeadType.AfterSales);
+                default:
+                    return null;
+            }
+        }
         public IEnumerable<LeadType> GetLeadTypeDropDown()
         {
             return _db.LeadType;

@@ -37,7 +37,7 @@ namespace LMS.Web.Controllers
             if (lead != null)
             {
                 //Populating LeadStatus DropDown
-                ViewBag.LeadStatusId = new SelectList(_leadManager.GetLeadStatusDropDown(id), "Id", "DisplayName");
+                ViewBag.LeadStatusId = new SelectList(_leadManager.GetLeadStatusDropDown(loggedInUserId), "Id", "DisplayName");
                 return View(lead);
             }
             else
