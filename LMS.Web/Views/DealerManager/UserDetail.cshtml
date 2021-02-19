@@ -17,13 +17,13 @@
                     <p class="card-text"><b>Mobile no:</b>  @Html.DisplayFor(model => model.MobileNumber)</p>
                 </div>
                 <div class="col-4">
-                    <p class="card-text"><b>Role:</b> @Html.DisplayFor(model => model.RoleId)</p>
+                    <p class="card-text"><b>Role:</b> @Html.DisplayFor(model => model.Role)</p>
                 </div>
             </div>
 
         </div>
     </div>
     <p>
-        @Html.ActionLink("Back to List", "UserList")
+        <a href="/DealerManager/UserList" class="btn btn-secondary btn-lg " role="button" aria-pressed="true">Back</a>
     </p>
 </div>

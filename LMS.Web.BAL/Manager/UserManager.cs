@@ -50,6 +50,7 @@ namespace LMS.Web.BAL.Manager
             if (users != null)
             {
                 UserViewModel user = mapper.Map<Users, UserViewModel>(users);
+                user.Role = users.Roles.Name;
                 return user;
             }
             else
