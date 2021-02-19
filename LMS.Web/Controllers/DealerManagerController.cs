@@ -1,8 +1,6 @@
 ﻿using LMS.Web.BAL.Interface;
 using LMS.Web.BAL.ViewModels;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using LMS.Web.Attributes;
 using LMS.Common;

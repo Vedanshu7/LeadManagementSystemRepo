@@ -148,6 +148,56 @@ namespace LMS.Web.DAL.Repository
                 throw;
             }
         }
+        public List<Leads> GetFilteredLeadList(DateTime? startDate, DateTime? endDate, int? leadStatusId, int? leadTypeId, int loggedInUserId)
+        {
+            try
+            {
+                var loggedInUser = _db.Users.Where(u => u.Id == loggedInUserId).First();
+
+                switch (loggedInUser.Roles.RoleCode)
+                {
+                    case Constants.Roles.Dealer:
+                        var dealerLeads = _db.Leads.Where(l =>
+                            l.DealerId == loggedInUser.DealerId &&
+                            (leadStatusId == null ? true : l.LeadStatusId == leadStatusId) &&
+                            (leadTypeId == null ? true : l.LeadTypeId == leadTypeId) &&
+                            (startDate == null ? true : (l.CreatedDate >= startDate && l.CreatedDate <= endDate))
+                            )
+                            .ToList();
+                        return dealerLeads;
+
+                    case Constants.Roles.Sales:
+                        var salesLeads = _db.Leads.Where(l =>
+                           l.DealerId == loggedInUser.DealerId &&
+                           l.LeadType.LeadTypeCode == Constants.LeadType.Sales && //Only return Sales Leads
+                           (l.AssignedUserId == null || l.AssignedUserId == loggedInUserId) && //It has to be unassigned or assigned to self
+                           (leadStatusId == null ? true : l.LeadStatusId == leadStatusId) &&
+                           (leadTypeId == null ? true : l.LeadTypeId == leadTypeId) &&
+                           (startDate == null ? true : (l.CreatedDate >= startDate && l.CreatedDate <= endDate)))
+                           .ToList();
+                        return salesLeads;
+
+                    case Constants.Roles.AfterSales:
+                        var afterSalesLeads = _db.Leads.Where(l =>
+                           l.DealerId == loggedInUser.DealerId &&
+                           l.LeadType.LeadTypeCode == Constants.LeadType.AfterSales && //Only return Sales Leads
+                           (l.AssignedUserId == null || l.AssignedUserId == loggedInUserId) && //It has to be unassigned or assigned to self
+                           (leadStatusId == null ? true : l.LeadStatusId == leadStatusId) &&
+                           (leadTypeId == null ? true : l.LeadTypeId == leadTypeId) &&
+                           (startDate == null ? true : (l.CreatedDate >= startDate && l.CreatedDate <= endDate)))
+                           .ToList();
+                        return afterSalesLeads;
+                    default:
+                        return null;
+                }
+
+            }
+            catch (Exception)
+            {
+                //TODO: Add Logger
+                throw;
+            }
+        }
 
         //Users
         public Leads GetLeadDetailForUser(int loggedInUserId, int id)
@@ -187,6 +237,7 @@ namespace LMS.Web.DAL.Repository
                 throw;
             }
         }
+
         public List<Leads> GetUserLeadList(int loggedInUserId)
         {
             //TODO: Return both the lead types based on User Role type

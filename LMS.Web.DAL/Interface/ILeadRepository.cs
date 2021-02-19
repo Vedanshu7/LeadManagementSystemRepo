@@ -1,4 +1,5 @@
 ﻿using LMS.Web.DAL.Database;
+using System;
 using System.Collections.Generic;
 
 namespace LMS.Web.DAL.Interface
@@ -10,6 +11,8 @@ namespace LMS.Web.DAL.Interface
         Leads GetLeadDetailForDealer(int leadId, int dealerId);
         string AssignLeadForDealer(int selectedUserId, int leadId, int dealerId);
         string DeAssignLeadForDealer(int leadId, int dealerId);
+
+        List<Leads> GetFilteredLeadList(DateTime? startDate, DateTime? endDate, int? leadStatusId, int? leadTypeId, int loggedInUserId);
 
         //User
         List<Leads> GetUserLeadList(int loggedInUserId);

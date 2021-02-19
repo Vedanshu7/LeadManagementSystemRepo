@@ -130,7 +130,6 @@ namespace LMS.Web.BAL.Manager
         {
             return _leadRepository.DeAssignLeadForUser(loggedInUserId, leadId);
         }
-
         public IEnumerable<LeadStatusViewModel> GetLeadStatusDropDown(int leadId)
         {
             var leadStatusFromDb = _leadRepository.GetLeadStatusDropDown(leadId);
