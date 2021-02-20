@@ -111,13 +111,15 @@ namespace LMS.Web.Controllers
         [HttpGet]
         public ActionResult LeadList()
         {
-            int dealerId = (int)Session["dealerId"];
+            //int dealerId = (int)Session["dealerId"];
             int loggedInUserId = (int)Session["loggedInId"];
-            List<DealerLeadViewModel> dealerLeadViewModels = _leadManager.GetDealerLeadList(dealerId);
-            ViewBag.LeadTypeId = new SelectList(_leadManager.GetLeadTypeDropDown(), "Id", "DisplayName");
-            ViewBag.LeadStatusId = new SelectList(_leadManager.GetLeadStatusDropDown(loggedInUserId), "Id", "DisplayName");
+            List<DealerLeadViewModel> dealerLeadViewModels = _leadManager.GetLeadList(null, loggedInUserId);
 
-            var viewModel = new LeadViewModel() { Dealers = dealerLeadViewModels };
+            ViewBag.LeadTypeId = new SelectList(_leadManager.GetLeadTypeDropDown(), "Id", "DisplayName");
+            ViewBag.LeadStatusSales = new SelectList(_leadManager.GetLeadStatusDropDown(loggedInUserId, Common.Constants.LeadType.Sales), "Id", "DisplayName");
+            ViewBag.LeadStatusAfterSales = new SelectList(_leadManager.GetLeadStatusDropDown(loggedInUserId, Common.Constants.LeadType.AfterSales), "Id", "DisplayName");
+
+            var viewModel = new LeadViewModel() { Leads = dealerLeadViewModels };
             return View(viewModel);
         }
 
@@ -126,12 +128,13 @@ namespace LMS.Web.Controllers
         {
             var loggedInUserId = (int)Session["loggedInId"];
             //TODO: Check Start And End Date Is Valid Range
-            var leadList = _leadManager.GetFilteredLeadList(viewModel.Filters, loggedInUserId);
+            var leadList = _leadManager.GetLeadList(viewModel.Filters, loggedInUserId);
 
             ViewBag.LeadTypeId = new SelectList(_leadManager.GetLeadTypeDropDown(), "Id", "DisplayName");
-            ViewBag.LeadStatusId = new SelectList(_leadManager.GetLeadStatusDropDown(loggedInUserId), "Id", "DisplayName");
+            ViewBag.LeadStatusSales = new SelectList(_leadManager.GetLeadStatusDropDown(loggedInUserId, Common.Constants.LeadType.Sales), "Id", "DisplayName");
+            ViewBag.LeadStatusAfterSales = new SelectList(_leadManager.GetLeadStatusDropDown(loggedInUserId, Common.Constants.LeadType.AfterSales), "Id", "DisplayName");
 
-            viewModel.Dealers = leadList;
+            viewModel.Leads = leadList;
 
             return View(viewModel);
         }

@@ -17,20 +17,58 @@ namespace LMS.Web.DAL.Repository
             _db = new LMSAzureEntities();
         }
 
-        //Dealers
-        public List<Leads> GetDealerLeadList(int dealerId)
+        //Common
+        public List<Leads> GetLeadList(DateTime? startDate, DateTime? endDate, int? leadStatusId, int? leadTypeId, int loggedInUserId)
         {
             try
             {
-                return _db.Leads.Where(m => m.DealerId == dealerId).ToList();
+                var loggedInUser = _db.Users.Where(u => u.Id == loggedInUserId).First();
+
+                switch (loggedInUser.Roles.RoleCode)
+                {
+                    case Constants.Roles.Dealer:
+                        var dealerLeads = _db.Leads.Where(l =>
+                        l.DealerId == loggedInUser.DealerId &&
+                        (leadTypeId == null ? true : l.LeadTypeId == leadTypeId) &&
+                        (leadStatusId == null ? true : l.LeadStatusId == leadStatusId) &&
+                        (startDate == null ? true : (l.CreatedDate >= startDate && l.CreatedDate <= endDate)))
+                        .ToList();
+                        return dealerLeads;
+
+                    case Constants.Roles.Sales:
+                        var salesLeads = _db.Leads.Where(l =>
+                           l.DealerId == loggedInUser.DealerId &&
+                           l.LeadType.LeadTypeCode == Constants.LeadType.Sales && //Only return Sales Leads
+                           (l.AssignedUserId == null || l.AssignedUserId == loggedInUserId) && //It has to be unassigned or assigned to self
+                           (leadTypeId == null ? true : l.LeadTypeId == leadTypeId) &&
+                           (leadStatusId == null ? true : l.LeadStatusId == leadStatusId) &&
+                           (startDate == null ? true : (l.CreatedDate >= startDate && l.CreatedDate <= endDate)))
+                           .ToList();
+                        return salesLeads;
+
+                    case Constants.Roles.AfterSales:
+                        var afterSalesLeads = _db.Leads.Where(l =>
+                           l.DealerId == loggedInUser.DealerId &&
+                           l.LeadType.LeadTypeCode == Constants.LeadType.AfterSales && //Only return Sales Leads
+                           (l.AssignedUserId == null || l.AssignedUserId == loggedInUserId) && //It has to be unassigned or assigned to self
+                           (leadTypeId == null ? true : l.LeadTypeId == leadTypeId) &&
+                           (leadStatusId == null ? true : l.LeadStatusId == leadStatusId) &&
+                           (startDate == null ? true : (l.CreatedDate >= startDate && l.CreatedDate <= endDate)))
+                           .ToList();
+                        return afterSalesLeads;
+                    default:
+                        return null;
+                }
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                //TODO: Add Logger.
+                //TODO: Add Logger
                 throw;
             }
         }
+
+        //Dealers
         public Leads GetLeadDetailForDealer(int leadId, int dealerId)
         {
             try
@@ -57,7 +95,6 @@ namespace LMS.Web.DAL.Repository
                     }
 
                     //Check if it's Sales - 1 or AfterSales - 2
-
                     if (lead.LeadType.LeadTypeCode == Constants.LeadType.Sales) //If it's Sales
                     {
                         //Only assign if userToBeAssigned is Sales
@@ -148,55 +185,7 @@ namespace LMS.Web.DAL.Repository
                 throw;
             }
         }
-        public List<Leads> GetFilteredLeadList(DateTime? startDate, DateTime? endDate, int? leadStatusId, int? leadTypeId, int loggedInUserId)
-        {
-            try
-            {
-                var loggedInUser = _db.Users.Where(u => u.Id == loggedInUserId).First();
 
-                switch (loggedInUser.Roles.RoleCode)
-                {
-                    case Constants.Roles.Dealer:
-                        var dealerLeads = _db.Leads.Where(l =>
-                        l.DealerId == loggedInUser.DealerId &&
-                        (leadTypeId == null ? true : l.LeadTypeId == leadTypeId) &&
-                        (leadStatusId == null ? true : l.LeadStatusId == leadStatusId) &&
-                        (startDate == null ? true : (l.CreatedDate >= startDate && l.CreatedDate <= endDate)))
-                        .ToList();
-                        return dealerLeads;
-
-                    case Constants.Roles.Sales:
-                        var salesLeads = _db.Leads.Where(l =>
-                           l.DealerId == loggedInUser.DealerId &&
-                           l.LeadType.LeadTypeCode == Constants.LeadType.Sales && //Only return Sales Leads
-                           (l.AssignedUserId == null || l.AssignedUserId == loggedInUserId) && //It has to be unassigned or assigned to self
-                           (leadTypeId == null ? true : l.LeadTypeId == leadTypeId) &&
-                           (leadStatusId == null ? true : l.LeadStatusId == leadStatusId) &&
-                           (startDate == null ? true : (l.CreatedDate >= startDate && l.CreatedDate <= endDate)))
-                           .ToList();
-                        return salesLeads;
-
-                    case Constants.Roles.AfterSales:
-                        var afterSalesLeads = _db.Leads.Where(l =>
-                           l.DealerId == loggedInUser.DealerId &&
-                           l.LeadType.LeadTypeCode == Constants.LeadType.AfterSales && //Only return Sales Leads
-                           (l.AssignedUserId == null || l.AssignedUserId == loggedInUserId) && //It has to be unassigned or assigned to self
-                           (leadTypeId == null ? true : l.LeadTypeId == leadTypeId) &&
-                           (leadStatusId == null ? true : l.LeadStatusId == leadStatusId) &&
-                           (startDate == null ? true : (l.CreatedDate >= startDate && l.CreatedDate <= endDate)))
-                           .ToList();
-                        return afterSalesLeads;
-                    default:
-                        return null;
-                }
-
-            }
-            catch (Exception)
-            {
-                //TODO: Add Logger
-                throw;
-            }
-        }
 
         //Users
         public Leads GetLeadDetailForUser(int loggedInUserId, int id)
@@ -231,45 +220,6 @@ namespace LMS.Web.DAL.Repository
             }
             catch (Exception)
             {
-                return null;
-                throw;
-            }
-        }
-        public List<Leads> GetUserLeadList(int loggedInUserId)
-        {
-            //TODO: Return both the lead types based on User Role type
-            try
-            {
-                var loggedInUser = _db.Users.Where(u => u.Id == loggedInUserId).First();
-
-                var dealerId = _db.Users.Find(loggedInUserId).DealerId;
-
-                //If user is Sales, return Sales leads
-                if (loggedInUser.Roles.RoleCode == Constants.Roles.Sales)
-                {
-                    List<Leads> list = _db.Leads.
-                    Where(
-                    m => m.DealerId == dealerId && //To return only concerned dealers
-                    m.LeadType.LeadTypeCode == Constants.LeadType.Sales &&  //To return only Sales Leads
-                    (m.AssignedUserId == null || m.AssignedUserId == loggedInUserId)) //Either the Lead has to be Unassigned, or assigned to the current user
-                    .ToList();
-                    return list;
-                }
-                else
-                {
-                    List<Leads> list = _db.Leads.
-                    Where(
-                    m => m.DealerId == dealerId && //To return only concerned dealers
-                    m.LeadType.LeadTypeCode == Constants.LeadType.AfterSales &&  //To return only AfterSales Leads
-                    (m.AssignedUserId == null || m.AssignedUserId == loggedInUserId)) //Either the Lead has to be Unassigned, or assigned to the current user
-                    .ToList();
-                    return list;
-                }
-
-            }
-            catch (Exception e)
-            {
-                //TODO: Add Logger
                 return null;
                 throw;
             }
@@ -415,14 +365,15 @@ namespace LMS.Web.DAL.Repository
         }
 
         //Dropdown Methods
-        public IEnumerable<LeadStatus> GetLeadStatusDropDown(int loggedInUserId)
+        public IEnumerable<LeadStatus> GetLeadStatusDropDown(int loggedInUserId, string leadTypeCode)
         {
             var loggedInUser = _db.Users.Where(u => u.Id == loggedInUserId).First();
 
             switch (loggedInUser.Roles.RoleCode)
             {
                 case Constants.Roles.Dealer:
-                    return _db.LeadStatus;
+                    return _db.LeadStatus.Where(l =>
+                       (string.IsNullOrEmpty(leadTypeCode) ? true : l.LeadType.LeadTypeCode == leadTypeCode));
                 case Constants.Roles.Sales:
                     return _db.LeadStatus.Where(x => x.LeadType.LeadTypeCode == Constants.LeadType.Sales);
                 case Constants.Roles.AfterSales:

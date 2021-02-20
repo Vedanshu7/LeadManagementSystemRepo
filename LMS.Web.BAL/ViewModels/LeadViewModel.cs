@@ -8,7 +8,7 @@ namespace LMS.Web.BAL.ViewModels
 {
     public class LeadViewModel
     {
-        public IEnumerable<DealerLeadViewModel> Dealers { get; set; }
+        public IEnumerable<DealerLeadViewModel> Leads { get; set; }
         public FilterLeadListViewModel Filters { get; set; }
     }
 }

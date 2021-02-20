@@ -22,11 +22,27 @@ namespace LMS.Web.Controllers
             return RedirectToAction("LeadList");
         }
 
+        [HttpGet]
         public ActionResult LeadList()
         {
             int loggedInUserId = (int)Session["loggedInId"];
-            List<UserLeadViewModel> list = _leadManager.GetUserLeadList(loggedInUserId);
-            return View(list);
+            List<DealerLeadViewModel> leads = _leadManager.GetLeadList(null, loggedInUserId);
+            ViewBag.LeadStatus = new SelectList(_leadManager.GetLeadStatusDropDown(loggedInUserId), "Id", "DisplayName");
+
+            var viewModel = new LeadViewModel() { Leads = leads };
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult LeadList(LeadViewModel viewModel)
+        {
+            int loggedInUserId = (int)Session["loggedInId"];
+            //TODO: Check Start And End Date Is Valid Range
+            var leadList = _leadManager.GetLeadList(viewModel.Filters, loggedInUserId);
+            ViewBag.LeadStatus = new SelectList(_leadManager.GetLeadStatusDropDown(loggedInUserId), "Id", "DisplayName");
+
+            viewModel.Leads = leadList;
+            return View(viewModel);
         }
 
         [HttpGet]
@@ -37,7 +53,7 @@ namespace LMS.Web.Controllers
             if (lead != null)
             {
                 //Populating LeadStatus DropDown
-                ViewBag.LeadStatusId = new SelectList(_leadManager.GetLeadStatusDropDown(loggedInUserId), "Id", "DisplayName");
+                ViewBag.LeadStatusId = new SelectList(_leadManager.GetLeadStatusDropDown(loggedInUserId, ""), "Id", "DisplayName");
                 return View(lead);
             }
             else
@@ -96,7 +112,6 @@ namespace LMS.Web.Controllers
             }
             else
             {
-
                 TempData["NotificationInfo"] = result;
                 return RedirectToAction("LeadList");
             }

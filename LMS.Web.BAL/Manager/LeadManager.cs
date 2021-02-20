@@ -28,32 +28,8 @@ namespace LMS.Web.BAL.Manager
              });
             mapper = config.CreateMapper();
         }
-        //Dealers
-        public List<DealerLeadViewModel> GetDealerLeadList(int dealerId)
-        {
-            var leads = _leadRepository.GetDealerLeadList(dealerId);
-            List<DealerLeadViewModel> dealerLeads = new List<DealerLeadViewModel>();
-            foreach (var lead in leads)
-            {
-                DealerLeadViewModel dealerLead = new DealerLeadViewModel();
-                dealerLead.Id = lead.Id;
-                dealerLead.CustomerName = lead.CustomerName;
-                dealerLead.ModelName = lead.Models.Name;
-                if (lead.AssignedUserId != null)
-                    dealerLead.AssignedUserName = lead.Users.Name;
-                dealerLead.CustomerEmail = lead.CustomerEmail;
-                dealerLead.CustomerContactNumber = lead.CustomerContactNumber;
-                dealerLead.LeadStatus = lead.LeadStatus.DisplayName;
-                dealerLead.CreatedDate = lead.CreatedDate;
-                dealerLead.LeadType = lead.LeadType.DisplayName;
-                if (lead.ServiceId != null)
-                    dealerLead.ServiceType = lead.Services.Type;
-                dealerLead.Comments = lead.Comments;
-                dealerLeads.Add(dealerLead);
-            }
 
-            return dealerLeads;
-        }
+        //Dealers
         public DealerLeadViewModel GetLeadDetailForDealer(int leadId, int dealerId)
         {
             var lead = _leadRepository.GetLeadDetailForDealer(leadId, dealerId);
@@ -102,21 +78,6 @@ namespace LMS.Web.BAL.Manager
             }
             return null;
         }
-        public List<UserLeadViewModel> GetUserLeadList(int loggedInUserId)
-        {
-            List<Leads> leadsFromDb = _leadRepository.GetUserLeadList(loggedInUserId);
-
-            List<UserLeadViewModel> salesLeads = mapper.Map<List<Leads>, List<UserLeadViewModel>>(leadsFromDb);
-            for (int i = 0; i < salesLeads.Count; i++)
-            {
-                salesLeads[i].LeadStatus = leadsFromDb[i].LeadStatus.DisplayName;
-                salesLeads[i].ModelName = leadsFromDb[i].Models.Name;
-                if (leadsFromDb[i].AssignedUserId != null)
-                    salesLeads[i].AssignedUserName = leadsFromDb[i].Users.Name;
-            }
-            return salesLeads;
-
-        }
         public string UpdateLeadDetails(UserLeadViewModel model, int loggedInUserId)
         {
             //TODO:Map lead status id.
@@ -132,16 +93,20 @@ namespace LMS.Web.BAL.Manager
         {
             return _leadRepository.DeAssignLeadForUser(loggedInUserId, leadId);
         }
-        public IEnumerable<LeadStatusViewModel> GetLeadStatusDropDown(int loggedInUserId)
-        {
-            var leadStatusFromDb = _leadRepository.GetLeadStatusDropDown(loggedInUserId);
-            var leadStatusViewModels = mapper.Map<IEnumerable<LeadStatus>, IEnumerable<LeadStatusViewModel>>(leadStatusFromDb);
-            return leadStatusViewModels;
-        }
 
-        public List<DealerLeadViewModel> GetFilteredLeadList(FilterLeadListViewModel filter, int loggedInUserId)
+        //Common
+        public List<DealerLeadViewModel> GetLeadList(FilterLeadListViewModel filter, int loggedInUserId)
         {
-            var leads = _leadRepository.GetFilteredLeadList(filter.startDate, filter.endDate, filter.leadStatusId, filter.leadTypeId, loggedInUserId);
+            List<Leads> leads;
+            if (filter != null)
+            {
+                leads = _leadRepository.GetLeadList(filter.startDate, filter.endDate, filter.leadStatusId, filter.leadTypeId, loggedInUserId);
+            }
+            else
+            {
+                leads = _leadRepository.GetLeadList(null, null, null, null, loggedInUserId);
+            }
+
             List<DealerLeadViewModel> dealerLeads = new List<DealerLeadViewModel>();
             foreach (var lead in leads)
             {
@@ -164,11 +129,18 @@ namespace LMS.Web.BAL.Manager
             return dealerLeads;
         }
 
+        //Dropdowns
         public IEnumerable<LeadTypeViewModel> GetLeadTypeDropDown()
         {
             var leadType = _leadRepository.GetLeadTypeDropDown();
             var leadTypeViewModel = mapper.Map<IEnumerable<LeadType>, IEnumerable<LeadTypeViewModel>>(leadType);
             return leadTypeViewModel;
+        }
+        public IEnumerable<LeadStatusViewModel> GetLeadStatusDropDown(int loggedInUserId, string leadTypeCode)
+        {
+            var leadStatusFromDb = _leadRepository.GetLeadStatusDropDown(loggedInUserId, leadTypeCode);
+            var leadStatusViewModels = mapper.Map<IEnumerable<LeadStatus>, IEnumerable<LeadStatusViewModel>>(leadStatusFromDb);
+            return leadStatusViewModels;
         }
     }
 }
