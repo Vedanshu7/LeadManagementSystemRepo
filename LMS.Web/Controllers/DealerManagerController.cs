@@ -113,13 +113,13 @@ namespace LMS.Web.Controllers
         {
             //int dealerId = (int)Session["dealerId"];
             int loggedInUserId = (int)Session["loggedInId"];
-            List<DealerLeadViewModel> dealerLeadViewModels = _leadManager.GetLeadList(null, loggedInUserId);
+            var filter = new FilterLeadListViewModel();
+            List<DealerLeadViewModel> dealerLeadViewModels = _leadManager.GetLeadList(filter, loggedInUserId);
 
             ViewBag.LeadTypeId = new SelectList(_leadManager.GetLeadTypeDropDown(), "Id", "DisplayName");
             ViewBag.LeadStatusSales = new SelectList(_leadManager.GetLeadStatusDropDown(loggedInUserId, Common.Constants.LeadType.Sales), "Id", "DisplayName");
             ViewBag.LeadStatusAfterSales = new SelectList(_leadManager.GetLeadStatusDropDown(loggedInUserId, Common.Constants.LeadType.AfterSales), "Id", "DisplayName");
-
-            var viewModel = new LeadViewModel() { Leads = dealerLeadViewModels };
+            var viewModel = new LeadViewModel() { Leads = dealerLeadViewModels, Filters = filter };
             return View(viewModel);
         }
 

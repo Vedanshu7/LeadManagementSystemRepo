@@ -26,7 +26,7 @@ namespace LMS.Web.Controllers
         public ActionResult LeadList()
         {
             int loggedInUserId = (int)Session["loggedInId"];
-            List<DealerLeadViewModel> leads = _leadManager.GetLeadList(null, loggedInUserId);
+            List<DealerLeadViewModel> leads = _leadManager.GetLeadList(new FilterLeadListViewModel(), loggedInUserId);
             ViewBag.LeadStatus = new SelectList(_leadManager.GetLeadStatusDropDown(loggedInUserId), "Id", "DisplayName");
 
             var viewModel = new LeadViewModel() { Leads = leads };
