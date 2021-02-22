@@ -1,5 +1,5 @@
 ﻿using System.Web.Mvc;
-using LMS.Web.BAL.Email;
+
 using LMS.Common.Email;
 using LMS.Web.BAL.Interface;
 using LMS.Web.BAL.ViewModels;

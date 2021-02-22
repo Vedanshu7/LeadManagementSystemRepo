@@ -6,8 +6,6 @@ using LMS.Common.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LMS.Api.DAL.Repository
 {
@@ -23,6 +21,7 @@ namespace LMS.Api.DAL.Repository
         {
             try
             {
+                //Mapping LeadDto -> Leads
                 var lead = new Leads();
                 lead.CustomerName = leadDto.CustomerName;
                 lead.DealerId = _db.Dealers.Where(d => d.DealerCode == leadDto.DealerCode).First().Id;
@@ -55,16 +54,41 @@ namespace LMS.Api.DAL.Repository
                 _db.Leads.Add(lead);
                 _db.SaveChanges();
 
+                //Forming Result Object
                 var result = new LeadResult();
                 result.result = LeadResultEnum.Success;
 
-                //TODO: Create Mailing List
-
+                //Creating Mailing List
                 List<string> mailingList = new List<string>();
-                string testEmail = "syserrorlogin@gmail.com";
-                mailingList.Add(testEmail);
-                result.mailingList = mailingList;
+                if (leadDto.LeadTypeCode == Common.Constants.LeadType.Sales)
+                {
+                    string salesMail = _db.Dealers.Where(m => m.Id == lead.DealerId).FirstOrDefault().SalesEmail;
+                    mailingList.Add(salesMail);
+                    if (salesMail == null)
+                    {
+                        var mailingListFromDB = _db.Users.Where(m => m.DealerId == lead.DealerId && m.Roles.RoleCode.Equals(Common.Constants.Roles.Sales)).ToList();
+                        foreach (var item in mailingListFromDB)
+                        {
+                            mailingList.Add(item.Email);
+                        }
+                    }
+                }
+                else
+                {
+                    string afterSalesMail = _db.Dealers.Where(m => m.Id == lead.DealerId).FirstOrDefault().AfterSalesEmail;
+                    mailingList.Add(afterSalesMail);
+                    if (afterSalesMail == null)
+                    {
+                        var mailingListFromDB = _db.Users.Where(m => m.DealerId == lead.DealerId && m.Roles.RoleCode.Equals(Common.Constants.Roles.AfterSales)).ToList();
+                        foreach (var item in mailingListFromDB)
+                        {
+                            mailingList.Add(item.Email);
+                        }
 
+                    }
+                }
+
+                result.mailingList = mailingList;
                 return result;
             }
             catch (Exception e)
