@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using LMS.Common;
 using LMS.Web.Attributes;
@@ -26,10 +27,11 @@ namespace LMS.Web.Controllers
         public ActionResult LeadList()
         {
             int loggedInUserId = (int)Session["loggedInId"];
-            List<DealerLeadViewModel> leads = _leadManager.GetLeadList(new FilterLeadListViewModel(), loggedInUserId);
+            FilterLeadListViewModel filter = new FilterLeadListViewModel();
+            List<DealerLeadViewModel> leads = _leadManager.GetLeadList(filter , loggedInUserId);
             ViewBag.LeadStatus = new SelectList(_leadManager.GetLeadStatusDropDown(loggedInUserId), "Id", "DisplayName");
 
-            var viewModel = new LeadViewModel() { Leads = leads };
+            var viewModel = new LeadViewModel() { Leads = leads ,Filters=filter};
             return View(viewModel);
         }
 
@@ -42,9 +44,20 @@ namespace LMS.Web.Controllers
             ViewBag.LeadStatus = new SelectList(_leadManager.GetLeadStatusDropDown(loggedInUserId), "Id", "DisplayName");
 
             viewModel.Leads = leadList;
+            if (viewModel.Filters.leadStatusId != null)
+            {
+                viewModel.Filters.flag = true;
+            }
             return View(viewModel);
         }
 
+        [HttpGet]
+        public ActionResult GetLeadStatusDropDown()
+        {
+            var loggedInUserId = (int)Session["loggedInId"];
+            var leadstatusforuserlist = _leadManager.GetLeadStatusDropDown(loggedInUserId, "");
+            return Json(leadstatusforuserlist, JsonRequestBehavior.AllowGet);
+        }
         [HttpGet]
         public ActionResult LeadDetails(int id)
         {

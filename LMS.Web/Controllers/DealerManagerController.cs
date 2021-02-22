@@ -115,6 +115,8 @@ namespace LMS.Web.Controllers
             int loggedInUserId = (int)Session["loggedInId"];
             var filter = new FilterLeadListViewModel();
             List<DealerLeadViewModel> dealerLeadViewModels = _leadManager.GetLeadList(filter, loggedInUserId);
+            //filter.startDate  = DateTime.Today.AddDays(-7).Date; 
+            //filter.endDate = DateTime.Today.Date;
 
             ViewBag.LeadTypeId = new SelectList(_leadManager.GetLeadTypeDropDown(), "Id", "DisplayName");
             ViewBag.LeadStatusSales = new SelectList(_leadManager.GetLeadStatusDropDown(loggedInUserId, Common.Constants.LeadType.Sales), "Id", "DisplayName");
@@ -123,11 +125,13 @@ namespace LMS.Web.Controllers
             return View(viewModel);
         }
 
+        
         [HttpPost]
         public ActionResult LeadList(LeadViewModel viewModel)
         {
             var loggedInUserId = (int)Session["loggedInId"];
             //TODO: Check Start And End Date Is Valid Range
+            
             var leadList = _leadManager.GetLeadList(viewModel.Filters, loggedInUserId);
 
             ViewBag.LeadTypeId = new SelectList(_leadManager.GetLeadTypeDropDown(), "Id", "DisplayName");
@@ -135,8 +139,27 @@ namespace LMS.Web.Controllers
             ViewBag.LeadStatusAfterSales = new SelectList(_leadManager.GetLeadStatusDropDown(loggedInUserId, Common.Constants.LeadType.AfterSales), "Id", "DisplayName");
 
             viewModel.Leads = leadList;
-
+            if (viewModel.Filters.leadStatusId != null)
+            {
+                viewModel.Filters.flag = true;
+            }
             return View(viewModel);
+        }
+
+
+        [HttpGet]
+        public ActionResult GetLeadStatusDropDown(int leadtypeId)
+        {
+            var loggedInUserId = (int)Session["loggedInId"];
+            
+            if (leadtypeId == 1)
+            {
+                var leadstatussaleslist = _leadManager.GetLeadStatusDropDown(loggedInUserId, Common.Constants.LeadType.Sales);
+                return Json(leadstatussaleslist, JsonRequestBehavior.AllowGet);
+            }
+
+            var leadstatusaftersaleslist = _leadManager.GetLeadStatusDropDown(loggedInUserId, Common.Constants.LeadType.AfterSales);
+            return Json(leadstatusaftersaleslist, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

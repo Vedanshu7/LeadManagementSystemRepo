@@ -100,6 +100,15 @@ namespace LMS.Web.BAL.Manager
             List<Leads> leads;
             if (filter != null)
             {
+                //int? leadStatusId=null;
+                //if (filter.leadStatusId[0] == 0 && filter.leadStatusId[1]==0)
+                //{
+                //    leadStatusId = null;
+                //}
+                //else
+                //{
+                //    leadStatusId = filter.leadStatusId[0]==0 ? filter.leadStatusId[1] : filter.leadStatusId[0];
+                //}
                 leads = _leadRepository.GetLeadList(filter.startDate, filter.endDate, filter.leadStatusId, filter.leadTypeId, loggedInUserId);
             }
             else

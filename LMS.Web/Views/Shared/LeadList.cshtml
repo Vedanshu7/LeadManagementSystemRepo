@@ -12,283 +12,277 @@
                 {
                     using (Html.BeginForm("LeadList", "DealerManager", FormMethod.Post))
                     {
+                <div class="row">
+                    <div class="col-3" id="leadtypefilter">
                         <div class="row">
-                            <div class="col-3" id="leadtypefilter">
-                                <div class="row">
-                                    <div class="col-3 col-form-label">
-                                        @Html.Label("LeadType")
-                                    </div>
-                                    <div class="col-9">
-                                        @Html.DropDownListFor(m => m.Filters.leadTypeId, (IEnumerable<SelectListItem>)ViewBag.LeadTypeId, "Select", new { @class = "form-control", @id = "lead_type_id" })
-                                    </div>
-                                </div>
+                            <div class="col-3 col-form-label">
+                                @Html.Label("LeadType")
                             </div>
-                            <div class="col-3" id="lead_status_sales" style="display:none">
-                                <div class="row">
-                                    <div class="col-4 col-form-label">
-                                        @Html.Label("LeadStatus")
-                                    </div>
-                                    <div class="col-8">
-                                        @Html.DropDownListFor(m => m.Filters.leadStatusId, (IEnumerable<SelectListItem>)ViewBag.LeadStatusSales, "Select", new { @class = "form-control", @id = "sales_status_dropdown" })
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-3" id="lead_status_aftersales" style="display:none">
-                                <div class="row">
-                                    <div class="col-4 col-form-label">
-                                        @Html.Label("LeadStatus")
-                                    </div>
-                                    <div class="col-8">
-                                        @Html.DropDownListFor(m => m.Filters.leadStatusId, (IEnumerable<SelectListItem>)ViewBag.LeadStatusAfterSales, "Select", new { @class = "form-control", @id = "aftersales_status_dropdown" })
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-5">
-
-
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <div class="col-3 col-form-label">
-                                                @Html.Label("From:")
-                                            </div>
-                                            <div class="col-9">
-                                                @Html.TextBoxFor(m => m.Filters.startDate, new { @class = "form-control", @type = "date" })
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <div class="col-2 col-form-label">
-                                                @Html.Label("To:")
-                                            </div>
-                                            <div class="col-10">
-                                                @Html.TextBoxFor(m => m.Filters.endDate, new { @class = "form-control", @type = "date" })
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                            </div>
-                            <div class="col-1">
-                                <input type="submit" value="Filter" class="btn btn-outline-success" />
+                            <div class="col-9">
+                                @Html.DropDownListFor(m => m.Filters.leadTypeId, (IEnumerable<SelectListItem>)ViewBag.LeadTypeId, "Select", new { @class = "form-control", @id = "lead_type_id" })
                             </div>
                         </div>
+                    </div>
+                    @*<div class="col-3" id="lead_status_sales" style="display:none">
+            <div class="row">
+                <div class="col-4 col-form-label">
+                    @Html.Label("LeadStatus")
+                </div>
+                <div class="col-8">
+
+                    @Html.DropDownListFor(m => m.Filters.leadStatusId[0], (IEnumerable<SelectListItem>)ViewBag.LeadStatusSales, "Select", new { @class = "form-control", @id = "sales_status_dropdown" })
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-3" id="lead_status_aftersales" style="display:none">
+            <div class="row">
+                <div class="col-4 col-form-label">
+                    @Html.Label("LeadStatus")
+                </div>
+                <div class="col-8">
+                    @Html.DropDownListFor(m => m.Filters.leadStatusId[1], (IEnumerable<SelectListItem>)ViewBag.LeadStatusAfterSales, "Select", new { @class = "form-control", @id = "aftersales_status_dropdown" })
+
+                </div>
+            </div>
+        </div>*@
+                    <div class="col-3" id="lead_status" style="display:none">
+                        <div class="row">
+                            <div class="col-4 col-form-label">
+                                @Html.Label("LeadStatus")
+                            </div>
+                            <div class="col-8">
+                                @if (Model.Filters.flag)
+                                {
+                                    @Html.HiddenFor(m => m.Filters.leadStatusId, new { @id = "leadstatusid" })
+                                    <select class="form-control" id="Filters_leadStatusId" name="Filters.leadStatusId"></select>
+                                }
+                                else
+                                {
+                                    <select class="form-control" id="Filters_leadStatusId" name="Filters.leadStatusId"></select>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="input-group pt-2" id="datefilter">
+                        <div class="col-sm-2 col-form-label">
+                            <label> Select Start And End Date:</label>
+                        </div>
+                        @Html.HiddenFor(m => m.Filters.startDate, new { @class = "form-control", @id = "startDate" })
+                        @Html.HiddenFor(m => m.Filters.endDate, new { @class = "form-control", @id = "endDate" })
+                        <input id="date_range" class="form-control col-sm-2" placeholder="Select Dates" type="text" autocomplete="off">
+                    </div>
+                    <div class="col-1">
+                        <input type="submit" value="Filter" class="btn btn-outline-success" />
+                    </div>
+                </div>
                     }
                 }
                 else
                 {
                     using (Html.BeginForm("LeadList", "User", FormMethod.Post))
                     {
-                        <div class="row">
-                            <div class="col-3" id="lead_status">
-                                <div class="row">
-                                    <div class="col-4 col-form-label">
-                                        @Html.Label("LeadStatus")
-                                    </div>
-                                    <div class="col-8">
-                                        @Html.DropDownListFor(m => m.Filters.leadStatusId, (IEnumerable<SelectListItem>)ViewBag.LeadStatus, "Select", new { @class = "form-control" })
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-5">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <div class="col-3 col-form-label">
-                                                @Html.Label("From:")
-                                            </div>
-                                            <div class="col-9">
-                                                @Html.TextBoxFor(m => m.Filters.startDate, new { @class = "form-control", @type = "date" })
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <div class="col-2 col-form-label">
-                                                @Html.Label("To:")
-                                            </div>
-                                            <div class="col-10">
-                                                @Html.TextBoxFor(m => m.Filters.endDate, new { @class = "form-control", @type = "date" })
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                            </div>
-                            <div class="col-1">
-                                <input type="submit" value="Filter" class="btn btn-outline-success" />
-                            </div>
+            <div class="row">
+                <div class="col-3" id="lead_status">
+                    <div class="row">
+                        <div class="col-4 col-form-label">
+                            @Html.Label("LeadStatus")
                         </div>
-                    }
-                }
+                        <div class="col-8">
+                            @if (Model.Filters.flag)
+                            {
+                                @Html.HiddenFor(m => m.Filters.leadStatusId, new { @id = "userleadstatusid" })
+                                <select class="form-control" id="User_leadStatusId" name="Filters.leadStatusId"></select>
+                            }
+                            else
+                            {
+                                <select class="form-control" id="User_leadStatusId" name="Filters.leadStatusId"></select>
+                            }
 
-                <p>Showing Leads from @Html.DisplayTextFor(model => model.Filters.startDate) to @Html.DisplayTextFor(model => model.Filters.endDate)</p>
-                <div class="table-responsive pt-2">
-                    <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
-                        @if (Session["dealerId"] != null)
-                        {
-                            <table id="example1" class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            Customer Name
-                                        </th>
-                                        <th>
-                                            Model
-                                        </th>
-                                        <th>
-                                            AssignedTo
-                                        </th>
-                                        <th>
-                                            Status
-                                        </th>
-                                        <th>
-                                            Type
-                                        </th>
-                                        <th>
-                                            ServiceType
-                                        </th>
-                                        <th>
-                                            Date
-                                        </th>
-
-                                        <th></th>
-                                    </tr>
-
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model.Leads)
-                                    {
-
-                                        <tr onclick="return window.location.href = '/DealerManager/LeadDetail/@item.Id'" ) style="cursor:pointer;">
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.CustomerName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.ModelName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.AssignedUserName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.LeadStatus)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.LeadType)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.ServiceType)
-                                            </td>
-                                            <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
-
-                                            <td>
-                                                @if (item.AssignedUserName != null)
-                                                {
-                                                    @Html.ActionLink("De-Assign", "Modify", "Dealer", new { operation = "DeAssign", leadId = item.Id }, new { @class = "btn btn-outline-danger" })
-
-                                                }
-                                                else
-                                                {
-                                                    @Html.ActionLink("Assign", "Modify", "Dealer", new { operation = "Assign", leadId = item.Id }, new { @class = "btn btn-outline-success" })
-                                                }
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        }
-                        else
-                        {
-                            <table id="example1" class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            @Html.DisplayName("Customer Name")
-                                        </th>
-                                        <th>
-                                            @Html.DisplayName("Model")
-                                        </th>
-                                        <th>
-                                            @Html.DisplayName("Assigned To")
-                                        </th>
-                                        <th>
-                                            @Html.DisplayName("Email")
-                                        </th>
-                                        <th>
-                                            @Html.DisplayName("Contact Number")
-                                        </th>
-                                        <th>
-                                            @Html.DisplayName("Status")
-                                        </th>
-                                        <th>
-                                            @Html.DisplayName("Comments")
-                                        </th>
-                                        <th>
-                                            @Html.DisplayName("Action")
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model.Leads)
-                                    {
-                                        <tr onclick="return window.location.href = '/User/LeadDetails/@item.Id'" ) style="cursor:pointer;">
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.CustomerName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.ModelName)
-                                            </td>
-                                            <td>
-                                                @if (item.AssignedUserName != null)
-                                                {
-                                                    @Html.DisplayName("Self")
-                                                }
-                                                else
-                                                {
-                                                    @Html.DisplayFor(modelItem => item.AssignedUserName)
-                                                }
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.CustomerEmail)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.CustomerContactNumber)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.LeadStatus)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Comments)
-                                            </td>
-                                            <td>
-                                                @if (item.AssignedUserName != null)
-                                                {
-                                                    @Html.ActionLink("De-Assign", "DeAssignLead", "User", new { leadId = item.Id }, new { @class = "btn btn-outline-danger" })
-                                                }
-                                                else
-                                                {
-                                                    @Html.ActionLink("Assign", "AssignLead", "User", new { leadId = item.Id }, new { @class = "btn btn-outline-success" })
-                                                }
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        }
+                        </div>
                     </div>
                 </div>
 
-            </div>
+                <div class="input-group pt-2" id="datefilter">
+                    <div class="col-sm-2 col-form-label">
+                        <label> Select Start And End Date:</label>
+                    </div>
+                    @Html.HiddenFor(m => m.Filters.startDate, new { @class = "form-control", @id = "startDate" })
+                    @Html.HiddenFor(m => m.Filters.endDate, new { @class = "form-control", @id = "endDate" })
+                    <input id="date_range" class="form-control col-sm-2" placeholder="Select Dates" type="text" autocomplete="off">
+                </div>
 
-        </div>
-        <!-- /.card -->
-    </div>
+                <div class="col-1">
+                    <input type="submit" value="Filter" class="btn btn-outline-success" />
+                </div>
+            </div>
+                        }
+                        }
+
+
+                        <div class="table-responsive pt-2">
+                            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                @if (Session["dealerId"] != null)
+                                {
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Customer Name
+                                                </th>
+                                                <th>
+                                                    Model
+                                                </th>
+                                                <th>
+                                                    AssignedTo
+                                                </th>
+                                                <th>
+                                                    Status
+                                                </th>
+                                                <th>
+                                                    Type
+                                                </th>
+                                                <th>
+                                                    ServiceType
+                                                </th>
+                                                <th>
+                                                    Date
+                                                </th>
+
+                                                <th></th>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.Leads)
+                                            {
+
+                                                <tr onclick="return window.location.href = '/DealerManager/LeadDetail/@item.Id'" ) style="cursor:pointer;">
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.CustomerName)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.ModelName)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.AssignedUserName)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.LeadStatus)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.LeadType)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.ServiceType)
+                                                    </td>
+                                                    <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
+
+                                                    <td>
+                                                        @if (item.AssignedUserName != null)
+                                                        {
+                                                            @Html.ActionLink("De-Assign", "Modify", "DealerManager", new { operation = "DeAssign", leadId = item.Id }, new { @class = "btn btn-outline-danger" })
+
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.ActionLink("Assign", "Modify", "DealerManager", new { operation = "Assign", leadId = item.Id }, new { @class = "btn btn-outline-success" })
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    @Html.DisplayName("Customer Name")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Model")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Assigned To")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Email")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Contact Number")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Status")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Comments")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Action")
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.Leads)
+                                            {
+                                                <tr onclick="return window.location.href = '/User/LeadDetails/@item.Id'" ) style="cursor:pointer;">
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.CustomerName)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.ModelName)
+                                                    </td>
+                                                    <td>
+                                                        @if (item.AssignedUserName != null)
+                                                        {
+                                                            @Html.DisplayName("Self")
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.DisplayFor(modelItem => item.AssignedUserName)
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.CustomerEmail)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.CustomerContactNumber)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.LeadStatus)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.Comments)
+                                                    </td>
+                                                    <td>
+                                                        @if (item.AssignedUserName != null)
+                                                        {
+                                                            @Html.ActionLink("De-Assign", "DeAssignLead", "User", new { leadId = item.Id }, new { @class = "btn btn-outline-danger" })
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.ActionLink("Assign", "AssignLead", "User", new { leadId = item.Id }, new { @class = "btn btn-outline-success" })
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- /.card -->
+            </div>
 </div>
 
 @Scripts.Render("~/bundles/jquery")
@@ -301,43 +295,166 @@
         if ('@TempData["NotificationInfo"]' != '') {
             toastr.error('@TempData["NotificationInfo"]');
         }
+        $("#date_range").daterangepicker({
+            autoUpdateInput: false,
+            changeMonth: true,
+            changeYear: true,
+            dateonly: true,
+            locale: {
+                "cancelLabel": "Clear",
+            },
+            startDate: setStartDate(),
+            endDate: setEndDate(),
+        });
+        function setStartDate() {
 
-        var selectedText = $('#lead_type_id').find(':selected').text();
-        if (selectedText === "SalesLead") {
-            $('#lead_status_sales').css("display", "block");
-            $('#lead_status_aftersales').css("display", "none");
+            if ($("#startDate").val() !== "") {
+                var userDate = $("#startDate").val();
+                return userDate;
+            }
+            return new Date();
         }
-        if (selectedText === "AfterSalesLead") {
-            $('#lead_status_aftersales').css("display", "block");
-            $('#lead_status_aftersales').val();
-            $('#lead_status_sales').css("display", "none");
+        function setEndDate() {
+
+            if ($("#endDate").val() !== "") {
+                var userDate = $("#endDate").val();
+                var startDatefor = $("#startDate").val().split(" ");
+                var endDatefor = $("#endDate").val().split(" ");
+                $("#date_range").val(startDatefor[0] + " to " + endDatefor[0]);
+                return userDate;
+            }
+            return new Date();
         }
 
-        if (selectedText === "Select") {
-            $('#lead_status_aftersales').css("display", "none");
-            $('#lead_status_sales').css("display", "none");
-            $('#sales_status_dropdown').val("");
-            $('#aftersales_status_dropdown').val("");
-        }
+        $("#date_range").on('apply.daterangepicker', function (ev, picker) {
+            $(this).val(picker.startDate.format('MM/DD/YYYY') + ' to ' + picker.endDate.format('MM/DD/YYYY'));
+            var value = $(this).val().split(" to ");
+            $("#startDate").val(value[0]);
+            $("#endDate").val(value[1]);
+        });
 
+        $("#date_range").on('cancel.daterangepicker', function (ev, picker) {
+            var startDate = new Date();
+            var endDate = new Date();
+            startDate.setDate(startDate.getDate() - 7);
+            var startDatestring = startDate.getMonth()+1 + "/" + startDate.getDate() + "/" + startDate.getFullYear();
+            var endDatestring = endDate.getMonth()+1 + "/" + endDate.getDate() + "/" + endDate.getFullYear();
+            $('#date_range').data('daterangepicker').setStartDate(startDatestring);
+            $('#date_range').data('daterangepicker').setEndDate(endDatestring);
+            $(this).val(startDatestring + " to " + endDatestring);
+            $("#startDate").val(startDatestring);
+            $("#endDate").val(endDatestring);
+        });
+
+        if ($("#lead_type_id").length >0) {
+            var selectedText = $("#lead_type_id").find(':selected').val();
+            if (selectedText === "") {
+                $('#lead_status').css("display", "none");
+                $("#leadStatusId").html("");
+                if ($("#leadstatusid").val() !== undefined) {
+                    $("#leadstatusid").val("");
+                }
+            }
+            else {
+                var datastring = "leadtypeId=" + selectedText.toString();
+                $.ajax({
+                    type: "GET",
+                    url: "/DealerManager/GetLeadStatusDropDown",
+                    data: datastring,
+                    success: function (data) {
+                        var s = '<option value="">Select</option>';
+                        for (var i = 0; i < data.length; i++) {
+                            if ($("#leadstatusid").val() !== undefined) {
+                                if (data[i].Id.toString() === $("#leadstatusid").val().toString()) {
+                                    s += '<option selected="selected" value="' + data[i].Id + '">' + data[i].DisplayName + '</option>';
+                                }
+                                else {
+                                    s += '<option value="' + data[i].Id + '">' + data[i].DisplayName + '</option>';
+                                }
+                            }
+                            else {
+                                s += '<option value="' + data[i].Id + '">' + data[i].DisplayName + '</option>';
+                            }
+
+                        }
+                        $("#Filters_leadStatusId").html(s);
+                    }
+                });
+                $('#lead_status').css("display", "block");
+            }
+        }
+        
+        $("#Filters_leadStatusId").on("change", function () {
+            var id = $("#Filters_leadStatusId").find(":selected").val();
+            $("#leadstatusid").val(id);
+        });
         $("#lead_type_id").on("change", function () {
 
-            var selectedText = $(this).find(':selected').text();
-            if (selectedText === "SalesLead") {
-                $('#lead_status_sales').css("display","block");
-                $('#lead_status_aftersales').css("display", "none");
+            var selectedText = $(this).find(':selected').val();
+            if (selectedText === "") {
+                $('#lead_status').css("display", "none");
+                $("#leadStatusId").html("");
+                if ($("#leadstatusid").val() !== undefined) {
+                    $("#leadstatusid").val("");
+                }
             }
-            if (selectedText === "AfterSalesLead") {
-                $('#lead_status_aftersales').css("display", "block");
-                $('#lead_status_sales').css("display", "none");
-            }
+            else {
+                var datastring = "leadtypeId=" + selectedText.toString();
+                $.ajax({
+                    type: "GET",
+                    url: "/DealerManager/GetLeadStatusDropDown",
+                    data: datastring,
+                    success: function (data) {
+                        var s = '<option value="">Select</option>';
+                        for (var i = 0; i < data.length; i++) {
+                            if ($("#leadstatusid").val() !== undefined) {
+                                if (data[i].Id.toString() === $("#leadstatusid").val().toString()) {
+                                    s += '<option selected="selected" value="' + data[i].Id + '">' + data[i].DisplayName + '</option>';
+                                }
+                                else {
+                                    s += '<option value="' + data[i].Id + '">' + data[i].DisplayName + '</option>';
+                                }
+                            }
+                            else {
+                                s += '<option value="' + data[i].Id + '">' + data[i].DisplayName + '</option>';
+                            }
 
-            if (selectedText === "Select") {
-                $('#lead_status_aftersales').css("display", "none");
-                $('#lead_status_sales').css("display", "none");
-                $('#sales_status_dropdown').val("");
-                $('#aftersales_status_dropdown').val("");
+                        }
+                        $("#Filters_leadStatusId").html(s);
+                    }
+                });
+                $('#lead_status').css("display", "block");
             }
+        });
+        if ($("#User_leadStatusId").length > 0) {
+            $.ajax({
+                    type: "GET",
+                    url: "/User/GetLeadStatusDropDown",
+                    data: "",
+                    success: function (data) {
+                        var s = '<option value="">Select</option>';
+                        for (var i = 0; i < data.length; i++) {
+                            if ($("#userleadstatusid").val() !== undefined) {
+                                if (data[i].Id.toString() === $("#userleadstatusid").val().toString()) {
+                                    s += '<option selected="selected" value="' + data[i].Id + '">' + data[i].DisplayName + '</option>';
+                                }
+                                else {
+                                    s += '<option value="' + data[i].Id + '">' + data[i].DisplayName + '</option>';
+                                }
+                            }
+                            else {
+                                s += '<option value="' + data[i].Id + '">' + data[i].DisplayName + '</option>';
+                            }
+
+                        }
+                        $("#User_leadStatusId").html(s);
+                    }
+                });
+        }
+        $("#User_leadStatusId").on("change", function () {
+
+            var selectedText = $(this).find(':selected').val();
+            $("#userleadstatusid").val(selectedText);
         });
 
     });

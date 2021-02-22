@@ -18,5 +18,6 @@ namespace LMS.Web.BAL.ViewModels
         public int? leadStatusId { get; set; }
         public int? leadTypeId { get; set; }
         public int? loggedInUserId { get; set; }
+        public bool flag { get; set; }
     }
 }
