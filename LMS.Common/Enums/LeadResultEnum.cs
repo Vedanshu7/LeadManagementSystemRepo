@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LMS.Api.BAL
+namespace LMS.Common.Enums
 {
-    public class Class1
+    public enum LeadResultEnum : int
     {
+        Success = 1,
+        Invalid = 2,
+        ErrorOccurred = 3
     }
 }

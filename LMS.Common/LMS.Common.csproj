@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -42,9 +43,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\LeadConstants.cs" />
+    <Compile Include="Dtos\LeadDto.cs" />
+    <Compile Include="Email\EmailManager.cs" />
     <Compile Include="Encryption\AESAlgorithm.cs" />
+    <Compile Include="Enums\LeadResultEnum.cs" />
     <Compile Include="Enums\LoginResultEnum.cs" />
     <Compile Include="Enums\RolesEnum.cs" />
+    <Compile Include="Models\LeadResult.cs" />
     <Compile Include="Models\LoginResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

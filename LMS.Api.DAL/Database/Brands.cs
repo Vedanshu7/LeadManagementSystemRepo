@@ -7,29 +7,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LMS.Web.DAL.Database
+namespace LMS.Api.DAL.Database
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Dealers
+    public partial class Brands
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Dealers()
+        public Brands()
         {
             this.DealerBrandMappings = new HashSet<DealerBrandMappings>();
-            this.Leads = new HashSet<Leads>();
-            this.Users = new HashSet<Users>();
+            this.Models = new HashSet<Models>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
-        public string State { get; set; }
-        public string City { get; set; }
-        public string Pincode { get; set; }
-        public string DealerCode { get; set; }
-        public string SalesEmail { get; set; }
-        public string AfterSalesEmail { get; set; }
+        public string BrandCode { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
         public int CreatedBy { get; set; }
@@ -39,8 +33,6 @@ namespace LMS.Web.DAL.Database
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DealerBrandMappings> DealerBrandMappings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Leads> Leads { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Users> Users { get; set; }
+        public virtual ICollection<Models> Models { get; set; }
     }
 }

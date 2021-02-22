@@ -10,7 +10,6 @@ namespace LMS.Web.BAL.ViewModels
     {
         public FilterLeadListViewModel()
         {
-
             startDate = DateTime.Today.AddDays(-7).Date;
             endDate = DateTime.Today.Date;
         }

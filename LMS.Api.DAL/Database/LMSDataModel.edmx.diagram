@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="7e668202d8004dbc86198b494dd9d615" Name="Diagram1">
+      <Diagram DiagramId="bd4d6ef7ca3740d5a5b73575a8728e48" Name="Diagram1">
         <EntityTypeShape EntityType="LMSAzureModel.Brands" Width="1.5" PointX="0.75" PointY="11.625" IsExpanded="true" />
         <EntityTypeShape EntityType="LMSAzureModel.DealerBrandMappings" Width="1.5" PointX="3" PointY="6.625" IsExpanded="true" />
         <EntityTypeShape EntityType="LMSAzureModel.Dealers" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />

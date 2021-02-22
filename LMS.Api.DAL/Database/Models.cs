@@ -7,40 +7,37 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LMS.Web.DAL.Database
+namespace LMS.Api.DAL.Database
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Dealers
+    public partial class Models
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Dealers()
+        public Models()
         {
-            this.DealerBrandMappings = new HashSet<DealerBrandMappings>();
             this.Leads = new HashSet<Leads>();
-            this.Users = new HashSet<Users>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
-        public string State { get; set; }
-        public string City { get; set; }
-        public string Pincode { get; set; }
-        public string DealerCode { get; set; }
-        public string SalesEmail { get; set; }
-        public string AfterSalesEmail { get; set; }
+        public int BrandId { get; set; }
+        public string FuelType { get; set; }
+        public string TransmissionType { get; set; }
+        public string ExteriorColor { get; set; }
+        public string InteriorColor { get; set; }
+        public string ModelCode { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
         public int CreatedBy { get; set; }
         public Nullable<int> UpdatedBy { get; set; }
         public bool IsActive { get; set; }
+        public bool IsDeleted { get; set; }
+        public Nullable<System.DateTime> DeletedDate { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DealerBrandMappings> DealerBrandMappings { get; set; }
+        public virtual Brands Brands { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Leads> Leads { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Users> Users { get; set; }
     }
 }

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LMS.Web.DAL.Database
+namespace LMS.Api.DAL.Database
 {
     using System;
     using System.Collections.Generic;

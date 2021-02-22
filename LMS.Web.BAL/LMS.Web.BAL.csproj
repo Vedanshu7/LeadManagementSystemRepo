@@ -91,7 +91,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Authentication\EmailManager.cs" />
     <Compile Include="Helper\UnityRepositoryHelper.cs" />
     <Compile Include="Interface\ILeadManager.cs" />
     <Compile Include="Interface\ILoginManager.cs" />
@@ -124,7 +123,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

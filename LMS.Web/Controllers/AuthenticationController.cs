@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
-using LMS.Web.BAL.Authentication;
+using LMS.Web.BAL.Email;
+using LMS.Common.Email;
 using LMS.Web.BAL.Interface;
 using LMS.Web.BAL.ViewModels;
 using LMS.Web.BAL.Token;
@@ -36,7 +37,6 @@ namespace LMS.Web.Controllers
             return View(); //TODO: Redirect to page
         }
 
-        // POST: Login
         [HttpPost]
         public ActionResult Login(LoginViewModel loginViewObj)
         {
@@ -123,7 +123,6 @@ namespace LMS.Web.Controllers
             return View("ResetPassword");
         }
 
-        // GET : ForgotPassword
         [HttpGet]
         public ActionResult ForgotPassword()
         {
