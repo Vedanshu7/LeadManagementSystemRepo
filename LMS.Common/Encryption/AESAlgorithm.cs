@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace LMS.Common.Encryption
 {
     public class AESAlgorithm
     {
-        
         public static string Encrypt(string plainText, string Key)
         {
             RijndaelManaged objrij = new RijndaelManaged();
@@ -43,12 +38,11 @@ namespace LMS.Common.Encryption
             //Final transform the test string.  
             return Convert.ToBase64String(objtransform.TransformFinalBlock(textDataByte, 0, textDataByte.Length));
         }
-        static string Decrypt(string ciphertext,string Key)
+        static string Decrypt(string ciphertext, string Key)
         {
             RijndaelManaged objrij = new RijndaelManaged();
             objrij.Mode = CipherMode.CBC;
             objrij.Padding = PaddingMode.PKCS7;
-
             objrij.KeySize = 0x80;
             objrij.BlockSize = 0x80;
             byte[] encryptedTextByte = Convert.FromBase64String(ciphertext);

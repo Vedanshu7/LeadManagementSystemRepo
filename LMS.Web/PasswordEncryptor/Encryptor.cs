@@ -1,10 +1,6 @@
 ﻿using LMS.Common.Encryption;
-using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Web;
 
 namespace LMS.Web.PasswordEncryptor
 {
@@ -12,7 +8,7 @@ namespace LMS.Web.PasswordEncryptor
     {
         public static string Encryption(string text)
         {
-            string  ciphertext;
+            string ciphertext;
             using (AesManaged myAes = new AesManaged())
             {
                 string key = ConfigurationManager.AppSettings.Get("key");

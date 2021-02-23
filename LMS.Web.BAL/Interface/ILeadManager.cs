@@ -1,16 +1,17 @@
 using LMS.Web.BAL.ViewModels;
-using System;
 using System.Collections.Generic;
 
 namespace LMS.Web.BAL.Interface
 {
     public interface ILeadManager
     {
+        //Common
+        List<DealerLeadViewModel> GetLeadList(FilterLeadListViewModel filter, int loggedInUserId);
+
         //Dealer
         DealerLeadViewModel GetLeadDetailForDealer(int leadId, int dealerId);
         string AssignLeadForDealer(int selectedUserId, int leadId, int dealerId);
         string DeAssignLeadForDealer(int leadId, int dealerId);
-        List<DealerLeadViewModel> GetLeadList(FilterLeadListViewModel filter, int loggedInUserId);
 
         //User
         UserLeadViewModel GetLeadDetailForUser(int loggedInUserId, int id);

@@ -16,13 +16,11 @@ namespace LMS.Web.BAL.ViewModels
         [EmailAddress(ErrorMessage = "Please enter a valid email")]
         public string Email { get; set; }
 
-
         [Required]
         [StringLength(100)]
         [Display(Description = "Password")]
         [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{8,15}$", ErrorMessage = "Password must contain Upper Case, Lower Case, Number and a Special Character")]
         public string Password { get; set; }
-
         public int Role { get; set; }
     }
 }

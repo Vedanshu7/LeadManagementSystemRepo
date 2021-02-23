@@ -1,10 +1,5 @@
 ﻿using LMS.Web.DAL.Database;
-using System;
-
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LMS.Web.DAL.Interface
 {
@@ -17,6 +12,5 @@ namespace LMS.Web.DAL.Interface
         int GetDealerId(int loggedInUserId);
         List<Users> GetUsersByLeadType(int leadId);
         IEnumerable<Roles> GetUserRoleDropDown();
-
     }
 }

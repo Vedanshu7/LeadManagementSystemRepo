@@ -18,23 +18,6 @@ namespace LMS.Api.BAL.Manager
             _leadRepository = leadRepository;
         }
 
-        private string CreateMailingList(List<string> mailIds)
-        {
-            string sendingMailList = "";
-            foreach (var item in mailIds)
-            {
-                if (sendingMailList == "")
-                {
-                    sendingMailList = item;
-                }
-                else
-                {
-                    sendingMailList = sendingMailList + "," + item;
-                }
-            }
-            return sendingMailList;
-        }
-
         public LeadResultEnum AddLead(LeadDto lead)
         {
             var result = _leadRepository.AddLead(lead);
@@ -59,6 +42,18 @@ namespace LMS.Api.BAL.Manager
             }
             return result.result;
         }
+        public string GenerateLeadTable(LeadDto lead)
+        {
+            string table = "<ul>" +
+                "<li> Customer Name: " + lead.CustomerName + "</li>" + "<li> Dealer Code: " + lead.DealerCode + "</li>" +
+                "<li> Model Code: " + lead.ModelCode + "</li>" +
+                "<li> Customer Email: " + lead.CustomerEmail + "</li>" +
+                "<li> Contact Number: " + lead.CustomerContactNumber + "</li>" +
+                "<li> LeadType Code: " + lead.LeadTypeCode + "</li>" + "<li> ServiceType: " + lead.ServiceType + "</li>" + "<li> Comments: " + lead.Comments + "</li>" +
+                "</ul>";
+            return table;
+        }
+
         private string FormEmail()
         {
             //Set the Email Template
@@ -71,16 +66,21 @@ namespace LMS.Api.BAL.Manager
             mailText = mailText.Replace("[Exception]", "Check Your Dashboard");
             return mailText;
         }
-        public string GenerateLeadTable(LeadDto lead)
+        private string CreateMailingList(List<string> mailIds)
         {
-            string table = "<ul>" +
-                "<li> Customer Name: " + lead.CustomerName + "</li>" + "<li> Dealer Code: " + lead.DealerCode + "</li>" +
-                "<li> Model Code: " + lead.ModelCode + "</li>" +
-                "<li> Customer Email: " + lead.CustomerEmail + "</li>" +
-                "<li> Contact Number: " + lead.CustomerContactNumber + "</li>" +
-                "<li> LeadType Code: " + lead.LeadTypeCode + "</li>" + "<li> ServiceType: " + lead.ServiceType + "</li>" + "<li> Comments: " + lead.Comments + "</li>" +
-                "</ul>";
-            return table;
+            string sendingMailList = "";
+            foreach (var item in mailIds)
+            {
+                if (sendingMailList == "")
+                {
+                    sendingMailList = item;
+                }
+                else
+                {
+                    sendingMailList = sendingMailList + "," + item;
+                }
+            }
+            return sendingMailList;
         }
     }
 }

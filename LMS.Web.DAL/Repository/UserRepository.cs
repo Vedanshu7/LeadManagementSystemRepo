@@ -1,13 +1,10 @@
-﻿
-using LMS.Web.DAL.Database;
+﻿using LMS.Web.DAL.Database;
 using LMS.Web.DAL.Interface;
 using Constants = LMS.Common.Constants;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LMS.Web.DAL.Repository
 {

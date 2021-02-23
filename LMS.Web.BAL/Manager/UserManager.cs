@@ -30,20 +30,19 @@ namespace LMS.Web.BAL.Manager
 
             mapper = config.CreateMapper();
         }
+
         public string CreateUser(UserViewModel users, int dealerId)
         {
             Users user = mapper.Map<UserViewModel, Users>(users);
             user.DealerId = dealerId;
             return _userRepository.CreateUser(user);
         }
-
         public string EditUser(UserViewModel users, int dealerId)
         {
             Users user = mapper.Map<UserViewModel, Users>(users);
             user.DealerId = dealerId;
             return _userRepository.EditUser(user);
         }
-
         public UserViewModel GetUser(int dealerId, int Id)
         {
             Users users = _userRepository.GetUser(dealerId, Id);
@@ -59,7 +58,6 @@ namespace LMS.Web.BAL.Manager
             }
 
         }
-
         public List<UserViewModel> GetUsers(int dealerId)
         {
             List<Users> usersFromDb = _userRepository.GetUsers(dealerId);
@@ -72,12 +70,6 @@ namespace LMS.Web.BAL.Manager
             }
             return users;
         }
-
-        public int GetDealerId(int loggedInUserId)
-        {
-            return _userRepository.GetDealerId(loggedInUserId);
-        }
-
         public List<UserViewModel> GetUsersByLeadType(int leadId)
         {
             var usersFromDb = _userRepository.GetUsersByLeadType(leadId);
@@ -91,7 +83,6 @@ namespace LMS.Web.BAL.Manager
 
             return users;
         }
-
         public IEnumerable<UserRoleViewModel> GetUserRoleDropDown()
         {
             var userRoleFromDb = _userRepository.GetUserRoleDropDown();

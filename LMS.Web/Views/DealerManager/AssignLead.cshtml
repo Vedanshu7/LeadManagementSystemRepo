@@ -1,7 +1,5 @@
 ﻿@model LMS.Web.BAL.ViewModels.AssignLeadViewModel
 
-
-
 <div class="pt-3">
     <div class="card border-dark">
         <div class="card-header">Customer Name: @Html.DisplayFor(model => model.selectedLead.CustomerName)</div>
@@ -10,37 +8,33 @@
                 <div class="col-4">
                     <p class="card-text">Model Name: @Html.DisplayFor(model => model.selectedLead.ModelName) </p>
                 </div>
+
                 <div class="col-4">
                     <p class="card-text">AssignedUser Name: @Html.DisplayFor(model => model.selectedLead.AssignedUserName)</p>
                 </div>
+
                 <div class="col-4">
                     <p class="card-text">Lead Status: @Html.DisplayFor(model => model.selectedLead.LeadStatus)</p>
                 </div>
-
             </div>
             <div class="row">
                 <div class="col-4">
                     <p class="card-text">Lead Type: @Html.DisplayFor(model => model.selectedLead.LeadType)</p>
-
                 </div>
+
                 <div class="col-4">
                     <p class="card-text">
                         Service Type: @Html.DisplayFor(model => model.selectedLead.ServiceType)
                     </p>
                 </div>
+
                 <div class="col-4">
                     <p class="card-text">
                         Customer Email:   @Html.DisplayFor(model => model.selectedLead.CustomerEmail)
                     </p>
                 </div>
-
             </div>
-
-
-
-
             <p class="card-text">Customer Number:  @Html.DisplayFor(model => model.selectedLead.CustomerContactNumber)</p>
-
         </div>
         <div class="card-footer">
             Comments: @Html.DisplayFor(model => model.selectedLead.Comments)

@@ -61,11 +61,8 @@ namespace LMS.Web.DAL.Repository
                 }
 
                 user.Password = password; //Update password
-
                 _db.SaveChanges();
-
                 return "Success"; //Success
-
             }
             catch (Exception e)
             {

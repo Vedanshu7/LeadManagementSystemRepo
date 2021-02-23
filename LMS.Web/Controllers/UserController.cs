@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using LMS.Common;
 using LMS.Web.Attributes;
@@ -28,8 +27,8 @@ namespace LMS.Web.Controllers
         {
             int loggedInUserId = (int)Session["loggedInId"];
             FilterLeadListViewModel filter = new FilterLeadListViewModel();
-            List<DealerLeadViewModel> leads = _leadManager.GetLeadList(filter , loggedInUserId);
-            var viewModel = new LeadViewModel() { Leads = leads ,Filters=filter};
+            List<DealerLeadViewModel> leads = _leadManager.GetLeadList(filter, loggedInUserId);
+            var viewModel = new LeadViewModel() { Leads = leads, Filters = filter };
             return View(viewModel);
         }
 
@@ -87,8 +86,6 @@ namespace LMS.Web.Controllers
                 TempData["NotificationInfo"] = result;
                 return View();
             }
-
-
         }
 
         [HttpGet]

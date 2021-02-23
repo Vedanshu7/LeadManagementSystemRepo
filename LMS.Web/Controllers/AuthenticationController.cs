@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-
 using LMS.Common.Email;
 using LMS.Web.BAL.Interface;
 using LMS.Web.BAL.ViewModels;
@@ -187,17 +186,11 @@ namespace LMS.Web.Controllers
             string mailText = str.ReadToEnd();
             str.Close();
 
-            //Replace [newusername] = signup user name 
             mailText = mailText.Replace("[Product Name]", "Lead Management System");
-
             mailText = mailText.Replace("{{name}}", userEmail);
-
             var lnkHref = "https://localhost:44381/Authentication/ResetPassword/" + "?Id=" + userEmail + "&code=" + token;
-
             mailText = mailText.Replace("{{action_url}}", lnkHref);
-
             mailText = mailText.Replace("[Company Name, LLC]", "Lead Management System LLC");
-
             return mailText;
         }
     }

@@ -4,7 +4,7 @@
     ViewBag.Title = "EditUser";
 }
 
-@using (Html.BeginForm("EditUser","DealerManager",FormMethod.Post))
+@using (Html.BeginForm("EditUser", "DealerManager", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
@@ -12,36 +12,32 @@
         <div class="card card-default">
             <div class="card-header">
                 <h3 class="card-title">Edit User</h3>
-
             </div>
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             @Html.HiddenFor(model => model.Id)
-
             <div class="row col-md-8">
                 <div class="col col-12 col-sm-6">
                     @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label " })
-
                     @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                 </div>
+
                 <div class="col">
                     @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label " })
-
                     @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                 </div>
             </div>
+
             <div class="row col-md-8">
                 <div class="col col-12 col-sm-6">
                     @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label " })
-
                     @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = "Password", @type = "password" } })
                     @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-
                 </div>
+
                 <div class="col col-12 col-sm-6">
                     @Html.LabelFor(model => model.MobileNumber, htmlAttributes: new { @class = "control-label " })
-
                     @Html.EditorFor(model => model.MobileNumber, new { htmlAttributes = new { @class = "form-control", @placeholder = "Mobile", @type = "number" } })
                     @Html.ValidationMessageFor(model => model.MobileNumber, "", new { @class = "text-danger" })
                 </div>
@@ -50,14 +46,13 @@
             <div class="row col-md-8">
                 <div class="col col-12 col-sm-6">
                     @Html.LabelFor(model => model.RoleId, "Role", htmlAttributes: new { @class = "control-label" })
-
                     @Html.DropDownList("RoleId", null, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger" })
                 </div>
             </div>
+
             <div class="form-group pt-3">
                 <div class="col-md-4 ">
-                  
                     <input type="submit" value="Save" class="btn btn-success btn-lg " />
                     <a href="/DealerManager/UserList" class="btn btn-danger btn-lg " role="button" aria-pressed="true">Cancle</a>
                 </div>
@@ -66,10 +61,6 @@
     </div>
 
 }
-
-<div>
-   
-</div>
 
 @Scripts.Render("~/bundles/jqueryval")
 @Scripts.Render("~/bundles/jquery")
@@ -83,7 +74,4 @@
             toastr.error('@TempData["NotificationInfo"]');
         }
     });
-
-
-
 </script>

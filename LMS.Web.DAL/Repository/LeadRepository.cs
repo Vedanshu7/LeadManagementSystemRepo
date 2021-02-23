@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 
-
 namespace LMS.Web.DAL.Repository
 {
     public class LeadRepository : ILeadRepository

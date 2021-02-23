@@ -1,23 +1,18 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace LMS.Web.BAL.Token
 {
     public class TokenManager
     {
-        private static string Key =ConfigurationManager.AppSettings.Get("jwtkey") ;
+        private static string Key = ConfigurationManager.AppSettings.Get("jwtkey");
         public static string GenerateToken(string email)
         {
-
             byte[] key = Encoding.BigEndianUnicode.GetBytes(Key);
-
             SymmetricSecurityKey securityKey = new SymmetricSecurityKey(key);
             SecurityTokenDescriptor descriptor = new SecurityTokenDescriptor
             {
@@ -34,13 +29,8 @@ namespace LMS.Web.BAL.Token
         {
             try
             {
-
                 JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
                 JwtSecurityToken jwtSecurityToken = (JwtSecurityToken)tokenHandler.ReadToken(token);
-                //if (jwtSecurityToken == null)
-                //{
-                //    return null;
-                //}
                 byte[] key = Encoding.BigEndianUnicode.GetBytes(Key);
                 TokenValidationParameters parameters = new TokenValidationParameters()
                 {
@@ -57,10 +47,7 @@ namespace LMS.Web.BAL.Token
             {
                 return null;
             }
-
-
         }
-
 
         /// <summary>
         /// Validates the token
