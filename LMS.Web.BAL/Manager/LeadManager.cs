@@ -5,6 +5,7 @@ using LMS.Web.DAL.Interface;
 using AutoMapper;
 using LMS.Web.DAL.Database;
 using System;
+using System.Globalization;
 
 namespace LMS.Web.BAL.Manager
 {
@@ -100,16 +101,15 @@ namespace LMS.Web.BAL.Manager
             List<Leads> leads;
             if (filter != null)
             {
-                //int? leadStatusId=null;
-                //if (filter.leadStatusId[0] == 0 && filter.leadStatusId[1]==0)
-                //{
-                //    leadStatusId = null;
-                //}
-                //else
-                //{
-                //    leadStatusId = filter.leadStatusId[0]==0 ? filter.leadStatusId[1] : filter.leadStatusId[0];
-                //}
-                leads = _leadRepository.GetLeadList(filter.startDate, filter.endDate, filter.leadStatusId, filter.leadTypeId, loggedInUserId);
+                //Converting date of filter from string to DateTime 
+                DateTime? startDate = null, endDate = null;
+                if (filter.startDate != null)
+                {
+                    startDate = DateTime.ParseExact(filter.startDate, "MM/dd/yyyy", CultureInfo.InvariantCulture).Date;
+                    endDate = DateTime.ParseExact(filter.endDate, "MM/dd/yyyy", CultureInfo.InvariantCulture).Date;
+                }
+
+                leads = _leadRepository.GetLeadList(startDate, endDate, filter.leadStatusId, filter.leadTypeId, loggedInUserId);
             }
             else
             {

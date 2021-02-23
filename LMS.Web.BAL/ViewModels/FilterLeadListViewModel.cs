@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Globalization;
 
 namespace LMS.Web.BAL.ViewModels
 {
@@ -10,11 +7,11 @@ namespace LMS.Web.BAL.ViewModels
     {
         public FilterLeadListViewModel()
         {
-            startDate = DateTime.Today.AddDays(-7).Date;
-            endDate = DateTime.Today.Date;
+            startDate = DateTime.Today.AddDays(-7).Date.ToString("MM-dd-yyyy").Replace('-', '/');
+            endDate = DateTime.Today.Date.ToString("MM-dd-yyyy").Replace('-', '/');
         }
-        public DateTime? startDate { get; set; }
-        public DateTime? endDate { get; set; }
+        public string startDate { get; set; }
+        public string endDate { get; set; }
         public int? leadStatusId { get; set; }
         public int? leadTypeId { get; set; }
         public int? loggedInUserId { get; set; }

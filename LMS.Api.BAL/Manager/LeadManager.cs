@@ -6,6 +6,7 @@ using LMS.Common.Email;
 using System.IO;
 using System.Web;
 using System.Web.Hosting;
+using System.Collections.Generic;
 
 namespace LMS.Api.BAL.Manager
 {

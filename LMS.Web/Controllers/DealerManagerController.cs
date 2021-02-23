@@ -125,13 +125,12 @@ namespace LMS.Web.Controllers
             return View(viewModel);
         }
 
-        
         [HttpPost]
         public ActionResult LeadList(LeadViewModel viewModel)
         {
             var loggedInUserId = (int)Session["loggedInId"];
             //TODO: Check Start And End Date Is Valid Range
-            
+
             var leadList = _leadManager.GetLeadList(viewModel.Filters, loggedInUserId);
 
             ViewBag.LeadTypeId = new SelectList(_leadManager.GetLeadTypeDropDown(), "Id", "DisplayName");
@@ -146,12 +145,11 @@ namespace LMS.Web.Controllers
             return View(viewModel);
         }
 
-
         [HttpGet]
         public ActionResult GetLeadStatusDropDown(int leadtypeId)
         {
             var loggedInUserId = (int)Session["loggedInId"];
-            
+
             if (leadtypeId == 1)
             {
                 var leadstatussaleslist = _leadManager.GetLeadStatusDropDown(loggedInUserId, Common.Constants.LeadType.Sales);
