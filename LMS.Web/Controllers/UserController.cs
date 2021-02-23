@@ -29,8 +29,6 @@ namespace LMS.Web.Controllers
             int loggedInUserId = (int)Session["loggedInId"];
             FilterLeadListViewModel filter = new FilterLeadListViewModel();
             List<DealerLeadViewModel> leads = _leadManager.GetLeadList(filter , loggedInUserId);
-            ViewBag.LeadStatus = new SelectList(_leadManager.GetLeadStatusDropDown(loggedInUserId), "Id", "DisplayName");
-
             var viewModel = new LeadViewModel() { Leads = leads ,Filters=filter};
             return View(viewModel);
         }
@@ -39,10 +37,7 @@ namespace LMS.Web.Controllers
         public ActionResult LeadList(LeadViewModel viewModel)
         {
             int loggedInUserId = (int)Session["loggedInId"];
-            //TODO: Check Start And End Date Is Valid Range
             var leadList = _leadManager.GetLeadList(viewModel.Filters, loggedInUserId);
-            ViewBag.LeadStatus = new SelectList(_leadManager.GetLeadStatusDropDown(loggedInUserId), "Id", "DisplayName");
-
             viewModel.Leads = leadList;
             if (viewModel.Filters.leadStatusId != null)
             {

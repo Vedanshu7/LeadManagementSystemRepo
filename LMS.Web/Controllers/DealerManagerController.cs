@@ -111,16 +111,10 @@ namespace LMS.Web.Controllers
         [HttpGet]
         public ActionResult LeadList()
         {
-            //int dealerId = (int)Session["dealerId"];
             int loggedInUserId = (int)Session["loggedInId"];
             var filter = new FilterLeadListViewModel();
             List<DealerLeadViewModel> dealerLeadViewModels = _leadManager.GetLeadList(filter, loggedInUserId);
-            //filter.startDate  = DateTime.Today.AddDays(-7).Date; 
-            //filter.endDate = DateTime.Today.Date;
-
             ViewBag.LeadTypeId = new SelectList(_leadManager.GetLeadTypeDropDown(), "Id", "DisplayName");
-            ViewBag.LeadStatusSales = new SelectList(_leadManager.GetLeadStatusDropDown(loggedInUserId, Common.Constants.LeadType.Sales), "Id", "DisplayName");
-            ViewBag.LeadStatusAfterSales = new SelectList(_leadManager.GetLeadStatusDropDown(loggedInUserId, Common.Constants.LeadType.AfterSales), "Id", "DisplayName");
             var viewModel = new LeadViewModel() { Leads = dealerLeadViewModels, Filters = filter };
             return View(viewModel);
         }
@@ -129,14 +123,9 @@ namespace LMS.Web.Controllers
         public ActionResult LeadList(LeadViewModel viewModel)
         {
             var loggedInUserId = (int)Session["loggedInId"];
-            //TODO: Check Start And End Date Is Valid Range
-
             var leadList = _leadManager.GetLeadList(viewModel.Filters, loggedInUserId);
-
             ViewBag.LeadTypeId = new SelectList(_leadManager.GetLeadTypeDropDown(), "Id", "DisplayName");
-            ViewBag.LeadStatusSales = new SelectList(_leadManager.GetLeadStatusDropDown(loggedInUserId, Common.Constants.LeadType.Sales), "Id", "DisplayName");
-            ViewBag.LeadStatusAfterSales = new SelectList(_leadManager.GetLeadStatusDropDown(loggedInUserId, Common.Constants.LeadType.AfterSales), "Id", "DisplayName");
-
+ 
             viewModel.Leads = leadList;
             if (viewModel.Filters.leadStatusId != null)
             {
