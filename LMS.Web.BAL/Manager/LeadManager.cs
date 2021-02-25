@@ -106,7 +106,7 @@ namespace LMS.Web.BAL.Manager
                 if (filter.startDate != null)
                 {
                     startDate = DateTime.ParseExact(filter.startDate, "MM/dd/yyyy", CultureInfo.InvariantCulture).Date;
-                    endDate = DateTime.ParseExact(filter.endDate, "MM/dd/yyyy", CultureInfo.InvariantCulture).Date;
+                    endDate = DateTime.ParseExact(filter.endDate, "MM/dd/yyyy", CultureInfo.InvariantCulture).Date.AddHours(24).AddMinutes(-1);
                 }
 
                 leads = _leadRepository.GetLeadList(startDate, endDate, filter.leadStatusId, filter.leadTypeId, loggedInUserId);
