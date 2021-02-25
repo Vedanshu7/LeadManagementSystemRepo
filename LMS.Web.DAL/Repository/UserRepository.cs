@@ -75,7 +75,7 @@ namespace LMS.Web.DAL.Repository
         {
             try
             {
-                Users user = _db.Users.Where(u => u.Id == Id && u.DealerId == dealerId).FirstOrDefault();
+                Users user = _db.Users.Where(u => u.Id == Id && u.DealerId == dealerId && u.Roles.RoleCode != Constants.Roles.Dealer).FirstOrDefault();
                 if (user != null)
                 {
                     return user;

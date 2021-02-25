@@ -52,6 +52,7 @@ namespace LMS.Web.Controllers
             var leadstatusforuserlist = _leadManager.GetLeadStatusDropDown(loggedInUserId, "");
             return Json(leadstatusforuserlist, JsonRequestBehavior.AllowGet);
         }
+
         [HttpGet]
         public ActionResult LeadDetails(int id)
         {

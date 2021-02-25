@@ -69,7 +69,11 @@ namespace LMS.Web.Controllers
         {
             int dealerId = (int)Session["dealerId"];
             UserViewModel user = _userManager.GetUser(dealerId, Id);
-            return View(user);
+            if (user != null)
+            {
+                return View(user);
+            }
+            return RedirectToAction("UserList");
         }
 
         [HttpGet]
@@ -77,7 +81,11 @@ namespace LMS.Web.Controllers
         {
             int dealerId = (int)Session["dealerId"];
             DealerLeadViewModel selectedLead = _leadManager.GetLeadDetailForDealer(Id, dealerId);
-            return View(selectedLead);
+            if (selectedLead != null)
+            {
+                return View(selectedLead);
+            }
+            return RedirectToAction("LeadList");
         }
 
         [HttpGet]
@@ -125,7 +133,7 @@ namespace LMS.Web.Controllers
             var loggedInUserId = (int)Session["loggedInId"];
             var leadList = _leadManager.GetLeadList(viewModel.Filters, loggedInUserId);
             ViewBag.LeadTypeId = new SelectList(_leadManager.GetLeadTypeDropDown(), "Id", "DisplayName");
- 
+
             viewModel.Leads = leadList;
             if (viewModel.Filters.leadStatusId != null)
             {
