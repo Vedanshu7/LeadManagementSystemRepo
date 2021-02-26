@@ -22,7 +22,7 @@ namespace LMS.Web.DAL.Repository
             try
             {
                 //Check if user already exists or not
-                var emailId = _db.Users.Any(m => m.Email == user.Email);
+                var emailId = _db.Users.Any(m => m.Email == user.Email && m.IsActive == true);
                 if (!emailId)
                 {
                     user.CreatedBy = (int)user.DealerId;
@@ -48,7 +48,7 @@ namespace LMS.Web.DAL.Repository
         {
             try
             {
-                var userFromDb = _db.Users.Where(u => u.Id == user.Id).FirstOrDefault();
+                var userFromDb = _db.Users.Where(u => u.Id == user.Id && u.IsActive == true).FirstOrDefault();
                 if (userFromDb != null)
                 {
                     userFromDb.Name = user.Name;
@@ -75,7 +75,7 @@ namespace LMS.Web.DAL.Repository
         {
             try
             {
-                Users user = _db.Users.Where(u => u.Id == Id && u.DealerId == dealerId && u.Roles.RoleCode != Constants.Roles.Dealer).FirstOrDefault();
+                Users user = _db.Users.Where(u => u.Id == Id && u.DealerId == dealerId && u.Roles.RoleCode != Constants.Roles.Dealer && u.IsActive == true).FirstOrDefault();
                 if (user != null)
                 {
                     return user;
@@ -91,23 +91,8 @@ namespace LMS.Web.DAL.Repository
         }
         public List<Users> GetUsers(int dealerId)
         {
-            List<Users> list = _db.Users.Where(u => u.DealerId == dealerId && u.Roles.RoleCode != Constants.Roles.Dealer).ToList();
+            List<Users> list = _db.Users.Where(u => u.DealerId == dealerId && u.Roles.RoleCode != Constants.Roles.Dealer && u.IsActive == true).ToList();
             return list;
-        }
-        public int GetDealerId(int loggedInUserId)
-        {
-            try
-            {
-                var dealerInDb = _db.Users.Find(loggedInUserId);
-                return (int)dealerInDb.DealerId;
-            }
-            catch (Exception e)
-            {
-                //TODO:Add logger.
-                return 0;
-                throw;
-            }
-
         }
         public List<Users> GetUsersByLeadType(int leadId)
         {
@@ -119,7 +104,8 @@ namespace LMS.Web.DAL.Repository
                 var users = _db.Users //fetching users according to the lead type and dealerId
                 .Where(u =>
                     u.Roles.RoleCode == Constants.Roles.Sales &&
-                    u.DealerId == lead.DealerId)
+                    u.DealerId == lead.DealerId &&
+                    u.IsActive == true)
                     .ToList();
                 return users;
             }
@@ -128,7 +114,8 @@ namespace LMS.Web.DAL.Repository
                 var users = _db.Users //fetching users according to the lead type and dealerId
                 .Where(u =>
                 u.Roles.RoleCode == Constants.Roles.AfterSales &&
-                u.DealerId == lead.DealerId)
+                u.DealerId == lead.DealerId &&
+                u.IsActive == true)
                 .ToList();
                 return users;
             }

@@ -9,7 +9,6 @@ namespace LMS.Web.DAL.Interface
         List<Users> GetUsers(int dealerId);
         string EditUser(Users user);
         Users GetUser(int dealerId, int Id);
-        int GetDealerId(int loggedInUserId);
         List<Users> GetUsersByLeadType(int leadId);
         IEnumerable<Roles> GetUserRoleDropDown();
     }

@@ -13,7 +13,7 @@ namespace LMS.Common.Constants
         public const string SalesAccepted = "S-A2";
         public const string SalesCustomerContacted = "S-CC3";
         public const string SalesTestDriveBooked = "S-TDB4";
-        public const string TestDriveDone = "S-TDD5";
+        public const string SalesTestDriveDone = "S-TDD5";
         public const string SalesSuccess = "S-S6";
         public const string AfterSalesNew = "AS-N8";
         public const string AfterSalesAccepted = "AS-A9";
@@ -21,7 +21,7 @@ namespace LMS.Common.Constants
         public const string AfterSalesServiceBooked = "AS-SB11";
         public const string AfterSalesServiceDone = "AS-SD12";
         public const string AfterSalesSuccess = "AS-S13";
-        public const string AfterSalesSalesLost = "S-SL14";
+        public const string SalesSalesLost = "S-SL14";
         public const string AfterSalesLost = "AS-ASL15";
     }
 

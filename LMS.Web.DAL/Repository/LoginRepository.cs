@@ -19,7 +19,7 @@ namespace LMS.Web.DAL.Repository
         {
             try
             {
-                var user = _db.Users.Where(u => u.Email == email).FirstOrDefault();
+                var user = _db.Users.Where(u => u.Email == email && u.IsActive == true).FirstOrDefault();
                 var loginResult = new LoginResult();
                 if (user == null) //If user not found
                 {
@@ -53,7 +53,7 @@ namespace LMS.Web.DAL.Repository
         {
             try
             {
-                var user = _db.Users.Where(u => u.Email == email).FirstOrDefault();
+                var user = _db.Users.Where(u => u.Email == email && u.IsActive == true).FirstOrDefault();
 
                 if (user == null)
                 {
@@ -73,7 +73,7 @@ namespace LMS.Web.DAL.Repository
         public bool IsValidUser(string userEmail)
         {
 
-            if (_db.Users.Where(u => u.Email == userEmail).Any())
+            if (_db.Users.Where(u => u.Email == userEmail && u.IsActive == true).Any())
                 return true; //Success
 
             //If no user is found

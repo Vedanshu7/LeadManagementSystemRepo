@@ -7,17 +7,17 @@
 
 <div class="pt-3">
     <div class="card border-dark">
-        <div class="card-header"><b>Customer Name : </b> @Html.DisplayFor(model => model.CustomerName)</div>
+        <div class="card-header"><b>Customer Name: </b> @Html.DisplayFor(model => model.CustomerName)</div>
         <div class="card-body">
             <div class="row">
                 <div class="col-4">
-                    <p class="card-text"><b>Model Name : </b> @Html.DisplayFor(model => model.ModelName) </p>
+                    <p class="card-text"><b>Model: </b> @Html.DisplayFor(model => model.ModelName) </p>
                 </div>
                 <div class="col-4">
-                    <p class="card-text"><b>AssignedUser Name : </b> @Html.DisplayFor(model => model.AssignedUserName)</p>
+                    <p class="card-text"><b>Brand: </b> @Html.DisplayFor(model => model.BrandName)</p>
                 </div>
                 <div class="col-4">
-                    <p class="card-text"><b>Lead Status : </b> @Html.DisplayFor(model => model.LeadStatus)</p>
+                    <p class="card-text"><b>Assigned User: </b> @Html.DisplayFor(model => model.AssignedUserName)</p>
                 </div>
             </div>
             <div class="row">
@@ -25,17 +25,24 @@
                     <p class="card-text"><b>Lead Type:</b> @Html.DisplayFor(model => model.LeadType)</p>
                 </div>
                 <div class="col-4">
+                    <p class="card-text"><b>Lead Status: </b> @Html.DisplayFor(model => model.LeadStatus)</p>
+                </div>
+                <div class="col-4">
                     <p class="card-text">
                         <b> Service Type:</b> @Html.DisplayFor(model => model.ServiceType)
                     </p>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-4">
                     <p class="card-text">
-                        <b> Customer Email:</b>   @Html.DisplayFor(model => model.CustomerEmail)
+                        <b> Customer Email:</b> @Html.DisplayFor(model => model.CustomerEmail)
                     </p>
                 </div>
+                <div class="col-4">
+                    <p class="card-text"><b>Customer Contact Number:</b>  @Html.DisplayFor(model => model.CustomerContactNumber)</p>
+                </div>
             </div>
-            <p class="card-text"><b>Customer Number:</b>  @Html.DisplayFor(model => model.CustomerContactNumber)</p>
         </div>
         <div class="card-footer">
             <b>Comments:</b> @Html.DisplayFor(model => model.Comments)

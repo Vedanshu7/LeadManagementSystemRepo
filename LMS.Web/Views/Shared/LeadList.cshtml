@@ -111,6 +111,9 @@
                                             Model
                                         </th>
                                         <th>
+                                            Brand
+                                        </th>
+                                        <th>
                                             AssignedTo
                                         </th>
                                         <th>
@@ -125,7 +128,6 @@
                                         <th>
                                             Date
                                         </th>
-
                                         <th></th>
                                     </tr>
 
@@ -140,6 +142,9 @@
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.ModelName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.BrandName)
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.AssignedUserName)
@@ -183,6 +188,9 @@
                                             @Html.DisplayName("Model")
                                         </th>
                                         <th>
+                                            @Html.DisplayName("Brand")
+                                        </th>
+                                        <th>
                                             @Html.DisplayName("Assigned To")
                                         </th>
                                         <th>
@@ -211,6 +219,9 @@
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.ModelName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.BrandName)
                                             </td>
                                             <td>
                                                 @if (item.AssignedUserName != null)

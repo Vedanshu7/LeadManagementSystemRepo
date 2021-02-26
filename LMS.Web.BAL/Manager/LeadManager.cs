@@ -41,6 +41,7 @@ namespace LMS.Web.BAL.Manager
                 dealerLead.Id = lead.Id;
                 dealerLead.CustomerName = lead.CustomerName;
                 dealerLead.ModelName = lead.Models.Name;
+                dealerLead.BrandName = lead.Models.Brands.Name;
                 if (lead.AssignedUserId != null)
                     dealerLead.AssignedUserName = lead.Users.Name;
                 dealerLead.CustomerEmail = lead.CustomerEmail;
@@ -70,12 +71,13 @@ namespace LMS.Web.BAL.Manager
             Leads leadFromDb = _leadRepository.GetLeadDetailForUser(loggedInUserId, id);
             if (leadFromDb != null)
             {
-                UserLeadViewModel salesLead = mapper.Map<Leads, UserLeadViewModel>(leadFromDb);
-                salesLead.ModelName = leadFromDb.Models.Name;
+                UserLeadViewModel lead = mapper.Map<Leads, UserLeadViewModel>(leadFromDb);
+                lead.ModelName = leadFromDb.Models.Name;
+                lead.BrandName = leadFromDb.Models.Brands.Name;
                 if (leadFromDb.AssignedUserId != null)
-                    salesLead.AssignedUserName = leadFromDb.Users.Name;
-                salesLead.LeadStatus = leadFromDb.LeadStatus.DisplayName;
-                return salesLead;
+                    lead.AssignedUserName = leadFromDb.Users.Name;
+                lead.LeadStatus = leadFromDb.LeadStatus.DisplayName;
+                return lead;
             }
             return null;
         }
@@ -123,6 +125,7 @@ namespace LMS.Web.BAL.Manager
                 dealerLead.Id = lead.Id;
                 dealerLead.CustomerName = lead.CustomerName;
                 dealerLead.ModelName = lead.Models.Name;
+                dealerLead.BrandName = lead.Models.Brands.Name;
                 if (lead.AssignedUserId != null)
                     dealerLead.AssignedUserName = lead.Users.Name;
                 dealerLead.CustomerEmail = lead.CustomerEmail;

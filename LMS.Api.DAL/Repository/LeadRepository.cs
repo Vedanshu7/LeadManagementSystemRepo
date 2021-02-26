@@ -24,8 +24,16 @@ namespace LMS.Api.DAL.Repository
                 //Mapping LeadDto -> Leads
                 var lead = new Leads();
                 lead.CustomerName = leadDto.CustomerName;
-                lead.DealerId = _db.Dealers.Where(d => d.DealerCode == leadDto.DealerCode).First().Id;
-                lead.ModelId = _db.Models.Where(m => m.ModelCode == leadDto.ModelCode).First().Id;
+                lead.DealerId = _db.Dealers.Where(d => d.DealerCode == leadDto.DealerCode && d.IsActive == true).First().Id;
+                lead.ModelId = _db.Models.Where(m => m.ModelCode == leadDto.ModelCode && m.IsActive == true).First().Id;
+
+                //Check if brand exists for that dealer
+                var brandId = _db.Brands.Where(b => b.BrandCode == leadDto.BrandCode && b.IsActive == true).First().Id;
+                var dealerBrandMapping = _db.DealerBrandMappings.Where(x => x.DealerId == lead.DealerId && x.BrandId == brandId && x.IsActive == true).First();
+                if (dealerBrandMapping == null)
+                {
+                    return new LeadResult() { result = LeadResultEnum.Invalid };
+                }
                 lead.CustomerEmail = leadDto.CustomerEmail;
                 lead.CustomerContactNumber = leadDto.CustomerContactNumber;
                 lead.LeadTypeId = _db.LeadType.Where(x => x.LeadTypeCode == leadDto.LeadTypeCode).First().Id;
@@ -37,12 +45,11 @@ namespace LMS.Api.DAL.Repository
                         break;
                     case Common.Constants.LeadType.AfterSales:
                         lead.LeadStatusId = _db.LeadStatus.Where(x => x.LeadStatusCode == Common.Constants.LeadStatus.AfterSalesNew).First().Id;
+                        if (leadDto.ServiceType != null)
+                        {
+                            lead.ServiceId = _db.Services.Where(s => s.Type == leadDto.ServiceType).First().Id;
+                        }
                         break;
-                }
-
-                if (leadDto.ServiceType != null)
-                {
-                    lead.ServiceId = _db.Services.Where(s => s.Type == leadDto.ServiceType).First().Id;
                 }
 
                 if (leadDto.Comments != null)
@@ -55,18 +62,25 @@ namespace LMS.Api.DAL.Repository
                 _db.SaveChanges();
 
                 //Forming Result Object
-                var result = new LeadResult();
-                result.result = LeadResultEnum.Success;
+                var result = new LeadResult
+                {
+                    result = LeadResultEnum.Success
+                };
 
                 //Creating Mailing List
                 List<string> mailingList = new List<string>();
                 if (leadDto.LeadTypeCode == Common.Constants.LeadType.Sales)
                 {
-                    string salesMail = _db.Dealers.Where(m => m.Id == lead.DealerId).FirstOrDefault().SalesEmail;
+                    string salesMail = _db.Dealers.Where(m => m.Id == lead.DealerId && m.IsActive == true).FirstOrDefault().SalesEmail;
                     mailingList.Add(salesMail);
                     if (salesMail == null)
                     {
-                        var mailingListFromDB = _db.Users.Where(m => m.DealerId == lead.DealerId && m.Roles.RoleCode.Equals(Common.Constants.Roles.Sales)).ToList();
+                        var mailingListFromDB = _db.Users.Where(m =>
+                            m.DealerId == lead.DealerId &&
+                            m.Roles.RoleCode == Common.Constants.Roles.Sales &&
+                            m.IsActive == true)
+                            .ToList();
+
                         foreach (var item in mailingListFromDB)
                         {
                             mailingList.Add(item.Email);
@@ -75,11 +89,15 @@ namespace LMS.Api.DAL.Repository
                 }
                 else
                 {
-                    string afterSalesMail = _db.Dealers.Where(m => m.Id == lead.DealerId).FirstOrDefault().AfterSalesEmail;
+                    string afterSalesMail = _db.Dealers.Where(m => m.Id == lead.DealerId && m.IsActive == true).FirstOrDefault().AfterSalesEmail;
                     mailingList.Add(afterSalesMail);
                     if (afterSalesMail == null)
                     {
-                        var mailingListFromDB = _db.Users.Where(m => m.DealerId == lead.DealerId && m.Roles.RoleCode.Equals(Common.Constants.Roles.AfterSales)).ToList();
+                        var mailingListFromDB = _db.Users.Where(m =>
+                        m.DealerId == lead.DealerId &&
+                        m.Roles.RoleCode == Common.Constants.Roles.AfterSales &&
+                        m.IsActive == true)
+                        .ToList();
                         foreach (var item in mailingListFromDB)
                         {
                             mailingList.Add(item.Email);

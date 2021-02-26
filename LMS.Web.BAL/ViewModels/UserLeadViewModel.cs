@@ -6,6 +6,7 @@ namespace LMS.Web.BAL.ViewModels
         public int Id { get; set; }
         public string CustomerName { get; set; }
         public string ModelName { get; set; }
+        public string BrandName { get; set; }
         public string AssignedUserName { get; set; }
         public string CustomerEmail { get; set; }
         public string CustomerContactNumber { get; set; }

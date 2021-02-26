@@ -38,7 +38,7 @@ namespace LMS.Common.Encryption
             //Final transform the test string.  
             return Convert.ToBase64String(objtransform.TransformFinalBlock(textDataByte, 0, textDataByte.Length));
         }
-        static string Decrypt(string ciphertext, string Key)
+        public static string Decrypt(string ciphertext, string Key)
         {
             RijndaelManaged objrij = new RijndaelManaged();
             objrij.Mode = CipherMode.CBC;

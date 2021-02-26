@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Filters;
 using System.Web.Routing;
@@ -14,7 +11,6 @@ namespace LMS.Web.Attributes
         {
             if (string.IsNullOrEmpty(Convert.ToString(filterContext.HttpContext.Session["loggedInId"])))
             {
-                
                 string path = filterContext.HttpContext.Request.RawUrl;
                 filterContext.HttpContext.Session["RedirectUrl"] = path;
                 filterContext.Result = new HttpUnauthorizedResult();

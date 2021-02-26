@@ -21,7 +21,7 @@ namespace LMS.Web.DAL.Repository
         {
             try
             {
-                var loggedInUser = _db.Users.Where(u => u.Id == loggedInUserId).First();
+                var loggedInUser = _db.Users.Where(u => u.Id == loggedInUserId && u.IsActive == true).First();
 
                 switch (loggedInUser.Roles.RoleCode)
                 {
@@ -87,7 +87,7 @@ namespace LMS.Web.DAL.Repository
                 var lead = _db.Leads.Where(l => l.Id == leadId && l.DealerId == dealerId).FirstOrDefault();
                 if (lead != null)
                 {
-                    var userToBeAssigned = _db.Users.Where(u => u.Id == selectedUserId && u.DealerId == dealerId).FirstOrDefault();
+                    var userToBeAssigned = _db.Users.Where(u => u.Id == selectedUserId && u.DealerId == dealerId && u.IsActive == true).FirstOrDefault();
                     if (userToBeAssigned == null)
                     {
                         return "Invalid User";
@@ -191,7 +191,7 @@ namespace LMS.Web.DAL.Repository
         {
             try
             {
-                var user = _db.Users.Where(u => u.Id == loggedInUserId).First();
+                var user = _db.Users.Where(u => u.Id == loggedInUserId && u.IsActive == true).First();
                 var lead = _db.Leads.Where(l => l.Id == id && l.DealerId == user.DealerId).FirstOrDefault();
                 if (lead == null)
                 {
@@ -252,7 +252,7 @@ namespace LMS.Web.DAL.Repository
         {
             try
             {
-                var userToBeAssigned = _db.Users.Where(u => u.Id == loggedInUserId).First();
+                var userToBeAssigned = _db.Users.Where(u => u.Id == loggedInUserId && u.IsActive == true).First();
                 var lead = _db.Leads.Where(l => l.Id == leadId && l.DealerId == userToBeAssigned.DealerId).FirstOrDefault();
                 if (lead == null)
                 {
@@ -309,7 +309,7 @@ namespace LMS.Web.DAL.Repository
         {
             try
             {
-                var userToBeAssigned = _db.Users.Where(u => u.Id == loggedInUserId).First();
+                var userToBeAssigned = _db.Users.Where(u => u.Id == loggedInUserId && u.IsActive == true).First();
                 var lead = _db.Leads.Where(l => l.Id == leadId && l.DealerId == userToBeAssigned.DealerId).FirstOrDefault();
                 if (lead == null)
                 {
@@ -366,7 +366,7 @@ namespace LMS.Web.DAL.Repository
         //Dropdown Methods
         public IEnumerable<LeadStatus> GetLeadStatusDropDown(int loggedInUserId, string leadTypeCode)
         {
-            var loggedInUser = _db.Users.Where(u => u.Id == loggedInUserId).First();
+            var loggedInUser = _db.Users.Where(u => u.Id == loggedInUserId && u.IsActive == true).First();
 
             switch (loggedInUser.Roles.RoleCode)
             {
