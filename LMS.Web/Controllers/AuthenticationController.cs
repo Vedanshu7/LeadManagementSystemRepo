@@ -57,6 +57,7 @@ namespace LMS.Web.Controllers
                     case LoginResultEnum.Success:
                         Session["loggedInId"] = loginResult.LoggedInUserId;
                         Session["role"] = loginResult.role;
+                        Session["username"] = loginResult.UserName;
                         switch (loginResult.role)
                         {
                             case RolesEnum.DealerManager:

@@ -26,7 +26,7 @@ namespace LMS.Web.Controllers
             var userCount = _userManager.GetUsersLeadCount(loggedInUserId);
             DealerDashboardViewModel viewModel = _leadManager.GetLatestLeads(loggedInUserId);
             viewModel.userLeadCounts = userCount;
-            return View(viewModel);
+            return View("Dashboard", viewModel);
         }
 
         [HttpGet]

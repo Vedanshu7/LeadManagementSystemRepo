@@ -1,0 +1,124 @@
+﻿@model LMS.Web.BAL.ViewModels.DealerDashboardViewModel
+
+<div class="pt-3">
+    <div class="card card-outline card-primary">
+        <div class="card-header">
+            <h3>User Lead Count</h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-hover table-responsive-sm">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">
+                            Name
+                        </th>
+                        <th scope="col">
+                            Active Count
+                        </th>
+                        <th scope="col">
+                            In-Active Count
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.userLeadCounts)
+                    {
+                        <tr onclick="return window.location.href = '/DealerManager/UserDetail/@item.Id'" style="cursor:pointer;">
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AciveCounts)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ClosedCounts)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card card-outline card-primary">
+        <div class="card-header">
+            <h3>Latest Leads</h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">
+                            Customer Name
+                        </th>
+                        <th scope="col">
+                            Model
+                        </th>
+                        <th scope="col">
+                            Brand
+                        </th>
+                        <th scope="col">
+                            Assigned To
+                        </th>
+                        <th scope="col">
+                            Status
+                        </th>
+                        <th scope="col">
+                            Lead Type
+                        </th>
+                        <th scope="col">
+                            Service Type
+                        </th>
+                        <th scope="col">
+                            Date
+                        </th>
+                        <th scope="col"></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.LatestLeads)
+                    {
+                        <tr onclick="return window.location.href = '/DealerManager/LeadDetail/@item.Id'" style="cursor:pointer;">
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CustomerName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ModelName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BrandName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AssignedUserName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LeadStatus)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LeadType)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ServiceType)
+                            </td>
+                            <td>
+                                @item.CreatedDate.ToString("MM/dd/yyyy").Replace("-", "/")
+                            </td>
+                            <td>
+                                @if (item.AssignedUserName != null)
+                                {
+                                    @Html.ActionLink("De-Assign", "Modify", "DealerManager", new { operation = "DeAssign", leadId = item.Id }, new { @class = "btn btn-outline-danger" })
+
+                                }
+                                else
+                                {
+                                    @Html.ActionLink("Assign", "Modify", "DealerManager", new { operation = "Assign", leadId = item.Id }, new { @class = "btn btn-outline-success" })
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

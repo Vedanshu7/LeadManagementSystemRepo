@@ -1,0 +1,114 @@
+﻿@model LMS.Web.BAL.ViewModels.UserDashboardViewModel
+
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+<div class="row pt-3">
+    <div class="col-12">
+
+        <div class="pt-2">
+            <div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card card-outline card-primary">
+                            <div class="card-header">
+                                <h3> Your leads</h3>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-hover">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>
+                                                CustomerName
+                                            </th>
+                                            <th>
+                                                ModelName
+                                            </th>
+                                            <th>
+                                                LeadStatus
+                                            </th>
+                                            <th>
+                                                CreatedDate
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.userAssignedLeadList)
+                                        {
+                                            <tr onclick="return window.location.href = '/User/LeadDetails/@item.Id'" style="cursor:pointer;">
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.CustomerName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.ModelName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.LeadStatus)
+                                                </td>
+                                                <td>
+                                                    @item.CreatedDate.ToString("MM/dd/yyyy").Replace("-", "/")
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card card-outline card-primary">
+                            <div class="card-header">
+                                <h3> New leads</h3>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-hover">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>
+                                                CustomerName
+                                            </th>
+                                            <th>
+                                                ModelName
+                                            </th>
+                                            <th>
+                                                LeadStatus
+                                            </th>
+                                            <th>
+                                                CreatedDate
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.userNewLeadList)
+                                        {
+                                            <tr onclick="return window.location.href = '/User/LeadDetails/@item.Id'" style="cursor:pointer;">
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.CustomerName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.ModelName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.LeadStatus)
+                                                </td>
+                                                <td>
+                                                    @item.CreatedDate.ToString("MM/dd/yyyy").Replace("-", "/")
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

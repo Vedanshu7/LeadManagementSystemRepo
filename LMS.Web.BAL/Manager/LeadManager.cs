@@ -158,9 +158,9 @@ namespace LMS.Web.BAL.Manager
 
         public List<UserLeadViewModel> GetLeadListForUserDashboard(int loggedInUserId)
         {
-            var leads = _leadRepository.GetLeadList(null,null,null,null,loggedInUserId);
+            var leads = _leadRepository.GetLeadList(null, null, null, null, loggedInUserId);
             List<UserLeadViewModel> list = new List<UserLeadViewModel>();
-            var leadsFromDb=leads.Where(m => m.AssignedUserId == loggedInUserId).Take(15).ToList();            
+            var leadsFromDb = leads.Where(m => m.AssignedUserId == loggedInUserId).Take(15).ToList();
             foreach (var lead in leadsFromDb)
             {
                 UserLeadViewModel userLeads = new UserLeadViewModel();
@@ -168,14 +168,14 @@ namespace LMS.Web.BAL.Manager
                 userLeads.CustomerName = lead.CustomerName;
                 userLeads.ModelName = lead.Models.Name;
                 userLeads.LeadStatus = lead.LeadStatus.DisplayName;
-                userLeads.CreatedDate = lead.CreatedDate.ToString();
+                userLeads.CreatedDate = lead.CreatedDate;
                 list.Add(userLeads);
             }
             return list;
         }
         public List<UserLeadViewModel> GetNewLeadListForUserDashboard(int loggedInUserId)
         {
-            var leads = _leadRepository.GetLeadList(null, null, null, null,loggedInUserId);
+            var leads = _leadRepository.GetLeadList(null, null, null, null, loggedInUserId);
             List<UserLeadViewModel> list = new List<UserLeadViewModel>();
             var leadsFromDb = leads.Where(m => m.AssignedUserId == null).Take(15).ToList();
             foreach (var lead in leadsFromDb)
@@ -185,10 +185,10 @@ namespace LMS.Web.BAL.Manager
                 userLeads.CustomerName = lead.CustomerName;
                 userLeads.ModelName = lead.Models.Name;
                 userLeads.LeadStatus = lead.LeadStatus.DisplayName;
-                userLeads.CreatedDate = lead.CreatedDate.ToString();
+                userLeads.CreatedDate = lead.CreatedDate;
                 list.Add(userLeads);
             }
-            return list.OrderByDescending(m=>m.CreatedDate).ToList();
+            return list.OrderByDescending(m => m.CreatedDate).ToList();
         }
 
         public DealerDashboardViewModel GetLatestLeads(int loggedInUserId)
@@ -203,6 +203,7 @@ namespace LMS.Web.BAL.Manager
                 dealerLead.Id = lead.Id;
                 dealerLead.CustomerName = lead.CustomerName;
                 dealerLead.ModelName = lead.Models.Name;
+                dealerLead.BrandName = lead.Models.Brands.Name;
                 if (lead.AssignedUserId != null)
                     dealerLead.AssignedUserName = lead.Users.Name;
                 dealerLead.CustomerEmail = lead.CustomerEmail;

@@ -19,15 +19,15 @@ namespace LMS.Web.Controllers
 
         public ActionResult Index()
         {
-            return RedirectToAction("UserDashboard");
+            return RedirectToAction("Dashboard");
         }
         [HttpGet]
-        public ActionResult UserDashboard()
+        public ActionResult Dashboard()
         {
             int loggedInUserId = (int)Session["loggedInId"];
             UserDashboardViewModel user = new UserDashboardViewModel();
             user.userAssignedLeadList = _leadManager.GetLeadListForUserDashboard(loggedInUserId);
-            user.userNewLeadList = _leadManager.GetNewLeadListForUserDashboard(loggedInUserId);            
+            user.userNewLeadList = _leadManager.GetNewLeadListForUserDashboard(loggedInUserId);
             return View(user);
         }
 

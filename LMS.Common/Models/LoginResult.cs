@@ -7,5 +7,6 @@ namespace LMS.Common
         public LoginResultEnum result;
         public RolesEnum role;
         public int DealerId;
+        public string UserName;
     }
 }
