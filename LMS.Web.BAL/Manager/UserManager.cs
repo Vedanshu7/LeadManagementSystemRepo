@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using AutoMapper;
 using System.Threading.Tasks;
+using LMS.Web.DAL.Models;
 
 namespace LMS.Web.BAL.Manager
 {
@@ -26,6 +27,7 @@ namespace LMS.Web.BAL.Manager
                 cfg.CreateMap<Users, UserViewModel>();
                 cfg.CreateMap<UserRoleViewModel, Roles>();
                 cfg.CreateMap<Roles, UserRoleViewModel>();
+                cfg.CreateMap<UserLeadCountModel, UserLeadCountViewModel>();
             });
 
             mapper = config.CreateMapper();
@@ -88,6 +90,13 @@ namespace LMS.Web.BAL.Manager
             var userRoleFromDb = _userRepository.GetUserRoleDropDown();
             IEnumerable<UserRoleViewModel> roles = mapper.Map<IEnumerable<Roles>, IEnumerable<UserRoleViewModel>>(userRoleFromDb);
             return roles;
+        }
+
+        public List<UserLeadCountViewModel> GetUsersLeadCount(int loggedInUserId)
+        {
+            var Usercountsfromdb = _userRepository.GetUsersLeadCount(loggedInUserId);
+            var UserCounts = mapper.Map<List<UserLeadCountModel>, List<UserLeadCountViewModel>>(Usercountsfromdb);
+            return UserCounts;
         }
     }
 }

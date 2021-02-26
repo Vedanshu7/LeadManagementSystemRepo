@@ -7,6 +7,7 @@ namespace LMS.Web.BAL.Interface
     {
         //Common
         List<DealerLeadViewModel> GetLeadList(FilterLeadListViewModel filter, int loggedInUserId);
+        DealerDashboardViewModel GetLatestLeads(int loggedInUserId);
 
         //Dealer
         DealerLeadViewModel GetLeadDetailForDealer(int leadId, int dealerId);

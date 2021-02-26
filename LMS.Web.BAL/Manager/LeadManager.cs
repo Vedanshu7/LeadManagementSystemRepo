@@ -6,6 +6,7 @@ using AutoMapper;
 using LMS.Web.DAL.Database;
 using System;
 using System.Globalization;
+using System.Linq;
 
 namespace LMS.Web.BAL.Manager
 {
@@ -153,6 +154,33 @@ namespace LMS.Web.BAL.Manager
             var leadStatusFromDb = _leadRepository.GetLeadStatusDropDown(loggedInUserId, leadTypeCode);
             var leadStatusViewModels = mapper.Map<IEnumerable<LeadStatus>, IEnumerable<LeadStatusViewModel>>(leadStatusFromDb);
             return leadStatusViewModels;
+        }
+
+        public DealerDashboardViewModel GetLatestLeads(int loggedInUserId)
+        {
+            var leadsfromdb = _leadRepository.GetLeadList(null, null, null, null, loggedInUserId);
+            var leads = leadsfromdb.OrderBy(d => d.CreatedDate).Take(10).ToList();
+            DealerDashboardViewModel dealerLeads = new DealerDashboardViewModel();
+            dealerLeads.LatestLeads = new List<DealerLeadViewModel>();
+            foreach (var lead in leads)
+            {
+                DealerLeadViewModel dealerLead = new DealerLeadViewModel();
+                dealerLead.Id = lead.Id;
+                dealerLead.CustomerName = lead.CustomerName;
+                dealerLead.ModelName = lead.Models.Name;
+                if (lead.AssignedUserId != null)
+                    dealerLead.AssignedUserName = lead.Users.Name;
+                dealerLead.CustomerEmail = lead.CustomerEmail;
+                dealerLead.CustomerContactNumber = lead.CustomerContactNumber;
+                dealerLead.LeadStatus = lead.LeadStatus.DisplayName;
+                dealerLead.CreatedDate = lead.CreatedDate;
+                dealerLead.LeadType = lead.LeadType.DisplayName;
+                if (lead.ServiceId != null)
+                    dealerLead.ServiceType = lead.Services.Type;
+                dealerLead.Comments = lead.Comments;
+                dealerLeads.LatestLeads.Add(dealerLead);
+            }
+            return dealerLeads;
         }
     }
 }

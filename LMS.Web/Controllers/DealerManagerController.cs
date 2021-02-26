@@ -22,7 +22,11 @@ namespace LMS.Web.Controllers
 
         public ActionResult Index()
         {
-            return Content("Dealer Dashboard");
+            int loggedInUserId = (int)Session["loggedInId"];
+            var userCount = _userManager.GetUsersLeadCount(loggedInUserId);
+            DealerDashboardViewModel viewModel = _leadManager.GetLatestLeads(loggedInUserId);
+            viewModel.userLeadCounts = userCount;
+            return View(viewModel);
         }
 
         [HttpGet]
