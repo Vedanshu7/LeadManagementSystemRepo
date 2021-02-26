@@ -156,6 +156,41 @@ namespace LMS.Web.BAL.Manager
             return leadStatusViewModels;
         }
 
+        public List<UserLeadViewModel> GetLeadListForUserDashboard(int loggedInUserId)
+        {
+            var leads = _leadRepository.GetLeadList(null,null,null,null,loggedInUserId);
+            List<UserLeadViewModel> list = new List<UserLeadViewModel>();
+            var leadsFromDb=leads.Where(m => m.AssignedUserId == loggedInUserId).Take(15).ToList();            
+            foreach (var lead in leadsFromDb)
+            {
+                UserLeadViewModel userLeads = new UserLeadViewModel();
+                userLeads.Id = lead.Id;
+                userLeads.CustomerName = lead.CustomerName;
+                userLeads.ModelName = lead.Models.Name;
+                userLeads.LeadStatus = lead.LeadStatus.DisplayName;
+                userLeads.CreatedDate = lead.CreatedDate.ToString();
+                list.Add(userLeads);
+            }
+            return list;
+        }
+        public List<UserLeadViewModel> GetNewLeadListForUserDashboard(int loggedInUserId)
+        {
+            var leads = _leadRepository.GetLeadList(null, null, null, null,loggedInUserId);
+            List<UserLeadViewModel> list = new List<UserLeadViewModel>();
+            var leadsFromDb = leads.Where(m => m.AssignedUserId == null).Take(15).ToList();
+            foreach (var lead in leadsFromDb)
+            {
+                UserLeadViewModel userLeads = new UserLeadViewModel();
+                userLeads.Id = lead.Id;
+                userLeads.CustomerName = lead.CustomerName;
+                userLeads.ModelName = lead.Models.Name;
+                userLeads.LeadStatus = lead.LeadStatus.DisplayName;
+                userLeads.CreatedDate = lead.CreatedDate.ToString();
+                list.Add(userLeads);
+            }
+            return list.OrderByDescending(m=>m.CreatedDate).ToList();
+        }
+
         public DealerDashboardViewModel GetLatestLeads(int loggedInUserId)
         {
             var leadsfromdb = _leadRepository.GetLeadList(null, null, null, null, loggedInUserId);
@@ -182,5 +217,6 @@ namespace LMS.Web.BAL.Manager
             }
             return dealerLeads;
         }
+
     }
 }

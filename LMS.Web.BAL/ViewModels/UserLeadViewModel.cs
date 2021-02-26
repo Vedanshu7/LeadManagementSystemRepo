@@ -1,4 +1,4 @@
-﻿
+﻿using System;
 namespace LMS.Web.BAL.ViewModels
 {
     public class UserLeadViewModel
@@ -13,5 +13,6 @@ namespace LMS.Web.BAL.ViewModels
         public int LeadStatusId { get; set; }
         public string LeadStatus { get; set; }
         public string Comments { get; set; }
+        public string CreatedDate { get; set; }
     }
 }

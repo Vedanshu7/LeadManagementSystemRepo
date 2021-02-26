@@ -109,6 +109,7 @@
     <Compile Include="ViewModels\LeadViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ResetPasswordViewModel.cs" />
+    <Compile Include="ViewModels\UserDashboardViewModel.cs" />
     <Compile Include="ViewModels\UserLeadCountViewModel.cs" />
     <Compile Include="ViewModels\UserLeadViewModel.cs" />
     <Compile Include="ViewModels\UserRoleViewModel.cs" />

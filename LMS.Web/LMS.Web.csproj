@@ -2117,6 +2117,7 @@
     <Content Include="Views\Shared\_LayoutUser.cshtml" />
     <Content Include="Views\DealerManager\LeadDetail.cshtml" />
     <Content Include="Views\DealerManager\UserDetail.cshtml" />
+    <Content Include="Views\User\UserDashboard.cshtml" />
     <Content Include="Views\DealerManager\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>

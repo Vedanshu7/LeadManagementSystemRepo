@@ -1,4 +1,8 @@
 ﻿@model LMS.Web.BAL.ViewModels.LeadViewModel
+    @if(Session["dealerId"]==null)
+    {
+        Layout = "~/Views/Shared/_LayoutUser.cshtml";
+    }
 <div class="row pt-3">
     <div class="col-12">
         <div class="card">

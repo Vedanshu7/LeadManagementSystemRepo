@@ -15,7 +15,9 @@ namespace LMS.Web.BAL.Interface
         string DeAssignLeadForDealer(int leadId, int dealerId);
 
         //User
-        UserLeadViewModel GetLeadDetailForUser(int loggedInUserId, int id);
+        UserLeadViewModel GetLeadDetailForUser(int loggedInUserId, int id);      
+        List<UserLeadViewModel> GetLeadListForUserDashboard(int loggedInUserId);
+        List<UserLeadViewModel> GetNewLeadListForUserDashboard(int loggedInUserId);
         string UpdateLeadDetails(UserLeadViewModel model, int loggedInUserId);
         string AssignLeadForUser(int loggedInUserId, int leadId);
         string DeAssignLeadForUser(int loggedInUserId, int leadId);
