@@ -36,7 +36,7 @@ namespace LMS.Api.BAL.Manager
                 string testMailingList = "mihir67mj@gmail.com, nishupatel282@gmail.com, vedanshujoshi50@gmail.com";
 
                 //Call send email methods.
-                EmailManager.SendEmail(userId, "LMS", mailText, testMailingList, userId, password, smtpPort, host);
+                //EmailManager.SendEmail(userId, "LMS", mailText, testMailingList, userId, password, smtpPort, host);
 
                 return result.result;
             }

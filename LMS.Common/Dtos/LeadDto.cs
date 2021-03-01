@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace LMS.Common.Dtos
 {
     public class LeadDto
@@ -11,6 +13,8 @@ namespace LMS.Common.Dtos
         public string CustomerContactNumber { get; set; }
         public string LeadTypeCode { get; set; }
         public string ServiceType { get; set; }
+        public DateTime Date { get; set; }
+        public string VIN { get; set; }
         public string Comments { get; set; }
     }
 }

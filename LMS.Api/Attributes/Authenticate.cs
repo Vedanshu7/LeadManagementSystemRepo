@@ -17,17 +17,28 @@ namespace LMS.Api.Attributes
         public async Task AuthenticateAsync(HttpAuthenticationContext context, CancellationToken cancellationToken)
         {
             HttpRequestMessage request = context.Request;
-            var apiKey = request.Headers.GetValues("X-API-Key").FirstOrDefault();
-
-            if (String.IsNullOrEmpty(apiKey))
+            try
             {
-                context.ErrorResult = new AuthenticationFailureResult("Missing API Key", request);
+                if (request.Headers.Contains("X-API-Key"))
+                {
+                    var apiKey = request.Headers.GetValues("X-API-Key").FirstOrDefault();
+                    if (String.IsNullOrEmpty(apiKey))
+                    {
+                        context.ErrorResult = new AuthenticationFailureResult(null, request);
+                        return;
+                    }
+                    bool checkApi = await ValidateApiAsync(apiKey);
+                    if (!checkApi)
+                        context.ErrorResult = new AuthenticationFailureResult(null, request);
+                    return;
+                }
+                context.ErrorResult = new AuthenticationFailureResult(null, request);
+            }
+            catch (Exception)
+            {
+                context.ErrorResult = new AuthenticationFailureResult(null, request);
                 return;
             }
-            bool checkApi = await ValidateApiAsync(apiKey);
-            if (!checkApi)
-                context.ErrorResult = new AuthenticationFailureResult("Invalid API Key", request);
-            return;
         }
         private Task<bool> ValidateApiAsync(string apiKey)
         {

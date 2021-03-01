@@ -29,7 +29,7 @@ namespace LMS.Api.DAL.Repository
 
                 //Check if brand exists for that dealer
                 var brandId = _db.Brands.Where(b => b.BrandCode == leadDto.BrandCode && b.IsActive == true).First().Id;
-                var dealerBrandMapping = _db.DealerBrandMappings.Where(x => x.DealerId == lead.DealerId && x.BrandId == brandId && x.IsActive == true).First();
+                var dealerBrandMapping = _db.DealerBrandMappings.Where(x => x.DealerId == lead.DealerId && x.BrandId == brandId && x.IsActive == true).FirstOrDefault();
                 if (dealerBrandMapping == null)
                 {
                     return new LeadResult() { result = LeadResultEnum.Invalid };
@@ -45,9 +45,15 @@ namespace LMS.Api.DAL.Repository
                         break;
                     case Common.Constants.LeadType.AfterSales:
                         lead.LeadStatusId = _db.LeadStatus.Where(x => x.LeadStatusCode == Common.Constants.LeadStatus.AfterSalesNew).First().Id;
-                        if (leadDto.ServiceType != null)
+                        if (leadDto.ServiceType != null && leadDto.Date != null && leadDto.VIN != null)
                         {
-                            lead.ServiceId = _db.Services.Where(s => s.Type == leadDto.ServiceType).First().Id;
+                            var service = new Services();
+                            service.Type = leadDto.ServiceType;
+                            service.Date = leadDto.Date;
+                            service.VIN = leadDto.VIN;
+                            _db.Services.Add(service);
+                            _db.SaveChanges();
+                            lead.ServiceId = _db.Services.Where(s => s.Type == leadDto.ServiceType && s.Date == leadDto.Date && s.VIN == leadDto.VIN).First().Id;
                         }
                         break;
                 }

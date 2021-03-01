@@ -360,7 +360,7 @@ namespace LMS.Web.DAL.Repository
             catch (Exception e)
             {
                 //TODO: Add Logger
-                return "Error occurd.";
+                return "Error occured.";
                 throw;
             }
         }
