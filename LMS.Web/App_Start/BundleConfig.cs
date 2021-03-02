@@ -28,8 +28,8 @@ namespace LMS.Web
                      bundles.Add(new ScriptBundle("~/adminlte/js").Include(
                          "~/adminlte/plugins/jquery/jquery.min.js",
                          "~/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js",
-                         "~/adminlte/plugins/daterangepicker/moment.min.js",
-                         "~/adminlte/plugins/daterangepicker/daterangepicker.js",
+                         "~/adminlte/plugins/summernote/summernote-bs4.min.js",
+                         
                           "~/adminlte/plugins/datatables/jquery.dataTables.min.js",
                           "~/adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js",
                         "~/adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js",

@@ -9,6 +9,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Lead Management System</title>
+    
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <!-- Google Font: Source Sans Pro -->
@@ -40,11 +41,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <ul class="navbar-nav ml-auto">
                 <!-- Messages Dropdown Menu -->
                 <!-- Notifications Dropdown Menu -->
-                <li class="nav-item ">
-                    <a class="nav-link" href="/Authentication/LogOff">
-                        Log Out
+                <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <i class="dropdown-toggle dropdown-icon"></i>
+
                     </a>
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        
+                        <div class="dropdown-divider"></div>
+                        <a href="/Authetication/ChangePassword" class="dropdown-item">
+                            <i class="fas fa-key mr-2"></i> 
+                            <span class="float-right text-muted text-sm">Change Password</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="/Authetication/LogOff" class="dropdown-item">
+                            <i class="fas fa-sign-out-alt mr-2"></i> 
+                            <span class="float-right text-muted text-sm">LogOut</span>
+                        </a>
+                       
+                    </div>
                 </li>
+               
             </ul>
         </nav>
         <!-- /.navbar -->
@@ -154,6 +171,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- REQUIRED SCRIPTS -->
    
     @Scripts.Render("~/adminlte/js")
+    @Scripts.Render("~/bundles/jquery")
     @RenderSection("scripts", required: false)
 
     <script>
