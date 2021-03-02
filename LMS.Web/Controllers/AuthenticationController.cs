@@ -71,6 +71,11 @@ namespace LMS.Web.Controllers
                                 if (!path.Equals(string.Empty))
                                     return Redirect(path);
                                 return RedirectToAction("Index", "User");
+                            case RolesEnum.Admin:
+                                Session["loggedInId"] = loginResult.LoggedInUserId;
+                                if (!path.Equals(string.Empty))
+                                    return Redirect(path);
+                                return RedirectToAction("CreateBrand","Admin");
                         }
                         break;
 

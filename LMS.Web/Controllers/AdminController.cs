@@ -1,4 +1,8 @@
-﻿using System;
+﻿using LMS.Common;
+using LMS.Web.Attributes;
+using LMS.Web.BAL.Interface;
+using LMS.Web.BAL.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -6,85 +10,62 @@ using System.Web.Mvc;
 
 namespace LMS.Web.Controllers
 {
+    [Authenticate]
+    [Authorization(RolesEnum.Admin)]
     public class AdminController : Controller
     {
+        private readonly IBrandManager _brandManager;
+        public AdminController(IBrandManager brandManager)
+        {
+            _brandManager = brandManager;
+        }
         // GET: Admin
         public ActionResult Index()
         {
             return Content("This is Admin");
         }
 
-        // GET: Admin/Details/5
-        public ActionResult Details(int id)
-        {
-            //Admin
-            return View();
-        }
-
-        // GET: Admin/Create
-        public ActionResult Create()
+        public ActionResult CreateBrand()
         {
             return View();
         }
-
-        // POST: Admin/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult CreateBrand(AdminBrandViewModel model)
         {
-            try
+            int loggedInUserId = (int)Session["loggedInId"];
+          
+            var result = _brandManager.CreateBrand(model,loggedInUserId);
+            if(result=="Succcess")
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                TempData["NotificationSuccess"] = result;
+                return RedirectToAction("BrandList", "Admin");
             }
-            catch
+            else
             {
+                TempData["NotificationInfo"] = result;
                 return View();
             }
+          
         }
 
-        // GET: Admin/Edit/5
-        public ActionResult Edit(int id)
+        [HttpGet]
+        public ActionResult BrandList()
+        {
+            return Content("Added.");
+            var brands = _brandManager.GetBrandList();
+            return View(brands);
+        }
+        [HttpPost]
+        public ActionResult BrandList(AdminBrandViewModel model)
         {
             return View();
         }
 
-        // POST: Admin/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Admin/Delete/5
-        public ActionResult Delete(int id)
+        [HttpGet]
+        public ActionResult EditBrands()
         {
             return View();
         }
 
-        // POST: Admin/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }
