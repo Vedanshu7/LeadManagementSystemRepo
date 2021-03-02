@@ -1,4 +1,6 @@
 ﻿
+using LMS.Common.Enums;
+
 namespace LMS.Common
 {
     public class LoginResult

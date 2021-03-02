@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using LMS.Common;
+using LMS.Common.Enums;
 using LMS.Web.Attributes;
 using LMS.Web.BAL.Interface;
 using LMS.Web.BAL.ViewModels;
@@ -46,11 +47,11 @@ namespace LMS.Web.Controllers
         {
             int loggedInUserId = (int)Session["loggedInId"];
             var leadList = _leadManager.GetLeadList(viewModel.Filters, loggedInUserId);
-            viewModel.Leads = leadList;
             if (viewModel.Filters.leadStatusId != null)
             {
                 viewModel.Filters.flag = true;
             }
+            viewModel.Leads = leadList;
             return View(viewModel);
         }
 

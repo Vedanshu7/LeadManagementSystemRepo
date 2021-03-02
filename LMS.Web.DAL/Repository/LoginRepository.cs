@@ -1,4 +1,5 @@
 ﻿using LMS.Common;
+using LMS.Common.Enums;
 using LMS.Web.DAL.Database;
 using LMS.Web.DAL.Interface;
 using System;

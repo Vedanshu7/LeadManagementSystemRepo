@@ -1,5 +1,5 @@
 ﻿
-namespace LMS.Common
+namespace LMS.Common.Enums
 {
     public enum LoginResultEnum : int
     {

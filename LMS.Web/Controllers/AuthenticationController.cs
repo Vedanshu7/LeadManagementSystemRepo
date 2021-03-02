@@ -5,6 +5,7 @@ using LMS.Web.BAL.ViewModels;
 using LMS.Web.BAL.Token;
 using System.IO;
 using LMS.Common;
+using LMS.Common.Enums;
 
 namespace LMS.Web.Controllers
 {

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Mvc.Filters;
 using System.Web.Routing;
 using LMS.Common;
+using LMS.Common.Enums;
 
 namespace LMS.Web.Attributes
 {

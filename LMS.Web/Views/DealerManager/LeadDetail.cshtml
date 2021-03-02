@@ -5,50 +5,103 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="pt-3">
-    <div class="card border-dark">
-        <div class="card-header"><b>Customer Name: </b> @Html.DisplayFor(model => model.CustomerName)</div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-4">
-                    <p class="card-text"><b>Model: </b> @Html.DisplayFor(model => model.ModelName) </p>
+    <div class="pt-3">
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+
+                <div class="float-left">
+                    <b>Lead Id: </b> @Html.DisplayFor(model => model.Id)
                 </div>
-                <div class="col-4">
-                    <p class="card-text"><b>Brand: </b> @Html.DisplayFor(model => model.BrandName)</p>
+                <div class="float-right">
+                    <b>Lead Date: </b> @Model.CreatedDate.ToString("MM/dd/yyyy").Replace("-", "/")
                 </div>
-                <div class="col-4">
-                    <p class="card-text"><b>Assigned User: </b> @Html.DisplayFor(model => model.AssignedUserName)</p>
-                </div>
+
             </div>
-            <div class="row">
-                <div class="col-4">
-                    <p class="card-text"><b>Lead Type:</b> @Html.DisplayFor(model => model.LeadType)</p>
+
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-4">
+                        <p class="card-text"><b>Customer Name: </b> @Html.DisplayFor(model => model.CustomerName) </p>
+                    </div>
+                    <div class="col-4">
+                        <p class="card-text"><b>Brand: </b> @Html.DisplayFor(model => model.BrandName)</p>
+                    </div>
+                    <div class="col-4">
+                        <p class="card-text">
+                            @if (Model.AssignedUserName != null)
+                            {
+                                <b>Assigned User: </b> @Html.DisplayFor(model => model.AssignedUserName)
+
+                            }
+                        </p>
+                    </div>
                 </div>
-                <div class="col-4">
-                    <p class="card-text"><b>Lead Status: </b> @Html.DisplayFor(model => model.LeadStatus)</p>
+                <div class="row">
+                    <div class="col-4">
+                        <p class="card-text">
+                            <b> Customer Email:</b> @Html.DisplayFor(model => model.CustomerEmail)
+                        </p>
+                    </div>
+                    <div class="col-4">
+                        <p class="card-text"><b>Model: </b> @Html.DisplayFor(model => model.ModelName)</p>
+
+                    </div>
+                    <div class="col-4">
+
+                        <p class="card-text"><b>Lead Status: </b> @Html.DisplayFor(model => model.LeadStatus)</p>
+
+                    </div>
                 </div>
-                <div class="col-4">
-                    <p class="card-text">
-                        <b> Service Type:</b> @Html.DisplayFor(model => model.ServiceType)
-                    </p>
+                <div class="row">
+                    <div class="col-4">
+                        <p class="card-text">
+                            <b>Customer Contact Number:</b>  @Html.DisplayFor(model => model.CustomerContactNumber)
+                        </p>
+
+                    </div>
+                    <div class="col-4">
+
+                        <p class="card-text"><b>Lead Type: </b> @Html.DisplayFor(model => model.LeadType)</p>
+
+                    </div>
+                    <div class="col-4">
+                        <p class="card-text">
+                            @if (Model.ServiceType != null)
+                            {
+
+                                <b> Service Type:</b> @Html.DisplayFor(model => model.ServiceType)
+
+                            }
+                        </p>
+                    </div>
+
                 </div>
+
             </div>
-            <div class="row">
-                <div class="col-4">
-                    <p class="card-text">
-                        <b> Customer Email:</b> @Html.DisplayFor(model => model.CustomerEmail)
-                    </p>
-                </div>
-                <div class="col-4">
-                    <p class="card-text"><b>Customer Contact Number:</b>  @Html.DisplayFor(model => model.CustomerContactNumber)</p>
-                </div>
+            <div class="card-footer">
+
+
+                <b>Comments:</b> @Html.DisplayFor(model => model.Comments)
+
+
             </div>
         </div>
-        <div class="card-footer">
-            <b>Comments:</b> @Html.DisplayFor(model => model.Comments)
+        <div class="d-flex justify-content-center">
+            <p>
+
+                <a href="/DealerManager/LeadList" class="btn btn-outline-dark btn-sx" role="button" aria-pressed="true">Back To List</a>
+                &nbsp;
+                &nbsp;
+                @if (Model.AssignedUserName == null)
+                {
+                    @Html.ActionLink("Assign", "Modify", "DealerManager", new { operation = "Assign", leadId = Model.Id }, new { @class = "btn btn-success" })
+
+                }
+                else
+                {
+                    @Html.ActionLink("De-Assign", "Modify", "DealerManager", new { operation = "DeAssign", leadId = Model.Id }, new { @class = "btn btn-danger" })
+                }
+            </p>
         </div>
     </div>
-    <p>
-        <a href="/DealerManager/LeadList" class="btn btn-secondary btn-lg " role="button" aria-pressed="true">Back</a>
-    </p>
-</div>

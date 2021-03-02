@@ -2,114 +2,141 @@
 
 @{
     ViewBag.Title = "Details";
-    Layout = "~/Views/Shared/_LayoutUser.cshtml";
-}
+    Layout = "~/Views/Shared/_Layout.cshtml";
 
-<h2 class="pt-3">Lead Details</h2>
+}
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    <div class="form-horizontal col-md-6">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
-        <div class="form-group">
-            @Html.LabelFor(model => model.CustomerName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(m => m.CustomerName)
+    <div class="pt-3">
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+
+                <div class="float-left">
+                    <b>Lead Id: </b> @Html.DisplayFor(model => model.Id)
+                </div>
+                <div class="float-right">
+                    <b>Lead Date: </b> @Model.CreatedDate.ToString("MM/dd/yyyy").Replace("-", "/")
+                </div>
+
+            </div>
+
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-4">
+                        <p class="card-text"><b>Customer Name: </b> @Html.DisplayFor(model => model.CustomerName) </p>
+                    </div>
+                    <div class="col-4">
+                        <p class="card-text"><b>Brand: </b> @Html.DisplayFor(model => model.BrandName)</p>
+                    </div>
+                    <div class="col-4">
+                        <p class="card-text">
+                            @if (Model.AssignedUserName != null)
+                            {
+                                <b>Assigned User: </b> @Html.Display("Self")
+                            }
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <p class="card-text">
+                            <b> Customer Email:</b> @Html.DisplayFor(model => model.CustomerEmail)
+                        </p>
+                    </div>
+                    <div class="col-4">
+                        <p class="card-text"><b>Model: </b> @Html.DisplayFor(model => model.ModelName)</p>
+
+                    </div>
+                    <div class="col-4">
+                        @if (Model.AssignedUserName != null)
+                            {
+                            <p class="card-text">
+                                <b>Lead Status: </b> @Html.DropDownList("LeadStatusId", null, htmlAttributes: new { @class = "form-control" })
+                            </p>
+                            }
+                            else
+                            {
+                            <p class="card-text"><b>Lead Status: </b> @Html.DisplayFor(model => model.LeadStatus)</p>
+                            }
+
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <p class="card-text">
+                            <b>Customer Contact Number:</b>  @Html.DisplayFor(model => model.CustomerContactNumber)
+                        </p>
+
+                    </div>
+                    <div class="col-4">
+
+                        <p class="card-text">
+
+                    </div>
+                    <div class="col-4">
+                        <p class="card-text">
+                            @if (Model.ServiceType != null)
+                            {
+
+                                <b> Service Type:</b> @Html.DisplayFor(model => model.ServiceType)
+
+                            }
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="card-footer">
+
+
+                <b>Comments:</b> @Html.DisplayFor(model => model.Comments)
+
+
             </div>
         </div>
+        <div class="d-flex justify-content-center">
+            <p>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.ModelName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(m => m.ModelName)
-            </div>
-        </div>
+                <a href="/DealerManager/LeadList" class="btn btn-outline-dark btn-sx" role="button" aria-pressed="true">Back To List</a>
+                &nbsp;
+                &nbsp;
+                @if (Model.AssignedUserName == null)
+                            {
+                    @Html.ActionLink("Assign", "AssignLead", "User", new { leadId = Model.Id }, new { @class = "btn btn-success" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(m => m.BrandName)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.AssignedUserName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(m => m.AssignedUserName)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CustomerEmail, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.CustomerEmail, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CustomerEmail, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CustomerContactNumber, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.CustomerContactNumber, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CustomerContactNumber, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.LeadStatusId, "Lead Status", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @if (Model.AssignedUserName != null)
-                {
-                    @Html.DropDownList("LeadStatusId", null, htmlAttributes: new { @class = "form-control" })
-                }
-                else
-                {
-                    @Html.DisplayFor(model => model.LeadStatus, new { htmlAttributes = new { @class = "form-control" } })
-                }
-                @Html.ValidationMessageFor(model => model.LeadStatusId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextArea("Comments", new
-                {
-                    @class = "form-control",
-                    @id = "summernote"
-                })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
+                            }
+                            else
+                            {
+                    @Html.ActionLink("De-Assign", "DeAssignLead", "User", new { leadId = Model.Id }, new { @class = "btn btn-danger" })
+                            }
+            </p>
         </div>
     </div>
+
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
-@section scripts {
-    <script>
-        $(document).ready(function () {
-            $('#summernote').summernote({
-                placeholder: 'Your comment',
-                tabsize: 2,
-                height: 100
+
+
+    @section scripts {
+        <script>
+            $(document).ready(function () {
+                $('#summernote').summernote({
+                    placeholder: 'Your comment',
+                    tabsize: 2,
+                    height: 100
+                });
             });
-        });
-    </script>
+        </script>
 
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/jquery")
 
-    <script>
+        <script>
     $(document).ready(function () {
         if ('@TempData["NotificationSuccess"]' != '') {
             toastr.success('@TempData["NotificationSuccess"]');
@@ -118,5 +145,5 @@
             toastr.error('@TempData["NotificationInfo"]');
         }
     });
-    </script>
-}
+        </script>
+    }

@@ -75,6 +75,8 @@ namespace LMS.Web.BAL.Manager
                 UserLeadViewModel lead = mapper.Map<Leads, UserLeadViewModel>(leadFromDb);
                 lead.ModelName = leadFromDb.Models.Name;
                 lead.BrandName = leadFromDb.Models.Brands.Name;
+                if (leadFromDb.ServiceId != null)
+                    lead.ServiceType = leadFromDb.Services.Type;
                 if (leadFromDb.AssignedUserId != null)
                     lead.AssignedUserName = leadFromDb.Users.Name;
                 lead.LeadStatus = leadFromDb.LeadStatus.DisplayName;

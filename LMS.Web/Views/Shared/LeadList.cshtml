@@ -1,7 +1,7 @@
 ﻿@model LMS.Web.BAL.ViewModels.LeadViewModel
 @if (Session["dealerId"] == null)
 {
-    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="row pt-3">
     <div class="col-12">
@@ -17,10 +17,41 @@
                     using (Html.BeginForm("LeadList", "DealerManager", FormMethod.Post))
                     {
                         <div class="row">
-                            <div class="col-3" id="leadtypefilter">
+
+                            <div class="col-4" id="datefilter">
                                 <div class="row">
                                     <div class="col-3 col-form-label">
-                                        @Html.Label("LeadType")
+                                        <label>Start Date:</label>
+                                    </div>
+                                    <div class="col-9">
+                                        @Html.HiddenFor(m => m.Filters.startDate, new { @class = "form-control", @id = "startDate" })
+                                        <input type="date" class="form-control" name="StartDate" id="StartDate" />
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div class="col-4" id="datefilter">
+                                <div class="row">
+                                    <div class="col-3 col-form-label">
+                                        <label>End Date:</label>
+                                    </div>
+                                    <div class="col-9">
+                                        @Html.HiddenFor(m => m.Filters.endDate, new { @class = "form-control", @id = "endDate" })
+                                        <input type="date" class="form-control" name="EndDate" id="EndDate" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <input type="button" id="clearbt" value="Clear Date" class="btn btn-outline-info" />
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-4" id="leadtypefilter">
+                                <div class="row">
+                                    <div class="col-3 col-form-label">
+                                        @Html.Label("Lead Type:")
                                     </div>
                                     <div class="col-9">
                                         @Html.DropDownListFor(m => m.Filters.leadTypeId, (IEnumerable<SelectListItem>)ViewBag.LeadTypeId, "Select", new { @class = "form-control", @id = "lead_type_id" })
@@ -30,8 +61,9 @@
 
                             <div class="col-3" id="lead_status" style="display:none">
                                 <div class="row">
+
                                     <div class="col-4 col-form-label">
-                                        @Html.Label("LeadStatus")
+                                        @Html.Label("Lead Status:")
                                     </div>
                                     <div class="col-8">
                                         @if (Model.Filters.flag)
@@ -47,16 +79,9 @@
                                 </div>
                             </div>
 
-                            <div class="input-group pt-2" id="datefilter">
-                                <div class="col-sm-2 col-form-label">
-                                    <label> Select Start And End Date:</label>
-                                </div>
-                                @Html.HiddenFor(m => m.Filters.startDate, new { @class = "form-control", @id = "startDate" })
-                                @Html.HiddenFor(m => m.Filters.endDate, new { @class = "form-control", @id = "endDate" })
-                                <input id="date_range" class="form-control col-sm-2" placeholder="Select Dates" type="text" autocomplete="off">
-                            </div>
+
                             <div class="col-1">
-                                <input type="submit" value="Filter" class="btn btn-outline-success" />
+                                <input type="submit" value="Search" class="btn btn-outline-dark" />
                             </div>
                         </div>
                     }
@@ -66,10 +91,42 @@
                     using (Html.BeginForm("LeadList", "User", FormMethod.Post))
                     {
                         <div class="row">
+
+                            <div class="col-4" id="datefilter">
+                                <div class="row">
+                                    <div class="col-3 col-form-label">
+                                        <label>Start Date:</label>
+                                    </div>
+                                    <div class="col-9">
+                                        @Html.HiddenFor(m => m.Filters.startDate, new { @class = "form-control", @id = "startDate" })
+                                        <input type="date" class="form-control" name="StartDate" id="StartDate" />
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div class="col-4" id="datefilter">
+                                <div class="row">
+                                    <div class="col-3 col-form-label">
+                                        <label>End Date:</label>
+                                    </div>
+                                    <div class="col-9">
+                                        @Html.HiddenFor(m => m.Filters.endDate, new { @class = "form-control", @id = "endDate" })
+                                        <input type="date" class="form-control" name="EndDate" id="EndDate" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <input type="button" id="clearbt" value="Clear Date" class="btn btn-outline-info" />
+                            </div>
+
+                        </div>
+                        <div class="row">
+
                             <div class="col-3" id="lead_status">
                                 <div class="row">
                                     <div class="col-4 col-form-label">
-                                        @Html.Label("LeadStatus")
+                                        @Html.Label("Lead Status:")
                                     </div>
                                     <div class="col-8">
                                         @if (Model.Filters.flag)
@@ -85,17 +142,10 @@
                                 </div>
                             </div>
 
-                            <div class="input-group pt-2" id="datefilter">
-                                <div class="col-sm-2 col-form-label">
-                                    <label> Select Start And End Date:</label>
-                                </div>
-                                @Html.HiddenFor(m => m.Filters.startDate, new { @class = "form-control", @id = "startDate" })
-                                @Html.HiddenFor(m => m.Filters.endDate, new { @class = "form-control", @id = "endDate" })
-                                <input id="date_range" class="form-control col-sm-2" placeholder="Select Dates" type="text" autocomplete="off">
-                            </div>
+
 
                             <div class="col-1">
-                                <input type="submit" value="Filter" class="btn btn-outline-success" />
+                                <input type="submit" value="Search" class="btn btn-outline-dark" />
                             </div>
                         </div>
                     }
@@ -207,6 +257,9 @@
                                             @Html.DisplayName("Status")
                                         </th>
                                         <th>
+                                            @Html.DisplayName("Date")
+                                        </th>
+                                        <th>
                                             @Html.DisplayName("Comments")
                                         </th>
                                         <th>
@@ -247,6 +300,9 @@
                                                 @Html.DisplayFor(modelItem => item.LeadStatus)
                                             </td>
                                             <td>
+                                                @item.CreatedDate.ToString("MM/dd/yyyy").Replace("-", "/")
+                                            </td>
+                                            <td>
                                                 @Html.DisplayFor(modelItem => item.Comments)
                                             </td>
                                             <td>
@@ -282,50 +338,29 @@
         if ('@TempData["NotificationInfo"]' != '') {
             toastr.error('@TempData["NotificationInfo"]');
         }
-        $("#date_range").daterangepicker({
-            autoUpdateInput: false,
-            changeMonth: true,
-            changeYear: true,
-            dateonly: true,
-            locale: {
-                "cancelLabel": "Clear",
-            },
-            startDate: setStartDate(),
-            endDate: setEndDate(),
-        });
-        function setStartDate() {
-
-            if ($("#startDate").val() !== "") {
-                var userDate = $("#startDate").val();
-                return userDate;
+        if ($("#startDate").length > 0 && $("#endDate").length > 0) {
+            if ($("#startDate").val() != "" && $("#endDate").val() != "") {
+                var value1 = $("#startDate").val().split("/");
+                 var value2 = $("#endDate").val().split("/");
+                $("#StartDate").val(value1[2]+"-"+value1[0]+"-"+value1[1]);
+                $("#EndDate").val(value2[2]+"-"+value2[0]+"-"+value2[1]);
             }
-            return new Date();
         }
-        function setEndDate() {
-
-            if ($("#endDate").val() !== "") {
-                var userDate = $("#endDate").val();
-                var startDatefor = $("#startDate").val().split(" ");
-                var endDatefor = $("#endDate").val().split(" ");
-                $("#date_range").val(startDatefor[0] + " to " + endDatefor[0]);
-                return userDate;
-            }
-            return new Date();
-        }
-
-        $("#date_range").on('apply.daterangepicker', function (ev, picker) {
-            $(this).val(picker.startDate.format('MM/DD/YYYY') + ' to ' + picker.endDate.format('MM/DD/YYYY'));
-            var value = $(this).val().split(" to ");
-            $("#startDate").val(value[0]);
-            $("#endDate").val(value[1]);
-        });
-
-        $("#date_range").on('cancel.daterangepicker', function (ev, picker) {
-            $(this).val("");
+        $("#clearbt").on("click", function () {
             $("#startDate").val("");
             $("#endDate").val("");
+            $("#EndDate").val("");
+            $("#StartDate").val("");
+        });
+        $("#StartDate").on("change", function () {
+            var value1 = $("#StartDate").val().split("-");
+            $("#startDate").val(value1[1]+"/"+value1[2]+"/"+value1[0]);
         });
 
+        $("#EndDate").on("change", function () {
+            var value2 = $("#EndDate").val().split("-");
+             $("#endDate").val(value2[1]+"/"+value2[2]+"/"+value2[0]);
+        });
         if ($("#lead_type_id").length >0) {
             var selectedText = $("#lead_type_id").find(':selected').val();
             if (selectedText === "") {

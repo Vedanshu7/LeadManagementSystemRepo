@@ -25,7 +25,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    @Html.ActionLink("Home", "Index", "DealerManager", null, new { @class = "nav-link" })
+                    @if (((LMS.Common.Enums.RolesEnum)Session["role"]).Equals(LMS.Common.Enums.RolesEnum.Sales) || ((LMS.Common.Enums.RolesEnum)Session["role"]).Equals(LMS.Common.Enums.RolesEnum.AfterSales))
+                    {
+                        @Html.ActionLink("Home", "Index", "User", null, new { @class = "nav-link" })
+                    }
+                    @if (((LMS.Common.Enums.RolesEnum)Session["role"]).Equals(LMS.Common.Enums.RolesEnum.DealerManager))
+                    {
+                        @Html.ActionLink("Home", "Index", "DealerManager", null, new { @class = "nav-link" })
+                    }
                 </li>
             </ul>
 
@@ -68,23 +75,42 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
-                        with font-awesome or any other icon font library -->
-                        <li class="nav-item">
-                            <a href="/DealerManager/UserList" class="nav-link">
-                                <i class="nav-icon fas fa-users"></i>
-                                <p>
-                                    Users
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/DealerManager/LeadList" class="nav-link">
-                                <i class="nav-icon fas fa-list-ul "></i>
-                                <p>
-                                    Leads
-                                </p>
-                            </a>
-                        </li>
+    with font-awesome or any other icon font library -->
+                        @if (((LMS.Common.Enums.RolesEnum)Session["role"]).Equals(LMS.Common.Enums.RolesEnum.Sales) || ((LMS.Common.Enums.RolesEnum)Session["role"]).Equals(LMS.Common.Enums.RolesEnum.AfterSales))
+                        {
+                            <li class="nav-item">
+                                <a href="/User/LeadList" class="nav-link">
+                                    <i class="nav-icon fas fa-list-ul "></i>
+                                    <p>
+                                        Leads
+                                    </p>
+                                </a>
+                            </li>
+                        }
+                        @if (((LMS.Common.Enums.RolesEnum)Session["role"]).Equals(LMS.Common.Enums.RolesEnum.DealerManager))
+                        {
+
+                            <li class="nav-item">
+                                <a href="/DealerManager/UserList" class="nav-link">
+                                    <i class="nav-icon fas fa-users"></i>
+                                    <p>
+                                        Users
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/DealerManager/LeadList" class="nav-link">
+                                    <i class="nav-icon fas fa-list-ul "></i>
+                                    <p>
+                                        Leads
+                                    </p>
+                                </a>
+                            </li>
+                        }
+                        @if (((LMS.Common.Enums.RolesEnum)Session["role"]).Equals(LMS.Common.Enums.RolesEnum.Admin))
+                        {
+
+                        }
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -126,7 +152,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- ./wrapper -->
     <!-- REQUIRED SCRIPTS -->
-    @Scripts.Render("~/bundles/jquery")
+   
     @Scripts.Render("~/adminlte/js")
     @RenderSection("scripts", required: false)
 
@@ -134,11 +160,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
         $(function () {
             $("#example").DataTable({
                 "responsive": true, "lengthChange": false, "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+                "buttons": ["excel"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
             $("#example1").DataTable({
                 "responsive": true, "lengthChange": false, "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+                "buttons": [ "excel"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
             $('#example2').DataTable({
                 "paging": true,
