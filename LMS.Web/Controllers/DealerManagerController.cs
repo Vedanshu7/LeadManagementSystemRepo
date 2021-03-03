@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using LMS.Web.Attributes;
 using LMS.Common;
 using System;
+using LMS.Common.Enums;
 
 namespace LMS.Web.Controllers
 {
@@ -137,12 +138,11 @@ namespace LMS.Web.Controllers
             var loggedInUserId = (int)Session["loggedInId"];
             var leadList = _leadManager.GetLeadList(viewModel.Filters, loggedInUserId);
             ViewBag.LeadTypeId = new SelectList(_leadManager.GetLeadTypeDropDown(), "Id", "DisplayName");
-
-            viewModel.Leads = leadList;
             if (viewModel.Filters.leadStatusId != null)
             {
                 viewModel.Filters.flag = true;
             }
+            viewModel.Leads = leadList;
             return View(viewModel);
         }
 

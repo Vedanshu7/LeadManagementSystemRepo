@@ -1,12 +1,13 @@
 ﻿using LMS.Common.Dtos;
 using LMS.Api.BAL.Interface;
 using LMS.Api.DAL.Interface;
-using LMS.Common.Enums;
+using LMS.Common;
 using LMS.Common.Email;
 using System.IO;
 using System.Web;
 using System.Web.Hosting;
 using System.Collections.Generic;
+using LMS.Common.Enums;
 
 namespace LMS.Api.BAL.Manager
 {

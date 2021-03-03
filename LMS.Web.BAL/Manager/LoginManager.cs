@@ -24,5 +24,11 @@ namespace LMS.Web.BAL.Manager
         {
             return _loginRepository.IsValidUser(userEmail);
         }
+
+        public string ChangePassword(ChangePasswordViewModel changePassword,int loggedInUserId)
+        {
+            return _loginRepository.ChangePassword(changePassword.CurrentPassword, changePassword.NewPassword,loggedInUserId);
+
+        }
     }
 }

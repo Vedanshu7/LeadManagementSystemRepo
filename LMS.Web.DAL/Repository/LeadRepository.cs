@@ -234,7 +234,7 @@ namespace LMS.Web.DAL.Repository
                     leadFromDb.UpdatedDate = DateTime.Now;
                     leadFromDb.Comments = model.Comments;
                     leadFromDb.LeadStatusId = model.LeadStatusId;
-
+                    leadFromDb.UserComments = model.UserComments;
                     _db.Entry(leadFromDb).State = EntityState.Modified;
                     _db.SaveChanges();
                     return "Success";

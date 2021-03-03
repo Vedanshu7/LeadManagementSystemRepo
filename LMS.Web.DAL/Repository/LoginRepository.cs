@@ -1,7 +1,9 @@
 ﻿using LMS.Common;
+using LMS.Common.Enums;
 using LMS.Web.DAL.Database;
 using LMS.Web.DAL.Interface;
 using System;
+using System.Data.Entity;
 using System.Linq;
 
 namespace LMS.Web.DAL.Repository
@@ -79,6 +81,30 @@ namespace LMS.Web.DAL.Repository
 
             //If no user is found
             return false;
+        }
+
+        public string ChangePassword(string currentPassword, string newPassword,int loggedInUserId)
+        {
+            var userFromDb = _db.Users.Where(u => u.Id == loggedInUserId).FirstOrDefault();
+            if (userFromDb != null)
+            {
+                if (userFromDb.Password == currentPassword)
+                {
+                    userFromDb.Password = newPassword;
+                    _db.Entry(userFromDb).State = EntityState.Modified;
+                    _db.SaveChanges();
+                    return "Success";
+                }
+                else
+                {
+                    return "Enter Current Password";
+                }
+            }
+            else
+            {
+                return "Error occured";
+            }
+            
         }
     }
 }

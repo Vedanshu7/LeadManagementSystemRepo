@@ -16,5 +16,6 @@ namespace LMS.Web.BAL.ViewModels
         public string ServiceType { get; set; }
         public DateTime CreatedDate { get; set; }
         public string Comments { get; set; }
+        public string UserComments { get; set; }
     }
 }

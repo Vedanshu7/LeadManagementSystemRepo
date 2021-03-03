@@ -11,8 +11,10 @@ namespace LMS.Web.BAL.ViewModels
         public string CustomerEmail { get; set; }
         public string CustomerContactNumber { get; set; }
         public int LeadStatusId { get; set; }
+        public string ServiceType { get; set; }
         public string LeadStatus { get; set; }
         public string Comments { get; set; }
         public DateTime CreatedDate { get; set; }
+        public string UserComments { get; set; }
     }
 }

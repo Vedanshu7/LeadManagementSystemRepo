@@ -5,6 +5,8 @@ using LMS.Web.BAL.ViewModels;
 using LMS.Web.BAL.Token;
 using System.IO;
 using LMS.Common;
+using LMS.Common.Enums;
+using LMS.Web.Attributes;
 
 namespace LMS.Web.Controllers
 {
@@ -122,7 +124,16 @@ namespace LMS.Web.Controllers
                     string result = _loginManager.ResetPassword(userEmail, resetPassword);
                     Session["token"] = null;
 
-                    return Content(result); //TODO: Pass this as message to view
+                    if (result == "Success")
+                    {
+                        TempData["NotificationSuccess"] = result;
+                        return RedirectToAction("Login");
+                    }
+                    else
+                    {
+                        TempData["NotificationInfo"] = result;
+                        return View();
+                    } //TODO: Pass this as message to view
                 }
                 return View("ForgotPassword");
 
@@ -172,7 +183,31 @@ namespace LMS.Web.Controllers
             }
             return View();
         }
-
+        [Authenticate]
+        [HttpGet]
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+        [Authenticate]
+        [HttpPost]
+        public ActionResult ChangePassword(ChangePasswordViewModel  change)
+        {
+            int loggedInUserId= (int)Session["loggedInId"];
+            change.CurrentPassword = PasswordEncryptor.Encryptor.Encryption(change.CurrentPassword);
+            change.NewPassword = PasswordEncryptor.Encryptor.Encryption(change.NewPassword);
+            var result = _loginManager.ChangePassword(change, loggedInUserId);
+            if (result == "Success")
+            {
+                TempData["NotificationSuccess"] = result;
+                return View();
+            }
+            else
+            {
+                TempData["NotificationInfo"] = result;
+                return View();
+            }
+        }
         public ActionResult Unauthorized()
         {
             return Content("Unauthorized"); //TODO: Create Unauthorized Page

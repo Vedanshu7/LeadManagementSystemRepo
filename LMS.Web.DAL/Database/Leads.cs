@@ -28,6 +28,7 @@ namespace LMS.Web.DAL.Database
         public System.DateTime CreatedDate { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
         public Nullable<int> UpdatedBy { get; set; }
+        public string UserComments { get; set; }
     
         public virtual Dealers Dealers { get; set; }
         public virtual LeadStatus LeadStatus { get; set; }

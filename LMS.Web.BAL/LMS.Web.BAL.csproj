@@ -105,6 +105,7 @@
     <Compile Include="ViewModels\AdminModelViewModel.cs" />
     <Compile Include="ViewModels\AssignLeadViewModel.cs" />
     <Compile Include="ViewModels\BrandViewModel.cs" />
+    <Compile Include="ViewModels\ChangePasswordViewModel.cs" />
     <Compile Include="ViewModels\DealerDashboardViewModel.cs" />
     <Compile Include="ViewModels\DealerLeadViewModel.cs" />
     <Compile Include="ViewModels\FilterLeadListViewModel.cs" />
@@ -130,6 +131,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

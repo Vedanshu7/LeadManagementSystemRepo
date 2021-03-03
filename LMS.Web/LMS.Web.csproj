@@ -2114,7 +2114,6 @@
     <Content Include="Views\Shared\LeadList.cshtml" />
     <Content Include="Views\User\LeadDetails.cshtml" />
     <Content Include="Views\DealerManager\AssignLead.cshtml" />
-    <Content Include="Views\Shared\_LayoutUser.cshtml" />
     <Content Include="Views\DealerManager\LeadDetail.cshtml" />
     <Content Include="Views\DealerManager\UserDetail.cshtml" />
     <Content Include="Views\User\Dashboard.cshtml" />
@@ -2122,6 +2121,7 @@
     <Content Include="Views\Admin\CreateModel.cshtml" />
     <Content Include="Views\Admin\ListModel.cshtml" />
     <Content Include="Views\Admin\EditModel.cshtml" />
+    <Content Include="Views\Authentication\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

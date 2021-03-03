@@ -1,11 +1,12 @@
 ﻿using LMS.Api.DAL.Database;
 using LMS.Api.DAL.Interface;
 using LMS.Common.Dtos;
-using LMS.Common.Enums;
+using LMS.Common;
 using LMS.Common.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using LMS.Common.Enums;
 
 namespace LMS.Api.DAL.Repository
 {
