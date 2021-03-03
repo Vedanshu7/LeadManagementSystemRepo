@@ -2122,6 +2122,9 @@
     <Content Include="Views\Admin\ListModel.cshtml" />
     <Content Include="Views\Admin\EditModel.cshtml" />
     <Content Include="Views\Authentication\ChangePassword.cshtml" />
+    <Content Include="Views\Admin\CreateBrand.cshtml" />
+    <Content Include="Views\Admin\BrandList.cshtml" />
+    <Content Include="Views\Admin\EditBrand.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

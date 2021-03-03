@@ -21,6 +21,7 @@ namespace LMS.Web
             container.RegisterType<IUserManager, UserManager>();
             container.RegisterType<ILeadManager, LeadManager>();
             container.RegisterType<IModelManager, ModelManager>();
+            container.RegisterType<IBrandManager, BrandManager>();
             container.AddNewExtension<UnityRepositoryHelper>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
