@@ -82,7 +82,6 @@ namespace LMS.Web.DAL.Repository
             //If no user is found
             return false;
         }
-
         public string ChangePassword(string currentPassword, string newPassword,int loggedInUserId)
         {
             var userFromDb = _db.Users.Where(u => u.Id == loggedInUserId).FirstOrDefault();

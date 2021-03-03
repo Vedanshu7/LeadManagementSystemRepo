@@ -1,4 +1,4 @@
-﻿using LMS.Common;
+﻿using LMS.Common.Enums;
 using LMS.Web.Attributes;
 using LMS.Web.BAL.Interface;
 using LMS.Web.BAL.ViewModels;

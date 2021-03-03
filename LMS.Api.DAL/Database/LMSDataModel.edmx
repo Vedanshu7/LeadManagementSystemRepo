@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="LMSAzureModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="LMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Brands">
           <Key>
             <PropertyRef Name="Id" />
@@ -64,6 +64,7 @@
           <Property Name="LeadTypeId" Type="int" Nullable="false" />
           <Property Name="ServiceId" Type="int" />
           <Property Name="Comments" Type="nvarchar(max)" />
+          <Property Name="UserComments" Type="nvarchar(max)" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="UpdatedDate" Type="datetime" />
           <Property Name="UpdatedBy" Type="int" />
@@ -283,7 +284,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="LMSAzureModelStoreContainer">
+        <EntityContainer Name="LMSModelStoreContainer">
           <EntitySet Name="Brands" EntityType="Self.Brands" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DealerBrandMappings" EntityType="Self.DealerBrandMappings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Dealers" EntityType="Self.Dealers" Schema="dbo" store:Type="Tables" />
@@ -347,7 +348,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="LMSAzureModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="LMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Brands">
           <Key>
             <PropertyRef Name="Id" />
@@ -414,6 +415,7 @@
           <Property Name="LeadTypeId" Type="Int32" Nullable="false" />
           <Property Name="ServiceId" Type="Int32" />
           <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UserComments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
           <Property Name="UpdatedBy" Type="Int32" />
@@ -715,9 +717,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="LMSAzureModelStoreContainer" CdmEntityContainer="LMSAzureEntities">
+        <EntityContainerMapping StorageEntityContainer="LMSModelStoreContainer" CdmEntityContainer="LMSAzureEntities">
           <EntitySetMapping Name="Brands">
-            <EntityTypeMapping TypeName="LMSAzureModel.Brands">
+            <EntityTypeMapping TypeName="LMSModel.Brands">
               <MappingFragment StoreEntitySet="Brands">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -731,7 +733,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DealerBrandMappings">
-            <EntityTypeMapping TypeName="LMSAzureModel.DealerBrandMappings">
+            <EntityTypeMapping TypeName="LMSModel.DealerBrandMappings">
               <MappingFragment StoreEntitySet="DealerBrandMappings">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="DealerId" ColumnName="DealerId" />
@@ -745,7 +747,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Dealers">
-            <EntityTypeMapping TypeName="LMSAzureModel.Dealers">
+            <EntityTypeMapping TypeName="LMSModel.Dealers">
               <MappingFragment StoreEntitySet="Dealers">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -764,7 +766,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Leads">
-            <EntityTypeMapping TypeName="LMSAzureModel.Leads">
+            <EntityTypeMapping TypeName="LMSModel.Leads">
               <MappingFragment StoreEntitySet="Leads">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
@@ -777,6 +779,7 @@
                 <ScalarProperty Name="LeadTypeId" ColumnName="LeadTypeId" />
                 <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
                 <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="UserComments" ColumnName="UserComments" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
@@ -784,7 +787,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="LeadStatus">
-            <EntityTypeMapping TypeName="LMSAzureModel.LeadStatus">
+            <EntityTypeMapping TypeName="LMSModel.LeadStatus">
               <MappingFragment StoreEntitySet="LeadStatus">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
@@ -794,7 +797,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="LeadType">
-            <EntityTypeMapping TypeName="LMSAzureModel.LeadType">
+            <EntityTypeMapping TypeName="LMSModel.LeadType">
               <MappingFragment StoreEntitySet="LeadType">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
@@ -803,7 +806,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Models">
-            <EntityTypeMapping TypeName="LMSAzureModel.Models">
+            <EntityTypeMapping TypeName="LMSModel.Models">
               <MappingFragment StoreEntitySet="Models">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -824,7 +827,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Roles">
-            <EntityTypeMapping TypeName="LMSAzureModel.Roles">
+            <EntityTypeMapping TypeName="LMSModel.Roles">
               <MappingFragment StoreEntitySet="Roles">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -833,7 +836,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Services">
-            <EntityTypeMapping TypeName="LMSAzureModel.Services">
+            <EntityTypeMapping TypeName="LMSModel.Services">
               <MappingFragment StoreEntitySet="Services">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
@@ -843,7 +846,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="LMSAzureModel.Users">
+            <EntityTypeMapping TypeName="LMSModel.Users">
               <MappingFragment StoreEntitySet="Users">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />

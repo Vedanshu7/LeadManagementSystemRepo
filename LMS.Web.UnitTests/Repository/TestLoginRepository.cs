@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LMS.Common;
+using LMS.Common.Enums;
 using LMS.Web.DAL.Database;
 using LMS.Web.DAL.Interface;
 
@@ -77,6 +76,11 @@ namespace LMS.Web.UnitTests.Repository
 
             //If no user is found
             return false;
+        }
+
+        public string ChangePassword(string currentPassword, string newPassword, int loggedInUserId)
+        {
+            throw new NotImplementedException();
         }
     }
 }
