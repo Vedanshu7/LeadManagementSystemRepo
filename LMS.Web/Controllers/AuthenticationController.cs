@@ -31,6 +31,8 @@ namespace LMS.Web.Controllers
                     case RolesEnum.Sales:
                     case RolesEnum.AfterSales:
                         return RedirectToAction("Index", "User");
+                    case RolesEnum.Admin:
+                        return RedirectToAction("BrandList", "Admin");
                 }
             }
             return View(); //TODO: Redirect to page

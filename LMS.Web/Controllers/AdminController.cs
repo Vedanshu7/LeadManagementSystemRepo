@@ -2,10 +2,7 @@
 using LMS.Web.Attributes;
 using LMS.Web.BAL.Interface;
 using LMS.Web.BAL.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+
 using System.Web.Mvc;
 
 namespace LMS.Web.Controllers
@@ -63,9 +60,8 @@ namespace LMS.Web.Controllers
 
         [HttpGet]
         public ActionResult EditBrand(int id)
-        {
-            int loggedInUserId = (int)Session["loggedInId"];
-            AdminBrandViewModel brand = _brandManager.GetBrand(id,loggedInUserId);
+        {           
+            AdminBrandViewModel brand = _brandManager.GetBrand(id);
             return View(brand);
         }
         [HttpPost]

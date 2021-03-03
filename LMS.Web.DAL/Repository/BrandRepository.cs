@@ -4,8 +4,6 @@ using LMS.Web.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.Entity;
 
 namespace LMS.Web.DAL.Repository
@@ -17,7 +15,6 @@ namespace LMS.Web.DAL.Repository
         {
             _db = new LMSAzureEntities();
         }
-
         public string CreateBrand(Brands model)
         {
             try
@@ -42,33 +39,41 @@ namespace LMS.Web.DAL.Repository
                 return "Error occured.";
             }
         }
-
         public List<VehicleBrand> GetBrandList()
         {
-
             var brands = _db.Brands.Join(_db.Users,
                 b => b.CreatedBy,
                 u => u.Id,
                 (brand, user) => new { brand, user })
-                .Select(bu => bu);
+                .Select(bu => bu).ToList();
+
+            var updateBrands = _db.Brands.Join(_db.Users,
+                b => b.UpdatedBy,
+                u => u.Id,
+                (brand, user) => new { brand, user })
+                .Select(bu => bu).ToList();
             List<VehicleBrand> vehicleBrands = new List<VehicleBrand>();
-            foreach (var item in brands)
+            for(int i=0;i< brands.Count;i++)
             {
                 var brand = new VehicleBrand();
-                brand.Id = item.brand.Id;
-                brand.Name = item.brand.Name;
-                brand.Brandcode = item.brand.BrandCode;
-                brand.CreatedDate = item.brand.CreatedDate;
-                brand.UpdatedDate = item.brand.UpdatedDate;
-                brand.BrandUpdatedBy = item.user.Name;
-                brand.BrandCreatedBy = item.user.Name;
-                brand.IsActive = item.brand.IsActive;
+                brand.Id = brands[i].brand.Id;
+                brand.Name = brands[i].brand.Name;
+                brand.Brandcode = brands[i].brand.BrandCode;
+                brand.CreatedDate = brands[i].brand.CreatedDate;
+                brand.UpdatedDate = brands[i].brand.UpdatedDate;
+                brand.BrandCreatedBy = brands[i].user.Name;
+               
+                brand.IsActive = brands[i].brand.IsActive;
                 vehicleBrands.Add(brand);
             }
+            foreach(var item in updateBrands)
+            {
+                var brand = vehicleBrands.Where(v => v.Id == item.brand.Id).First();
+                brand.BrandUpdatedBy = item.user.Name;
+
+            }
             return vehicleBrands;
-
         }
-
         public string EditBrand(Brands model)
         {
             try
@@ -76,16 +81,15 @@ namespace LMS.Web.DAL.Repository
                 var brandFromDb = _db.Brands.Where(m => m.Id == model.Id && m.IsActive == true).FirstOrDefault();
                 if (brandFromDb != null)
                 {
+                    brandFromDb.UpdatedBy = model.UpdatedBy;
                     brandFromDb.Name = model.Name;
-                    brandFromDb.BrandCode = model.BrandCode;          
+                    brandFromDb.BrandCode = model.BrandCode;
                     brandFromDb.UpdatedDate = DateTime.Now;
                     brandFromDb.IsActive = model.IsActive;
                     _db.Entry(brandFromDb).State = EntityState.Modified;
                     _db.SaveChanges();
                     return "Success";
                 }
-
-
                 else
                 {
                     return "Error occured.";
@@ -98,12 +102,10 @@ namespace LMS.Web.DAL.Repository
             }
         }
 
-        public Brands GetBrand(int id, int loggedInUserId)
+        public Brands GetBrand(int id)
         {
-            var data = _db.Brands.Where(m => m.Id == id && m.CreatedBy == loggedInUserId).FirstOrDefault();
+            var data = _db.Brands.Where(m => m.Id == id).FirstOrDefault();
             return data;
-
         }
     }
-
 }
