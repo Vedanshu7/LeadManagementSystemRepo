@@ -47,21 +47,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                     </a>
                     <div class="dropdown-menu dropdown-menu-md-right">
-                        
-                       
+
+
                         <a href="/Authentication/ChangePassword" class="dropdown-item text-sm text-sm-right">
-                            
+
                             Change Password
                         </a>
-                       
+
                         <a href="/Authentication/LogOff" class="dropdown-item text-sm text-sm-right">
-                            
+
                             LogOut
                         </a>
-                       
+
                     </div>
                 </li>
-               
+
             </ul>
         </nav>
         <!-- /.navbar -->
@@ -92,7 +92,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
-    with font-awesome or any other icon font library -->
+                        with font-awesome or any other icon font library -->
                         @if (((LMS.Common.Enums.RolesEnum)Session["role"]).Equals(LMS.Common.Enums.RolesEnum.Sales) || ((LMS.Common.Enums.RolesEnum)Session["role"]).Equals(LMS.Common.Enums.RolesEnum.AfterSales))
                         {
                             <li class="nav-item">
@@ -169,9 +169,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- ./wrapper -->
     <!-- REQUIRED SCRIPTS -->
-   
-    @Scripts.Render("~/adminlte/js")
+
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+
+    @Scripts.Render("~/adminlte/js")
     @RenderSection("scripts", required: false)
 
     <script>
@@ -182,7 +184,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
             $("#example1").DataTable({
                 "responsive": true, "lengthChange": false, "autoWidth": false,
-                "buttons": [ "excel"]
+                "buttons": ["excel"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
             $('#example2').DataTable({
                 "paging": true,

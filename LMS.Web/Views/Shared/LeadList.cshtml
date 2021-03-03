@@ -421,9 +421,11 @@
                     data: datastring,
                     success: function (data) {
                         var s = '<option value="">Select</option>';
+                        var c = 0;
                         for (var i = 0; i < data.length; i++) {
                             if ($("#leadstatusid").val() !== undefined) {
                                 if (data[i].Id.toString() === $("#leadstatusid").val().toString()) {
+                                    c = c + 1;
                                     s += '<option selected="selected" value="' + data[i].Id + '">' + data[i].DisplayName + '</option>';
                                 }
                                 else {
@@ -434,6 +436,9 @@
                                 s += '<option value="' + data[i].Id + '">' + data[i].DisplayName + '</option>';
                             }
 
+                        }
+                        if (c === 0) {
+                            $("#leadstatusid").val("");
                         }
                         $("#Filters_leadStatusId").html(s);
                     }
