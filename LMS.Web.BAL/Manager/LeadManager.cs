@@ -53,6 +53,7 @@ namespace LMS.Web.BAL.Manager
                 if (lead.ServiceId != null)
                     dealerLead.ServiceType = lead.Services.Type;
                 dealerLead.Comments = lead.Comments;
+                dealerLead.UserComments = lead.UserComments;
                 return dealerLead;
             }
             return null;

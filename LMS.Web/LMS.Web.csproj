@@ -2118,6 +2118,7 @@
     <Content Include="Views\DealerManager\UserDetail.cshtml" />
     <Content Include="Views\User\Dashboard.cshtml" />
     <Content Include="Views\DealerManager\Dashboard.cshtml" />
+    <Content Include="Views\Authentication\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

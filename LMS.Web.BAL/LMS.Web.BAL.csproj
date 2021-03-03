@@ -101,6 +101,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Token\TokenManager.cs" />
     <Compile Include="ViewModels\AssignLeadViewModel.cs" />
+    <Compile Include="ViewModels\ChangePasswordViewModel.cs" />
     <Compile Include="ViewModels\DealerDashboardViewModel.cs" />
     <Compile Include="ViewModels\DealerLeadViewModel.cs" />
     <Compile Include="ViewModels\FilterLeadListViewModel.cs" />

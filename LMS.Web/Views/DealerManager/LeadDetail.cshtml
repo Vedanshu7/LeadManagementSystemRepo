@@ -5,8 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
     <div class="pt-3">
-        <div class="card card-outline card-primary">
+        <div class="card card-dark card-outline">
             <div class="card-header">
 
                 <div class="float-left">
@@ -16,92 +17,167 @@
                     <b>Lead Date: </b> @Model.CreatedDate.ToString("MM/dd/yyyy").Replace("-", "/")
                 </div>
 
+
+
             </div>
-
-
-            <div class="card-body">
+            <div class="card-body" style="display: block;">
                 <div class="row">
-                    <div class="col-4">
-                        <p class="card-text"><b>Customer Name: </b> @Html.DisplayFor(model => model.CustomerName) </p>
-                    </div>
-                    <div class="col-4">
-                        <p class="card-text"><b>Brand: </b> @Html.DisplayFor(model => model.BrandName)</p>
-                    </div>
-                    <div class="col-4">
-                        <p class="card-text">
-                            @if (Model.AssignedUserName != null)
-                            {
-                                <b>Assigned User: </b> @Html.DisplayFor(model => model.AssignedUserName)
+                    <div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">
 
-                            }
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-4">
-                        <p class="card-text">
-                            <b> Customer Email:</b> @Html.DisplayFor(model => model.CustomerEmail)
-                        </p>
-                    </div>
-                    <div class="col-4">
-                        <p class="card-text"><b>Model: </b> @Html.DisplayFor(model => model.ModelName)</p>
+                        <div class="row">
+                            <div class="col-12">
+                                <h6>Customer Detail</h6>
+                                <div class="post">
+                                    <div class="user-block">
 
+                                        <span class="username">
+                                            Name: <a href="#"> @Html.DisplayFor(model => model.CustomerName)</a>
+
+                                        </span>
+                                        <span class="username">
+                                            Email: <a href="#"> @Html.DisplayFor(model => model.CustomerEmail)</a>
+
+                                        </span>
+                                        <span class="username">
+                                            Contact Number: <a href="#"> @Html.DisplayFor(model => model.CustomerContactNumber)</a>
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                            <div class="col-12">
+                                <h6>Customer's Comment</h6>
+                                <div class="post">
+                                    <div class="user-block">
+
+                                        <span class="username">
+                                            @Html.DisplayFor(model => model.Comments)
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+                            <div class="col-12">
+
+                                <h6>User's Comment</h6>
+
+                                <div class="post">
+                                    <div class="user-block">
+
+                                        <span class="username">
+                                            @Html.DisplayFor(model => model.UserComments, new { @class = "form-control col-10", @id = "summernote" })
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+                        </div>
                     </div>
-                    <div class="col-4">
-
-                        <p class="card-text"><b>Lead Status: </b> @Html.DisplayFor(model => model.LeadStatus)</p>
-
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-4">
-                        <p class="card-text">
-                            <b>Customer Contact Number:</b>  @Html.DisplayFor(model => model.CustomerContactNumber)
-                        </p>
-
-                    </div>
-                    <div class="col-4">
-
-                        <p class="card-text"><b>Lead Type: </b> @Html.DisplayFor(model => model.LeadType)</p>
-
-                    </div>
-                    <div class="col-4">
-                        <p class="card-text">
+                    <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
+                        <h3 class="text-primary"><i class=""></i>Lead Management System</h3>
+                        <p class="text-muted">This is a basic information about lead</p>
+                        <br>
+                        <div class="text-muted">
+                            <p class="text-sm">
+                                Brand
+                                <b class="d-block">@Html.DisplayFor(model => model.BrandName)</b>
+                            </p>
+                            <p class="text-sm">
+                                Model
+                                <b class="d-block">@Html.DisplayFor(model => model.ModelName)</b>
+                            </p>
+                            <p>
+                                Lead Type
+                                <b class="d-block">@Html.DisplayFor(model => model.LeadType)</b>
+                            </p>
                             @if (Model.ServiceType != null)
                             {
-
-                                <b> Service Type:</b> @Html.DisplayFor(model => model.ServiceType)
-
+                                <p class="text-sm">
+                                    Service Type
+                                    <b class="d-block">@Model.ServiceType</b>
+                                </p>
                             }
-                        </p>
+                           
+                                <p class="text-sm">
+                                    Assigned To
+                                    <b class="d-block">
+                                        @if (Model.AssignedUserName != null)
+                                        {
+                                            @Model.AssignedUserName
+                                        }
+                                        else
+                                        {
+                                            @Html.Display("Not Assigned Yet")
+                                        }
+                                    </b>
+                                </p>
+                            
+                           
+                            <p class="text-sm">
+                                Lead Status
+                                <b class="d-block">@Model.LeadStatus</b>
+                            </p>
+                        </div>
+
+                      
+
+
+
+
+
                     </div>
-
                 </div>
-
             </div>
-            <div class="card-footer">
 
+            <div class="text-center mt-5 mb-3">
 
-                <b>Comments:</b> @Html.DisplayFor(model => model.Comments)
-
-
-            </div>
-        </div>
-        <div class="d-flex justify-content-center">
-            <p>
-
-                <a href="/DealerManager/LeadList" class="btn btn-outline-dark btn-sx" role="button" aria-pressed="true">Back To List</a>
-                &nbsp;
-                &nbsp;
-                @if (Model.AssignedUserName == null)
+                @if (Model.AssignedUserName != null)
                 {
-                    @Html.ActionLink("Assign", "Modify", "DealerManager", new { operation = "Assign", leadId = Model.Id }, new { @class = "btn btn-success" })
+                    @Html.ActionLink("De-Assign", "Modify", "DealerManager", new { operation = "DeAssign", leadId = Model.Id }, new { @class = "btn btn-danger" })
 
                 }
                 else
                 {
-                    @Html.ActionLink("De-Assign", "Modify", "DealerManager", new { operation = "DeAssign", leadId = Model.Id }, new { @class = "btn btn-danger" })
+                    @Html.ActionLink("Assign", "Modify", "DealerManager", new { operation = "Assign", leadId = Model.Id }, new { @class = "btn btn-success" })
                 }
-            </p>
+            </div>
+            <!-- /.card-body -->
         </div>
     </div>
+<div class="d-flex justify-content-center">
+    <p>
+
+        <a href="/User/LeadList" class="btn btn-outline-dark btn-sx" role="button" aria-pressed="true">Back To List</a>
+</div>
+
+
+
+
+@section scripts {
+
+
+
+
+    <script>
+    $(document).ready(function () {
+        if ('@TempData["NotificationSuccess"]' != '') {
+            toastr.success('@TempData["NotificationSuccess"]');
+        }
+        if ('@TempData["NotificationInfo"]' != '') {
+            toastr.error('@TempData["NotificationInfo"]');
+        }
+    });
+    </script>
+}

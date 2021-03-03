@@ -15,5 +15,6 @@ namespace LMS.Web.BAL.ViewModels
         public string LeadStatus { get; set; }
         public string Comments { get; set; }
         public DateTime CreatedDate { get; set; }
+        public string UserComments { get; set; }
     }
 }

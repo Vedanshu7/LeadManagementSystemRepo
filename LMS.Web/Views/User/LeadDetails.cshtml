@@ -5,11 +5,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
+
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    @*<div class="pt-3">
-        <div class="card card-outline card-primary">
+    <div class="pt-3">
+        <div class="card card-dark card-outline">
             <div class="card-header">
 
                 <div class="float-left">
@@ -19,270 +21,188 @@
                     <b>Lead Date: </b> @Model.CreatedDate.ToString("MM/dd/yyyy").Replace("-", "/")
                 </div>
 
+
+
             </div>
-
-
-            <div class="card-body">
+            <div class="card-body" style="display: block;">
                 <div class="row">
-                    <div class="col-4">
-                        <p class="card-text"><b>Customer Name: </b> @Html.DisplayFor(model => model.CustomerName) </p>
-                    </div>
-                    <div class="col-4">
-                        <p class="card-text"><b>Brand: </b> @Html.DisplayFor(model => model.BrandName)</p>
-                    </div>
-                    <div class="col-4">
-                        <p class="card-text">
-                            @if (Model.AssignedUserName != null)
-                            {
-                                <b>Assigned User: </b> @Html.Display("Self")
-                            }
-                        </p>
-                    </div>
-                </div>
+                    <div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">
 
-                <div class="row">
-                    <div class="col-4">
-                        <p class="card-text">
-                            <b> Customer Email:</b> @Html.DisplayFor(model => model.CustomerEmail)
-                        </p>
-                    </div>
-                    <div class="col-4">
-                        <p class="card-text"><b>Model: </b> @Html.DisplayFor(model => model.ModelName)</p>
+                        <div class="row">
+                            <div class="col-12">
+                                <h6>Customer Detail</h6>
+                                <div class="post">
+                                    <div class="user-block">
 
-                    </div>
-                    <div class="col-4">
-                        @if (Model.AssignedUserName != null)
-                        {
-                            <div class="d-inline-flex">
-                                <p class="card-text ">
-                                    <b>Lead Status:  </b>
+                                        <span class="username">
+                                            Name: <a href="#"> @Html.DisplayFor(model => model.CustomerName)</a>
 
-                                </p>
+                                        </span>
+                                        <span class="username">
+                                            Email: <a href="#"> @Html.DisplayFor(model => model.CustomerEmail)</a>
+
+                                        </span>
+                                        <span class="username">
+                                            Contact Number: <a href="#"> @Html.DisplayFor(model => model.CustomerContactNumber)</a>
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
                             </div>
-                        }
-                        else
-                        {
-                            <p class="card-text"><b>Lead Status: </b> @Html.DisplayFor(model => model.LeadStatus)</p>
-                        }
+                            <div class="col-12">
+                                <h6>Customer's Comment</h6>
+                                <div class="post">
+                                    <div class="user-block">
+
+                                        <span class="username">
+                                            @Html.DisplayFor(model => model.Comments)
+                                        </span>
+
+                                    </div>
+
+                                </div>
 
 
+                            </div>
+
+                            <div class="col-12">
+
+                                <h6>Your Comment</h6>
+
+                                <div class="post">
+                                    <div class="user-block">
+                                        @if (Model.AssignedUserName != null)
+                                        {
+                                            <span class="username">
+                                                @Html.TextAreaFor(model => model.UserComments, new { @class = "form-control col-10", @id = "summernote" })
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="username">
+                                                @Html.DisplayFor(model => model.UserComments, new { @class = "form-control col-10", @id = "summernote" })
+                                            </span>
+                                        }
+
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-4">
-                        <p class="card-text">
-                            <b>Customer Contact Number:</b>  @Html.DisplayFor(model => model.CustomerContactNumber)
-                        </p>
-
-                    </div>
-                    <div class="col-4">
-
-                        <p class="card-text">
-
-                    </div>
-                    <div class="col-4">
-                        <p class="card-text">
+                    <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
+                        <h3 class="text-primary"><i class=""></i>Lead Management System</h3>
+                        <p class="text-muted">This is a basic information about lead</p>
+                        <br>
+                        <div class="text-muted">
+                            <p class="text-sm">
+                                Brand
+                                <b class="d-block">@Html.DisplayFor(model => model.BrandName)</b>
+                            </p>
+                            <p class="text-sm">
+                                Model
+                                <b class="d-block">@Html.DisplayFor(model => model.ModelName)</b>
+                            </p>
                             @if (Model.ServiceType != null)
                             {
-
-                                <b> Service Type:</b> @Html.DisplayFor(model => model.ServiceType)
-
+                                <p class="text-sm">
+                                    Service Type
+                                    <b class="d-block">@Model.ServiceType</b>
+                                </p>
                             }
-                        </p>
+                            @if (Model.AssignedUserName != null)
+                            {
+                                <p class="text-sm">
+                                    Assigned To
+                                    <b class="d-block">Self</b>
+                                </p>
+                            }
+                        </div>
+
+                        <h5 class="mt-5 text-muted">Lead Status</h5>
+
+                        <div class="row">
+                            <div class="col-6">
+                                @if (Model.AssignedUserName != null)
+                                {
+                                    <input type="hidden" id="leadstatustext" value="@Model.LeadStatus" />
+                                    <input type="hidden" id="leadstatusid" name="LeadStatusId" value="@Model.LeadStatusId" />
+
+                                    <select class="form-control dropdown" id="leadstatus">
+
+                                        @foreach (var item in ViewBag.LeadStatusId)
+                                        {
+                                            if (item.DisplayName.ToString().Equals(Model.LeadStatus.ToString()))
+                                            {
+                                                <option class="dropdown-item" value="@item.Id" selected>@item.DisplayName</option>
+                                            }
+                                            else
+                                            {
+                                                <option class="dropdown-item" value="@item.Id">@item.DisplayName</option>
+                                            }
+
+                                        }
+
+                                    </select>
+                                }
+                                else
+                                {
+                                   
+                                        <b class="d-block">@Model.LeadStatus</b>
+                                    
+                                }
+                            </div>
+
+                        </div>
+
+
+
+
+
                     </div>
-
                 </div>
-
             </div>
-            <div class="card-footer">
-
-
-                <b>Comments:</b> @Html.DisplayFor(model => model.Comments)
-
-
-            </div>
-        </div>
-        <div class="d-flex justify-content-center">
-            <p>
-
-                <a href="/DealerManager/LeadList" class="btn btn-outline-dark btn-sx" role="button" aria-pressed="true">Back To List</a>
-                &nbsp;
+           
+            <div class="text-center mt-5 mb-3">
+                @Html.TextBox("Update", "Update", new { @class = "btn btn-md btn-warning",@type="submit",@value="Update" })
                 &nbsp;
                 @if (Model.AssignedUserName == null)
                 {
-                    @Html.ActionLink("Assign", "AssignLead", "User", new { leadId = Model.Id }, new { @class = "btn btn-success" })
+                    @Html.ActionLink("Assign", "AssignLead", "User", new { leadId = Model.Id }, new { @class = "btn btn-md btn-success" })
 
                 }
                 else
                 {
-                    @Html.ActionLink("De-Assign", "DeAssignLead", "User", new { leadId = Model.Id }, new { @class = "btn btn-danger" })
+                    @Html.ActionLink("De-Assign", "DeAssignLead", "User", new { leadId = Model.Id }, new { @class = "btn btn-md btn-danger" })
                 }
-            </p>
-        </div>
-    </div>*@
-
-}
-
-<div class="pt-3">
-    <div class="card card-dark card-outline">
-        <div class="card-header">
-
-            <div class="float-left">
-                <b>Lead Id: </b> @Html.DisplayFor(model => model.Id)
             </div>
-            <div class="float-right">
-                <b>Lead Date: </b> @Model.CreatedDate.ToString("MM/dd/yyyy").Replace("-", "/")
-            </div>
-
-
-
+            <!-- /.card-body -->
         </div>
-        <div class="card-body" style="display: block;">
-            <div class="row">
-                <div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">
-
-                    <div class="row">
-                        <div class="col-12">
-                            <h5>Customer Detail</h5>
-                            <div class="post">
-                                <div class="user-block">
-
-                                    <span class="username">
-                                        Name: <a href="#"> @Html.DisplayFor(model => model.CustomerName)</a>
-
-                                    </span>
-                                    <span class="username">
-                                        Email: <a href="#"> @Html.DisplayFor(model => model.CustomerEmail)</a>
-
-                                    </span>
-                                    <span class="username">
-                                        Contact Number: <a href="#"> @Html.DisplayFor(model => model.CustomerContactNumber)</a>
-                                    </span>
-
-                                </div>
-
-                            </div>
-
-
-                        </div>
-                        <div class="col-12">
-                            <h5>Customer's Comments</h5>
-                            <div class="post">
-                                <div class="user-block">
-
-                                    <span class="username">
-                                        @Html.DisplayFor(model => model.Comments)
-                                    </span>
-
-                                </div>
-
-                            </div>
-
-
-                        </div>
-                        <div class="col-12">
-                            <h5>Your Comments</h5>
-                            <div class="post">
-                                <div class="user-block">
-
-                                    <span class="username">
-                                        @Html.TextArea("CustomerComment", new { @class = "form-control col-10", @id = "summernote" })
-                                    </span>
-
-                                </div>
-
-                            </div>
-
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
-                    <h3 class="text-primary"><i class=""></i>Lead Management System</h3>
-                    <p class="text-muted">This is a basic information about lead</p>
-                    <br>
-                    <div class="text-muted">
-                        <p class="text-sm">
-                            Brand
-                            <b class="d-block">@Html.DisplayFor(model => model.BrandName)</b>
-                        </p>
-                        <p class="text-sm">
-                            Model
-                            <b class="d-block">@Html.DisplayFor(model => model.ModelName)</b>
-                        </p>
-                        @if (Model.ServiceType != null)
-                        {
-                            <p class="text-sm">
-                                Service Type
-                                <b class="d-block">@Model.ServiceType</b>
-                            </p>
-                        }
-                        @if (Model.AssignedUserName != null)
-                        {
-                            <p class="text-sm">
-                                Assigned To
-                                <b class="d-block">Self</b>
-                            </p>
-                        }
-                        </div>
-
-                    <h5 class="mt-5 text-muted">Lead Status</h5>
-                    <ul class="list-unstyled">
-                        <div class="btn-group btn-group-sm">
-                            <button type="button" class="btn btn-warning">@Model.LeadStatus</button>
-                            <button type="button" class="btn btn-warning dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                                <span class="sr-only">Toggle Dropdown</span>
-
-                                <div class="dropdown-menu" role="menu">
-                                    @foreach (var item in ViewBag.LeadStatusId)
-                                    {
-                                        if (item.DisplayName.ToString().Equals(Model.LeadStatus.ToString()))
-                                        {
-                                            <option class="dropdown-item" value="@item.Id" selected>@item.DisplayName</option>
-                                        }
-                                        else
-                                        {
-                                            <option class="dropdown-item" value="@item.Id">@item.DisplayName</option>
-                                        }
-
-                                    }
-
-                                </div>
-                            </button>
-                        </div>
-                    </ul>
-                    <div class="text-center mt-5 mb-3">
-                        @if (Model.AssignedUserName == null)
-                        {
-                            @Html.ActionLink("Assign", "AssignLead", "User", new { leadId = Model.Id }, new { @class = "btn btn-sm btn-success" })
-
-                        }
-                        else
-                        {
-                            @Html.ActionLink("De-Assign", "DeAssignLead", "User", new { leadId = Model.Id }, new { @class = "btn btn-sm btn-danger" })
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /.card-body -->
     </div>
-</div>
-<div class="d-flex justify-content-center">
-    <p>
+}
+    <div class="d-flex justify-content-center">
+        <p>
 
-        <a href="/User/LeadList" class="btn btn-outline-dark btn-sx" role="button" aria-pressed="true">Back To List</a>
-        </div>
-
-
-
-
-        @section scripts {
+            <a href="/User/LeadList" class="btn btn-outline-dark btn-sx" role="button" aria-pressed="true">Back To List</a>
+    </div>
 
 
 
 
-            <script>
+    @section scripts {
+
+
+
+
+        <script>
     $(document).ready(function () {
         if ('@TempData["NotificationSuccess"]' != '') {
             toastr.success('@TempData["NotificationSuccess"]');
@@ -291,5 +211,18 @@
             toastr.error('@TempData["NotificationInfo"]');
         }
     });
-            </script>
-        }
+        </script>
+
+
+        <script>
+            $("#leadstatus").change(function () {
+                if ($('#leadstatus :selected').text() === $("#leadstatustext").val()) {
+                    
+                    $("#leadstatusid").val($('#leadstatus :selected').val())
+                }
+                else {
+                   $("#leadstatusid").val($('#leadstatus :selected').val())
+                }
+            });
+        </script>
+    }
