@@ -2120,6 +2120,8 @@
     <Content Include="Views\User\Dashboard.cshtml" />
     <Content Include="Views\DealerManager\Dashboard.cshtml" />
     <Content Include="Views\Admin\CreateBrand.cshtml" />
+    <Content Include="Views\Admin\BrandList.cshtml" />
+    <Content Include="Views\Admin\EditBrand.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -35,7 +35,7 @@ namespace LMS.Web.Controllers
             int loggedInUserId = (int)Session["loggedInId"];
           
             var result = _brandManager.CreateBrand(model,loggedInUserId);
-            if(result=="Succcess")
+            if(result=="Success")
             {
                 TempData["NotificationSuccess"] = result;
                 return RedirectToAction("BrandList", "Admin");
@@ -51,7 +51,7 @@ namespace LMS.Web.Controllers
         [HttpGet]
         public ActionResult BrandList()
         {
-            return Content("Added.");
+          // return Content("Added.");
             var brands = _brandManager.GetBrandList();
             return View(brands);
         }
@@ -62,10 +62,27 @@ namespace LMS.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult EditBrands()
+        public ActionResult EditBrand(int id)
         {
-            return View();
+            int loggedInUserId = (int)Session["loggedInId"];
+            AdminBrandViewModel brand = _brandManager.GetBrand(id,loggedInUserId);
+            return View(brand);
         }
-
+        [HttpPost]
+        public ActionResult EditBrand(AdminBrandViewModel model)
+        {
+            int loggedInUserId = (int)Session["loggedInId"];
+            var result = _brandManager.EditBrand(model,loggedInUserId);
+            if (result == "Success")
+            {
+                TempData["NotificationSuccess"] = result;
+                return RedirectToAction("BrandList", "Admin");
+            }
+            else
+            {
+                TempData["NotificationInfo"] = result;
+                return View();
+            }
+        }
     }
 }

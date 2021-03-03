@@ -12,5 +12,7 @@ namespace LMS.Web.DAL.Interface
     {
         string CreateBrand(Brands model);
         List<VehicleBrand> GetBrandList();
+        string EditBrand(Brands model);
+        Brands GetBrand(int id, int loggedInUserId);
     }
 }

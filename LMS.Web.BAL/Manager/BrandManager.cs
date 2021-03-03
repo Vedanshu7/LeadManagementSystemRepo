@@ -27,6 +27,8 @@ namespace LMS.Web.BAL.Manager
                 cfg.CreateMap<Brands, AdminBrandViewModel>();
                 cfg.CreateMap<VehicleBrand, Brands>();
                 cfg.CreateMap<Brands, VehicleBrand>();
+                cfg.CreateMap<AdminBrandViewModel, VehicleBrand>();
+                cfg.CreateMap<VehicleBrand, AdminBrandViewModel>();
 
             });
 
@@ -39,12 +41,25 @@ namespace LMS.Web.BAL.Manager
             return _brandRepository.CreateBrand(brands);
         }
 
+        public string EditBrand(AdminBrandViewModel model, int loggedInUserId)
+        {
+            Brands brands = mapper.Map<AdminBrandViewModel,Brands>(model);
+            brands.UpdatedBy = loggedInUserId;
+            return _brandRepository.EditBrand(brands);
+        }
+
+        public AdminBrandViewModel GetBrand(int id,int loggedInUserId)
+        {
+            Brands brand = _brandRepository.GetBrand(id,loggedInUserId);
+            AdminBrandViewModel model = mapper.Map<Brands,AdminBrandViewModel>(brand);
+            return model;
+        }
+
         public List<AdminBrandViewModel> GetBrandList()
         {
             List<VehicleBrand> brandsFromDb = _brandRepository.GetBrandList();
             List<AdminBrandViewModel> model = mapper.Map<List<VehicleBrand>,List<AdminBrandViewModel>>(brandsFromDb);
             return model;
-
         }
     }
 }

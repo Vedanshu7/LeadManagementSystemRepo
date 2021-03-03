@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace LMS.Web.DAL.Repository
 {
@@ -21,7 +22,7 @@ namespace LMS.Web.DAL.Repository
         {
             try
             {
-                var result = _db.Brands.Any(m => m.BrandCode == model.BrandCode && m.IsActive==true);
+                var result = _db.Brands.Any(m => m.BrandCode == model.BrandCode && m.IsActive == true);
                 if (!result)
                 {
                     model.CreatedDate = DateTime.Now;
@@ -35,7 +36,7 @@ namespace LMS.Web.DAL.Repository
                     return "Error occured";
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 //TODO: Add logger.
                 return "Error occured.";
@@ -63,9 +64,46 @@ namespace LMS.Web.DAL.Repository
                 brand.BrandCreatedBy = item.user.Name;
                 brand.IsActive = item.brand.IsActive;
                 vehicleBrands.Add(brand);
-            }                   
+            }
             return vehicleBrands;
-            
+
+        }
+
+        public string EditBrand(Brands model)
+        {
+            try
+            {
+                var brandFromDb = _db.Brands.Where(m => m.Id == model.Id && m.IsActive == true).FirstOrDefault();
+                if (brandFromDb != null)
+                {
+                    brandFromDb.Name = model.Name;
+                    brandFromDb.BrandCode = model.BrandCode;          
+                    brandFromDb.UpdatedDate = DateTime.Now;
+                    brandFromDb.IsActive = model.IsActive;
+                    _db.Entry(brandFromDb).State = EntityState.Modified;
+                    _db.SaveChanges();
+                    return "Success";
+                }
+
+
+                else
+                {
+                    return "Error occured.";
+                }
+            }
+            catch (Exception)
+            {
+                return "Error occured.";
+                throw;
+            }
+        }
+
+        public Brands GetBrand(int id, int loggedInUserId)
+        {
+            var data = _db.Brands.Where(m => m.Id == id && m.CreatedBy == loggedInUserId).FirstOrDefault();
+            return data;
+
         }
     }
+
 }

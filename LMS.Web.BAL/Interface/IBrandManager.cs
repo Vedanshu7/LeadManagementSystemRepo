@@ -11,5 +11,7 @@ namespace LMS.Web.BAL.Interface
     {
         string CreateBrand(AdminBrandViewModel model, int loggedInUserId);
         List<AdminBrandViewModel> GetBrandList();
+        string EditBrand(AdminBrandViewModel model, int loggedInUserId);
+        AdminBrandViewModel GetBrand(int id,int loggedInUserId);
     }
 }

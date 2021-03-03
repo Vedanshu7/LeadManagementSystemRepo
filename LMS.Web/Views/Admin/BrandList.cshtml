@@ -1,0 +1,94 @@
+﻿@model IEnumerable<LMS.Web.BAL.ViewModels.AdminBrandViewModel>
+
+@{
+    ViewBag.Title = "BrandList";
+}
+
+<h2>BrandList</h2>
+
+<p>
+    @Html.ActionLink("Create brand", "CreateBrand")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Brandcode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BrandCreatedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BrandUpdatedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Brandcode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BrandCreatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BrandUpdatedBy)
+            </td>
+            @if (item.IsActive == true)
+            {
+                <td>
+                    @Html.DisplayName("Active")
+                </td>
+            }
+            else
+            {
+                <td>
+                    @Html.DisplayName("Inactive")
+                </td>
+            }
+        <td>
+            @Html.ActionLink("Edit", "EditBrand", new { Id = item.Id }, new { @class = "btn btn-outline-primary" })
+        </td>
+
+        </tr>
+    }
+
+</table>
+@section scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+
+    <script>
+    $(document).ready(function () {
+        if ('@TempData["NotificationSuccess"]' != '') {
+            toastr.success('@TempData["NotificationSuccess"]');
+        }
+        if ('@TempData["NotificationInfo"]' != '') {
+            toastr.error('@TempData["NotificationInfo"]');
+        }
+    });
+    </script>
+}
