@@ -27,7 +27,7 @@ namespace LMS.Web.DAL.Repository
                 if (!emailId)
                 {
                     user.CreatedBy = (int)user.DealerId;
-                    user.CreatedDate = DateTime.UtcNow;
+                    user.CreatedDate = DateTime.Now;
                     user.IsActive = true;
                     _db.Users.Add(user);
                     _db.SaveChanges();

@@ -7,6 +7,7 @@ using System.Web.Hosting;
 using LMS.Common.Email;
 using System.Configuration;
 using LMS.Api.Attributes;
+using LMS.Common.Enums;
 
 namespace LMS.Api.Controllers
 {
@@ -29,11 +30,11 @@ namespace LMS.Api.Controllers
 
                 switch (result)
                 {
-                    case Common.Enums.LeadResultEnum.Success:
+                    case LeadResultEnum.Success:
                         return Ok("Lead added");
-                    case Common.Enums.LeadResultEnum.Invalid:
+                    case LeadResultEnum.Invalid:
                         return BadRequest("Brand does not exist for dealer");
-                    case Common.Enums.LeadResultEnum.ErrorOccurred:
+                    case LeadResultEnum.ErrorOccurred:
                     default:
                         return InternalServerError();
                 }

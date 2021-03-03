@@ -2119,10 +2119,12 @@
     <Content Include="Views\DealerManager\UserDetail.cshtml" />
     <Content Include="Views\User\Dashboard.cshtml" />
     <Content Include="Views\DealerManager\Dashboard.cshtml" />
+    <Content Include="Views\Admin\CreateModel.cshtml" />
+    <Content Include="Views\Admin\ListModel.cshtml" />
+    <Content Include="Views\Admin\EditModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Admin\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

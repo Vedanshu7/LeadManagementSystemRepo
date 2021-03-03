@@ -16,8 +16,6 @@ namespace LMS.Web.DAL.Repository
             _db = new LMSAzureEntities();
         }
 
-      
-
         //Common
         public List<Leads> GetLeadList(DateTime? startDate, DateTime? endDate, int? leadStatusId, int? leadTypeId, int loggedInUserId)
         {

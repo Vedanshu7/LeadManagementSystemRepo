@@ -76,7 +76,7 @@ namespace LMS.Web.Controllers
             else
             {
                 TempData["NotificationInfo"] = "Invalid operation";
-                return RedirectToAction("Index", "Sales");
+                return RedirectToAction("Index", "User");
             }
         }
 

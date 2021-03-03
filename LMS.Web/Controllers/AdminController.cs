@@ -1,88 +1,99 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using LMS.Common;
+using LMS.Web.Attributes;
+using LMS.Web.BAL.Interface;
+using LMS.Web.BAL.ViewModels;
 using System.Web.Mvc;
 
 namespace LMS.Web.Controllers
 {
+    [Authenticate]
+    [Authorization(RolesEnum.Admin)]
     public class AdminController : Controller
     {
+        private readonly IModelManager _modelManager;
+        
+        public AdminController(IModelManager modelManager)
+        {
+            _modelManager = modelManager;
+        }
         // GET: Admin
         public ActionResult Index()
         {
-            return Content("This is Admin");
+            return RedirectToAction("ListModel");
         }
 
-        // GET: Admin/Details/5
-        public ActionResult Details(int id)
+        [HttpGet]
+        public ActionResult CreateModel()
         {
-            //Admin
+            ViewBag.BrandId = new SelectList(_modelManager.GetBrandsDropDown(), "Id", "Name");
             return View();
         }
 
-        // GET: Admin/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Admin/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult CreateModel(AdminModelViewModel model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                int loggedInUserId = (int)Session["loggedInId"];
+                var result = _modelManager.CreateModel(model, loggedInUserId);
+                if (result == "Success")
+                {
+                    TempData["NotificationSuccess"] = result;
+                    return RedirectToAction("ListModel");
+                }
+                else
+                {
+                    TempData["NotificationInfo"] = result;
+                    return View();
+                }
             }
-            catch
+            return View(model);
+        }
+
+        public ActionResult ListModel()
+        {
+            var models = _modelManager.GetModelList();
+            return View(models);
+        }
+
+        [HttpGet]
+        public ActionResult EditModel(int id)
+        {
+            var model = _modelManager.GetModel(id);
+            ViewBag.BrandId = new SelectList(_modelManager.GetBrandsDropDown(), "Id", "Name");
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult EditModel(AdminModelViewModel viewModel)
+        {
+            int loggedInUserId = (int)Session["loggedInId"];
+            var result = _modelManager.EditModel(viewModel, loggedInUserId);
+            if (result == "Success")
             {
+                TempData["NotificationSuccess"] = result;
+                return RedirectToAction("ListModel");
+            }
+            else
+            {
+                TempData["NotificationInfo"] = result;
                 return View();
             }
         }
 
-        // GET: Admin/Edit/5
-        public ActionResult Edit(int id)
+        [HttpGet]
+        public ActionResult DeleteModel(int id)
         {
-            return View();
-        }
-
-        // POST: Admin/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
+            int loggedInUserId = (int)Session["loggedInId"];
+            var result = _modelManager.DeleteModel(id, loggedInUserId);
+            if (result == "Success")
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                TempData["NotificationSuccess"] = result;
+                return RedirectToAction("ListModel");
             }
-            catch
+            else
             {
-                return View();
-            }
-        }
-
-        // GET: Admin/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Admin/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
+                TempData["NotificationInfo"] = result;
                 return View();
             }
         }
