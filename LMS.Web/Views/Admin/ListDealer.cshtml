@@ -1,48 +1,57 @@
-﻿@model IEnumerable<LMS.Web.BAL.ViewModels.AdminBrandViewModel>
+﻿@model IEnumerable<LMS.Web.BAL.ViewModels.AdminDealerViewModel>
 
 @{
-    ViewBag.Title = "BrandList";
+    ViewBag.Title = "ListDealer";
 }
+
 <div class="row pt-3">
     <div class="col-12">
         <div class="card card-outline card-primary">
             <div class="card-header">
-                <h3>Brand List</h3>
+                <h3>Dealer List</h3>
             </div>
 
             <!-- /.card-header -->
             <div class="card-body">
-                <a href="/Admin/CreateBrand" class="btn btn-outline-success">Create Brand</a>
+                <a href="/Admin/CreateDealer" class="btn btn-outline-success">Create Dealer</a>
                 <div class="table-responsive pt-2">
                     <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                         <table id="example1" class="table table-hover">
                             <thead class="thead-light">
                                 <tr>
                                     <th>
-                                        Name
+                                        @Html.DisplayNameFor(model => model.Name)
                                     </th>
                                     <th>
-                                        Code
+                                        @Html.DisplayNameFor(model => model.State)
                                     </th>
                                     <th>
-                                        Created On
+                                        @Html.DisplayNameFor(model => model.City)
                                     </th>
                                     <th>
-                                        Updated On
+                                        @Html.DisplayNameFor(model => model.Pincode)
                                     </th>
                                     <th>
-                                        Created By
+                                        @Html.DisplayNameFor(model => model.DealerCode)
                                     </th>
                                     <th>
-                                        Updated By
+                                        @Html.DisplayNameFor(model => model.CreatedDate)
                                     </th>
                                     <th>
-                                        Status
+                                        @Html.DisplayNameFor(model => model.UpdatedDate)
                                     </th>
-                                    <th>Action</th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CreatedBy)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.UpdatedBy)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.IsActive)
+                                    </th>
+                                    <th></th>
                                 </tr>
                             </thead>
-
                             <tbody>
                                 @foreach (var item in Model)
                                 {
@@ -51,7 +60,16 @@
                                             @Html.DisplayFor(modelItem => item.Name)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Brandcode)
+                                            @Html.DisplayFor(modelItem => item.State)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.City)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Pincode)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DealerCode)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.CreatedDate)
@@ -60,32 +78,22 @@
                                             @Html.DisplayFor(modelItem => item.UpdatedDate)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.BrandCreatedBy)
+                                            @Html.DisplayFor(modelItem => item.CreatedBy)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.BrandUpdatedBy)
+                                            @Html.DisplayFor(modelItem => item.UpdatedBy)
                                         </td>
-                                        @if (item.IsActive == true)
-                                        {
-                                            <td>
-                                                @Html.DisplayName("Active")
-                                            </td>
-                                        }
-                                        else
-                                        {
-                                            <td>
-                                                @Html.DisplayName("Inactive")
-                                            </td>
-                                        }
                                         <td>
-                                            @Html.ActionLink("Edit", "CreateBrand", new { Id = item.Id }, new { @class = "btn btn-outline-primary" })
+                                            @Html.DisplayFor(modelItem => item.IsActive)
                                         </td>
-
+                                        <td>
+                                            @Html.ActionLink("Edit", "EditDealer", new { id = item.Id })
+                                        </td>
                                     </tr>
                                 }
                             </tbody>
-
                         </table>
+
                     </div>
                 </div>
             </div>
@@ -93,16 +101,3 @@
         <!-- /.card -->
     </div>
 </div>
-@section scripts {
-
-    <script>
-    $(document).ready(function () {
-        if ('@TempData["NotificationSuccess"]' != '') {
-            toastr.success('@TempData["NotificationSuccess"]');
-        }
-        if ('@TempData["NotificationInfo"]' != '') {
-            toastr.error('@TempData["NotificationInfo"]');
-        }
-    });
-    </script>
-}

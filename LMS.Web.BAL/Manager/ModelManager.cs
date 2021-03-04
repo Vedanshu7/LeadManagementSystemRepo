@@ -59,7 +59,6 @@ namespace LMS.Web.BAL.Manager
             Models model = mapper.Map<AdminModelViewModel, Models>(viewModel);
             return _modelRepository.EditModel(model, loggedInId);
         }
-
         public string DeleteModel(int id, int loggedInId)
         {
             return _modelRepository.DeleteModel(id, loggedInId);

@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LMS.Web.BAL.Interface;
-using LMS.Web.DAL.Interface;
+﻿using LMS.Web.DAL.Interface;
 using LMS.Web.DAL.Repository;
-using Unity.Events;
 using Unity.Extension;
 using Unity;
 
@@ -21,6 +14,7 @@ namespace LMS.Web.BAL.Helper
             Container.RegisterType<ILeadRepository, LeadRepository>();
             Container.RegisterType<IModelRepository, ModelRepository>();
             Container.RegisterType<IBrandRepository, BrandRepository>();
+            Container.RegisterType<IDealerRepository, DealerRepository>();
         }
     }
 }

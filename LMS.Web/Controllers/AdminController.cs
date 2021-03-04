@@ -2,6 +2,7 @@
 using LMS.Web.Attributes;
 using LMS.Web.BAL.Interface;
 using LMS.Web.BAL.ViewModels;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace LMS.Web.Controllers
@@ -12,10 +13,13 @@ namespace LMS.Web.Controllers
     {
         private readonly IBrandManager _brandManager;
         private readonly IModelManager _modelManager;
-        public AdminController(IModelManager modelManager, IBrandManager brandManager)
+        private readonly IDealerManager _dealerManager;
+
+        public AdminController(IModelManager modelManager, IBrandManager brandManager, IDealerManager dealerManager)
         {
             _modelManager = modelManager;
             _brandManager = brandManager;
+            _dealerManager = dealerManager;
         }
         // GET: Admin
         public ActionResult Index()
@@ -98,8 +102,7 @@ namespace LMS.Web.Controllers
                 return View();
             }
         }
-        
-        
+                
         public ActionResult CreateBrand()
         {
 
@@ -154,6 +157,87 @@ namespace LMS.Web.Controllers
             {
                 TempData["NotificationSuccess"] = result;
                 return RedirectToAction("BrandList", "Admin");
+            }
+            else
+            {
+                TempData["NotificationInfo"] = result;
+                return View();
+            }
+        }
+
+        [HttpGet]
+        public ActionResult CreateDealer()
+        {
+            var data = _modelManager.GetBrandsDropDown();
+            List<SelectListItem> brands = new List<SelectListItem>();
+            foreach(var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Text = item.Name;
+                select.Value = item.Id.ToString();
+                brands.Add(select);
+            }
+            ViewBag.BrandId = brands;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreateDealer(AdminDealerViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                int loggedInUserId = (int)Session["loggedInId"];
+                var result = _dealerManager.CreateDealer(model, loggedInUserId);
+                if (result == "Success")
+                {
+                    TempData["NotificationSuccess"] = result;
+                    return RedirectToAction("ListDealer");
+                }
+                else
+                {
+                    TempData["NotificationInfo"] = result;
+                    return View();
+                }
+            }
+            return View(model);
+        }
+
+        public ActionResult ListDealer()
+        {
+            var dealers = _dealerManager.GetDealers();
+            return View(dealers);
+        }
+
+        [HttpGet]
+        public ActionResult EditDealer(int id)
+        {
+            var dealer = _dealerManager.GetDealer(id);
+            var data = _modelManager.GetBrandsDropDown();
+            List<SelectListItem> brands = new List<SelectListItem>();
+            foreach (var item in data)
+            {
+                SelectListItem select = new SelectListItem();
+                select.Text = item.Name;
+                select.Value = item.Id.ToString();
+                if (dealer.Brands.Contains(item.Id))
+                {
+                    select.Selected = true;
+                }
+                brands.Add(select);
+            }
+            ViewBag.BrandId = brands;
+            return View(dealer);
+        }
+
+        [HttpPost]
+        public ActionResult EditDealer(AdminDealerViewModel viewModel)
+        {
+            int loggedInUserId = (int)Session["loggedInId"];
+            var result = _dealerManager.EditDealer(viewModel, loggedInUserId);
+            if (result == "Success")
+            {
+                TempData["NotificationSuccess"] = result;
+                return RedirectToAction("ListModel");
             }
             else
             {
