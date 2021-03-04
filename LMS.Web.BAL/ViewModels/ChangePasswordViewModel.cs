@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace LMS.Web.BAL.ViewModels
 {
@@ -14,6 +9,7 @@ namespace LMS.Web.BAL.ViewModels
         [Display(Description = "Current Password")]
         [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{8,15}$", ErrorMessage = "Password must contain Upper Case, Lower Case, Number and a Special Character")]
         public string CurrentPassword { get; set; }
+
         [Required]
         [StringLength(100)]
         [DataType(DataType.Password)]

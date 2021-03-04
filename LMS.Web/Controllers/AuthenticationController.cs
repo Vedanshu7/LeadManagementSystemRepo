@@ -193,20 +193,29 @@ namespace LMS.Web.Controllers
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordViewModel  change)
         {
-            int loggedInUserId= (int)Session["loggedInId"];
-            change.CurrentPassword = PasswordEncryptor.Encryptor.Encryption(change.CurrentPassword);
-            change.NewPassword = PasswordEncryptor.Encryptor.Encryption(change.NewPassword);
-            var result = _loginManager.ChangePassword(change, loggedInUserId);
-            if (result == "Success")
+            if (ModelState.IsValid)
             {
-                TempData["NotificationSuccess"] = result;
-                return View();
+                int loggedInUserId = (int)Session["loggedInId"];
+                change.CurrentPassword = PasswordEncryptor.Encryptor.Encryption(change.CurrentPassword);
+                change.NewPassword = PasswordEncryptor.Encryptor.Encryption(change.NewPassword);
+                var result = _loginManager.ChangePassword(change, loggedInUserId);
+                if (result == "Success")
+                {
+                    TempData["NotificationSuccess"] = "Password Changed Successfully";
+                    ChangePasswordViewModel model = new ChangePasswordViewModel();
+                    return View(model);
+                }
+                else
+                {
+                    TempData["NotificationInfo"] = result;
+                    return View();
+                }
             }
             else
             {
-                TempData["NotificationInfo"] = result;
-                return View();
+                return View(change);
             }
+            
         }
         public ActionResult Unauthorized()
         {
