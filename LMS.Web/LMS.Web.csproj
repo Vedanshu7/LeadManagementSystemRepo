@@ -2125,6 +2125,9 @@
     <Content Include="Views\Admin\CreateBrand.cshtml" />
     <Content Include="Views\Admin\BrandList.cshtml" />
     <Content Include="Views\Admin\EditBrand.cshtml" />
+    <Content Include="Views\Admin\CreateDealer.cshtml" />
+    <Content Include="Views\Admin\ListDealer.cshtml" />
+    <Content Include="Views\Admin\EditDealer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
