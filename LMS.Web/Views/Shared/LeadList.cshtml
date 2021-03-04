@@ -54,7 +54,7 @@
                                         @Html.Label("Lead Type:")
                                     </div>
                                     <div class="col-9">
-                                        @Html.DropDownListFor(m => m.Filters.leadTypeId, (IEnumerable<SelectListItem>)ViewBag.LeadTypeId, "Select", new { @class = "form-control", @id = "lead_type_id" })
+                                        @Html.DropDownListFor(m => m.Filters.leadTypeId, (IEnumerable<SelectListItem>)ViewBag.LeadTypeId, "Select", new { @class = "custom-select", @id = "lead_type_id" })
                                     </div>
                                 </div>
                             </div>
@@ -69,11 +69,11 @@
                                         @if (Model.Filters.flag)
                                         {
                                             @Html.HiddenFor(m => m.Filters.leadStatusId, new { @id = "leadstatusid" })
-                                            <select class="form-control" id="Filters_leadStatusId" name="Filters.leadStatusId"></select>
+                                            <select class="custom-select" id="Filters_leadStatusId" name="Filters.leadStatusId"></select>
                                         }
                                         else
                                         {
-                                            <select class="form-control" id="Filters_leadStatusId" name="Filters.leadStatusId"></select>
+                                            <select class="custom-select" id="Filters_leadStatusId" name="Filters.leadStatusId"></select>
                                         }
                                     </div>
                                 </div>
@@ -132,11 +132,11 @@
                                         @if (Model.Filters.flag)
                                         {
                                             @Html.HiddenFor(m => m.Filters.leadStatusId, new { @id = "userleadstatusid" })
-                                            <select class="form-control" id="User_leadStatusId" name="Filters.leadStatusId"></select>
+                                            <select class="custom-select" id="User_leadStatusId" name="Filters.leadStatusId"></select>
                                         }
                                         else
                                         {
-                                            <select class="form-control" id="User_leadStatusId" name="Filters.leadStatusId"></select>
+                                            <select class="custom-select" id="User_leadStatusId" name="Filters.leadStatusId"></select>
                                         }
                                     </div>
                                 </div>
@@ -381,14 +381,14 @@
                         for (var i = 0; i < data.length; i++) {
                             if ($("#leadstatusid").val() !== undefined) {
                                 if (data[i].Id.toString() === $("#leadstatusid").val().toString()) {
-                                    s += '<option selected="selected" value="' + data[i].Id + '">' + data[i].DisplayName + '</option>';
+                                    s += '<option class="dropdown-item" selected="selected" value="' + data[i].Id + '">' + data[i].DisplayName + '</option>';
                                 }
                                 else {
-                                    s += '<option value="' + data[i].Id + '">' + data[i].DisplayName + '</option>';
+                                    s += '<option class="dropdown-item" value="' + data[i].Id + '">' + data[i].DisplayName + '</option>';
                                 }
                             }
                             else {
-                                s += '<option value="' + data[i].Id + '">' + data[i].DisplayName + '</option>';
+                                s += '<option class="dropdown-item" value="' + data[i].Id + '">' + data[i].DisplayName + '</option>';
                             }
 
                         }
@@ -426,14 +426,14 @@
                             if ($("#leadstatusid").val() !== undefined) {
                                 if (data[i].Id.toString() === $("#leadstatusid").val().toString()) {
                                     c = c + 1;
-                                    s += '<option selected="selected" value="' + data[i].Id + '">' + data[i].DisplayName + '</option>';
+                                    s += '<option class="dropdown-item" selected="selected" value="' + data[i].Id + '">' + data[i].DisplayName + '</option>';
                                 }
                                 else {
-                                    s += '<option value="' + data[i].Id + '">' + data[i].DisplayName + '</option>';
+                                    s += '<option class="dropdown-item" value="' + data[i].Id + '">' + data[i].DisplayName + '</option>';
                                 }
                             }
                             else {
-                                s += '<option value="' + data[i].Id + '">' + data[i].DisplayName + '</option>';
+                                s += '<option class="dropdown-item" value="' + data[i].Id + '">' + data[i].DisplayName + '</option>';
                             }
 
                         }
@@ -456,14 +456,14 @@
                         for (var i = 0; i < data.length; i++) {
                             if ($("#userleadstatusid").val() !== undefined) {
                                 if (data[i].Id.toString() === $("#userleadstatusid").val().toString()) {
-                                    s += '<option selected="selected" value="' + data[i].Id + '">' + data[i].DisplayName + '</option>';
+                                    s += '<option class="dropdown-item" selected="selected" value="' + data[i].Id + '">' + data[i].DisplayName + '</option>';
                                 }
                                 else {
-                                    s += '<option value="' + data[i].Id + '">' + data[i].DisplayName + '</option>';
+                                    s += '<option class="dropdown-item" value="' + data[i].Id + '">' + data[i].DisplayName + '</option>';
                                 }
                             }
                             else {
-                                s += '<option value="' + data[i].Id + '">' + data[i].DisplayName + '</option>';
+                                s += '<option class="dropdown-item" value="' + data[i].Id + '">' + data[i].DisplayName + '</option>';
                             }
 
                         }
