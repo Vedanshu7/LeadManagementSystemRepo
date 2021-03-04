@@ -119,7 +119,7 @@ namespace LMS.Web.DAL.Repository
                 throw;
             }
         }
-        public string EditDealer(Dealers dealer, int loggedInUserId)
+        public string EditDealer(Dealers dealer, int loggedInUserId, List<int> brands)
         {
             try
             {
@@ -127,7 +127,7 @@ namespace LMS.Web.DAL.Repository
 
                 bool doesDealerCodeExists = false;
                 //check if the new modelCode exists in the database
-                if (dealerFromDb.DealerCode.Equals(dealer.DealerCode))
+                if (!dealerFromDb.DealerCode.Equals(dealer.DealerCode))
                 {
                     doesDealerCodeExists = _db.Dealers.Any(m => m.DealerCode == dealer.DealerCode);
                 }
@@ -145,6 +145,24 @@ namespace LMS.Web.DAL.Repository
                     dealerFromDb.UpdatedBy = loggedInUserId;
                     dealerFromDb.IsActive = dealer.IsActive;
                     _db.Entry(dealerFromDb).State = EntityState.Modified;
+                    _db.SaveChanges();
+
+                    //remove existing mappings
+                    _db.DealerBrandMappings.RemoveRange(_db.DealerBrandMappings.Where(db => db.DealerId == dealer.Id).ToList());
+                    _db.SaveChanges();
+
+                    var dealerIdFromDb = dealer.Id;
+                    foreach (var item in brands)
+                    {
+                        var dealerBrandMapping = new DealerBrandMappings();
+                        dealerBrandMapping.DealerId = dealerIdFromDb;
+                        dealerBrandMapping.BrandId = item;
+                        dealerBrandMapping.CreatedDate = DateTime.Now;
+                        dealerBrandMapping.CreatedBy = loggedInUserId;
+                        dealerBrandMapping.IsActive = true;
+                        _db.DealerBrandMappings.Add(dealerBrandMapping);
+                    }
+
                     _db.SaveChanges();
                     return "Success";
                 }

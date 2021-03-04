@@ -87,7 +87,7 @@
                                             @Html.DisplayFor(modelItem => item.IsActive)
                                         </td>
                                         <td>
-                                            @Html.ActionLink("Edit", "EditDealer", new { id = item.Id })
+                                            @Html.ActionLink("Edit", "EditDealer", new { id = item.Id }, new { @class = "btn btn-outline-info"})
                                         </td>
                                     </tr>
                                 }

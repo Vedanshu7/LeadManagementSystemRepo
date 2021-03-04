@@ -9,6 +9,6 @@ namespace LMS.Web.DAL.Interface
         string CreateDealer(Dealers dealer, int loggedInUserId, List<int> brands);
         List<DealerModel> GetDealers();
         Dealers GetDealer(int id);
-        string EditDealer(Dealers dealer, int loggedInUserId);
+        string EditDealer(Dealers dealer, int loggedInUserId, List<int> brands);
     }
 }

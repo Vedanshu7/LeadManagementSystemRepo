@@ -26,8 +26,8 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.BrandId)
-                            @Html.EditorFor(model => model.BrandId, new { htmlAttributes = new { @class = "form-control col-10" } })
+                            @Html.Label("Brand")
+                            @Html.DropDownList("BrandId", null, htmlAttributes: new { @class = "form-control col-10" })
                             @Html.ValidationMessageFor(model => model.BrandId, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -38,16 +38,23 @@
                         <!-- text input -->
                         <div class="form-group">
                             @Html.LabelFor(model => model.FuelType)
-
-                            @Html.EditorFor(model => model.FuelType, new { htmlAttributes = new { @class = "form-control col-10" } })
-                            @Html.ValidationMessageFor(model => model.FuelType, "", new { @class = "text-danger" })
+                                @Html.DropDownList("FuelType", new List<SelectListItem>
+                                {
+                                    new SelectListItem{ Text="Petrol", Value = "Petrol" },
+                                    new SelectListItem{ Text="Diesel", Value = "Diesel" },
+                                 }, new { @class = "form-control col-10" })
+                                @Html.ValidationMessageFor(model => model.FuelType, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.TransmissionType)
-                            @Html.EditorFor(model => model.TransmissionType, new { htmlAttributes = new { @class = "form-control col-10" } })
-                            @Html.ValidationMessageFor(model => model.TransmissionType, "", new { @class = "text-danger" })
+                                @Html.DropDownList("TransmissionType", new List<SelectListItem>
+                                {
+                                    new SelectListItem{ Text="Manual", Value = "Manual" },
+                                    new SelectListItem{ Text="Auto", Value = "Auto" },
+                                 }, new { @class = "form-control col-10" })
+                                @Html.ValidationMessageFor(model => model.TransmissionType, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>

@@ -2128,6 +2128,7 @@
     <Content Include="Views\Admin\CreateDealer.cshtml" />
     <Content Include="Views\Admin\ListDealer.cshtml" />
     <Content Include="Views\Admin\EditDealer.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -183,15 +183,17 @@ namespace LMS.Web.Controllers
             }
             return View();
         }
+
         [Authenticate]
         [HttpGet]
         public ActionResult ChangePassword()
         {
             return View();
         }
+
         [Authenticate]
         [HttpPost]
-        public ActionResult ChangePassword(ChangePasswordViewModel  change)
+        public ActionResult ChangePassword(ChangePasswordViewModel change)
         {
             if (ModelState.IsValid)
             {
@@ -202,13 +204,12 @@ namespace LMS.Web.Controllers
                 if (result == "Success")
                 {
                     TempData["NotificationSuccess"] = "Password Changed Successfully";
-                    ChangePasswordViewModel model = new ChangePasswordViewModel();
-                    return View(model);
+                    return RedirectToAction("Login");
                 }
                 else
                 {
                     TempData["NotificationInfo"] = result;
-                    return View();
+                    return RedirectToAction("ChangePassword");
                 }
             }
             else
@@ -221,14 +222,11 @@ namespace LMS.Web.Controllers
         {
             return Content("Unauthorized"); //TODO: Create Unauthorized Page
         }
-
         public ActionResult LogOff()
         {
-            Session.Clear();
-            Session.Abandon();
+            Session["loggedInId"] = null;
             return RedirectToAction("Login", "Authentication");
         }
-
         [NonAction]
         private string FormEmail(string userEmail, string token)
         {

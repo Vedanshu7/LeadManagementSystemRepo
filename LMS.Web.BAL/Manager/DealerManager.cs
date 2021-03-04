@@ -53,7 +53,7 @@ namespace LMS.Web.BAL.Manager
         public string EditDealer(AdminDealerViewModel viewModel, int loggedInId)
         {
             Dealers model = mapper.Map<AdminDealerViewModel, Dealers>(viewModel);
-            return _dealerRepository.EditDealer(model, loggedInId);
+            return _dealerRepository.EditDealer(model, loggedInId, viewModel.Brands);
         }
     }
 }

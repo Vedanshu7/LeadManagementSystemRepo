@@ -10,7 +10,7 @@
     @Html.AntiForgeryToken()
     <div class="card card-blue mt-3">
         <div class="card-header">
-            <h3 class="card-title">Edit Brand</h3>
+            <h3 class="card-title">Edit Model</h3>
         </div>
         <!-- /.card-header -->
         <div class="card-body">
@@ -26,8 +26,7 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.BrandId)
-
+                            @Html.Label("Brand")
                             @Html.DropDownList("BrandId", null, htmlAttributes: new { @class = "form-control col-10" })
                             @Html.ValidationMessageFor(model => model.BrandId, "", new { @class = "text-danger" })
                         </div>
@@ -39,7 +38,6 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             @Html.LabelFor(model => model.InteriorColor)
-
                             @Html.EditorFor(model => model.InteriorColor, new { htmlAttributes = new { @class = "form-control col-10" } })
                             @Html.ValidationMessageFor(model => model.InteriorColor, "", new { @class = "text-danger" })
                         </div>
