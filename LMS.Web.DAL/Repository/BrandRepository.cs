@@ -27,7 +27,7 @@ namespace LMS.Web.DAL.Repository
                 if (!result)
                 {
                     model.CreatedDate = DateTime.Now;
-                    model.IsActive = true;
+                    model.IsActive = model.IsActive;
                     _db.Brands.Add(model);
                     _db.SaveChanges();
                     return "Success";
@@ -91,6 +91,13 @@ namespace LMS.Web.DAL.Repository
             try
             {
                 var brandFromDb = _db.Brands.Where(m => m.Id == model.Id && m.IsActive == true).FirstOrDefault();
+
+                bool doesBrandCodeExists = false;
+                //check if the new brandCode exists in the database
+                if (brandFromDb.BrandCode != model.BrandCode)
+                {
+                    doesBrandCodeExists = _db.Models.Any(m => m.ModelCode == model.BrandCode);
+                }
                 if (brandFromDb != null)
                 {
                     brandFromDb.UpdatedBy = model.UpdatedBy;

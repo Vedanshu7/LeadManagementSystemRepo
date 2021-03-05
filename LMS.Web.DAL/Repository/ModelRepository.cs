@@ -25,7 +25,7 @@ namespace LMS.Web.DAL.Repository
                 if (!doesModelExist)
                 {
                     model.CreatedDate = DateTime.Now;
-                    model.IsActive = true;
+                    model.IsActive = model.IsActive;
                     model.IsDeleted = false;
                     _db.Models.Add(model);
                     _db.SaveChanges();

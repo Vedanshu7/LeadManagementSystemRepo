@@ -79,7 +79,15 @@
                 <tbody>
                     @foreach (var item in Model.LatestLeads)
                     {
-                        <tr onclick="return window.location.href = '/DealerManager/LeadDetail/@item.Id'" style="cursor:pointer;">
+                        var baseDate = item.CreatedDate;
+                        var color = "white";
+                        var toDate = DateTime.Now;
+                        var numberOfSeconds = toDate.Subtract (baseDate).TotalSeconds;
+                        if (numberOfSeconds >= 3600 && item.LeadStatus == "New")
+                        {
+                            color = "#ffcccc";
+                        }
+                        <tr onclick="return window.location.href = '/DealerManager/LeadDetail/@item.Id'" style="cursor:pointer;background-color: @color">
                             <td>
                                 @Html.DisplayFor(modelItem => item.CustomerName)
                             </td>

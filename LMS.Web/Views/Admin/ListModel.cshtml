@@ -10,17 +10,15 @@
             <div class="card-header">
                 <h3>Model List</h3>
             </div>
-
-            <!-- /.card-header -->
             <div class="card-body">
                 <a href="/Admin/CreateModel" class="btn btn-outline-success">Create Model</a>
                 <div class="table-responsive pt-2">
                     <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
-                        <table id="example1" class="table table-hover">
+                        <table id="model" class="table table-hover">
                             <thead class="thead-light">
                                 <tr>
                                     <th>
-                                        Name
+                                        Model Name
                                     </th>
                                     <th>
                                         Brand
@@ -87,11 +85,21 @@
                                             @Html.DisplayFor(modelItem => item.ModelCode)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.CreatedDate)
+                                            @item.CreatedDate.ToString("dd/MM/yyyy").Replace('-', '/')
                                         </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.UpdatedDate)
-                                        </td>
+                                        @if (item.UpdatedDate == null)
+                                        {
+                                            <td>
+                                                @item.UpdatedDate
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                @Convert.ToDateTime(item.UpdatedDate).ToString("dd/MM/yyyy").Replace('-', '/')
+                                            </td>
+                                        }
+
                                         <td>
                                             @Html.DisplayFor(modelItem => item.CreatedBy)
                                         </td>
@@ -107,7 +115,6 @@
                                             {
                                                 @Html.DisplayName("Inactive");
                                             }
-
                                         </td>
                                         <td>
                                             @Html.ActionLink("Edit", "EditModel", "Admin", new { Id = item.Id }, new { @class = "btn btn-outline-primary" })
@@ -116,7 +123,6 @@
                                             <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModalCenter">
                                                 Delete
                                             </button>
-
                                             <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                     <div class="modal-content">
@@ -143,7 +149,6 @@
                 </div>
             </div>
         </div>
-        <!-- /.card -->
     </div>
 </div>
 
@@ -157,6 +162,22 @@
         if ('@TempData["NotificationInfo"]' != '') {
             toastr.error('@TempData["NotificationInfo"]');
         }
+
+    });
+</script>
+<script>
+    $(function () {
+
+        $("#model").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+            "buttons": [{
+                extend: 'excel',
+                text: 'Export to Excel',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                }
+            }]
+        }).buttons().container().appendTo('#model_wrapper .col-md-6:eq(0)');
 
     });
 </script>

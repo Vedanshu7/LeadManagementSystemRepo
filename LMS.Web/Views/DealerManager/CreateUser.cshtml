@@ -3,17 +3,14 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
     <div class="card card-blue mt-3">
         <div class="card-header">
             <h3 class="card-title">Create User</h3>
         </div>
-        <!-- /.card-header -->
         <div class="card-body">
             <form>
                 <div class="row">
                     <div class="col-sm-6">
-                        <!-- text input -->
                         <div class="form-group">
                             @Html.LabelFor(model => model.Name)
                             @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control col-10" } })
@@ -28,11 +25,8 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div class="row">
                     <div class="col-sm-6">
-                        <!-- text input -->
                         <div class="form-group">
                             @Html.LabelFor(model => model.Password)
                             @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control col-10", @type = "password" } })
@@ -47,35 +41,24 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div class="row">
                     <div class="col-sm-6">
-                        <!-- text input -->
                         <div class="form-group">
                             @Html.LabelFor(model => model.RoleId, "Role")
                             @Html.DropDownList("RoleId", null, new { @class = "form-control col-10" })
                             @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
                 </div>
-
-                <div class="row">
-                    <div class="d-flex justify-content-center">
-                        <div class="">
-                            <input type="submit" value="Save" class="btn btn-outline-success " />
-                            <a href="/DealerManager/UserList" class="btn btn-outline-danger " role="button" aria-pressed="true">Cancel</a>
-                        </div>
+                <div class="d-flex justify-content-end">
+                    <div class="">
+                        <input type="submit" value="Save" class="btn btn-outline-success " />&nbsp;&nbsp;&nbsp;
+                        <a href="/DealerManager/UserList" class="btn btn-outline-dark btn-sx float-right" role="button" aria-pressed="true">Back To List</a>
                     </div>
-
                 </div>
             </form>
         </div>
-        <!-- /.card-body -->
     </div>
-
-
 
 }
 

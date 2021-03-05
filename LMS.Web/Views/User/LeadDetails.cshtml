@@ -6,7 +6,6 @@
 
 }
 
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -20,37 +19,26 @@
                 <div class="float-right">
                     <b>Lead Date: </b> @Model.CreatedDate.ToString("MM/dd/yyyy").Replace("-", "/")
                 </div>
-
-
-
             </div>
             <div class="card-body" style="display: block;">
                 <div class="row">
                     <div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">
-
                         <div class="row">
                             <div class="col-12">
                                 <h6>Customer Detail</h6>
                                 <div class="post">
                                     <div class="user-block">
-
                                         <span class="username">
                                             Name: <a href="#"> @Html.DisplayFor(model => model.CustomerName)</a>
-
                                         </span>
                                         <span class="username">
                                             Email: <a href="#"> @Html.DisplayFor(model => model.CustomerEmail)</a>
-
                                         </span>
                                         <span class="username">
                                             Contact Number: <a href="#"> @Html.DisplayFor(model => model.CustomerContactNumber)</a>
                                         </span>
-
                                     </div>
-
                                 </div>
-
-
                             </div>
                             <div class="col-12">
                                 <h6>Customer's Comment</h6>
@@ -60,18 +48,11 @@
                                         <span class="username">
                                             @Html.DisplayFor(model => model.Comments)
                                         </span>
-
                                     </div>
-
                                 </div>
-
-
                             </div>
-
                             <div class="col-12">
-
                                 <h6>Your Comment</h6>
-
                                 <div class="post">
                                     <div class="user-block">
                                         @if (Model.AssignedUserName != null)
@@ -86,22 +67,12 @@
                                                 @Html.DisplayFor(model => model.UserComments, new { @class = "form-control col-10", @id = "summernote" })
                                             </span>
                                         }
-
-
                                     </div>
-
                                 </div>
-
                             </div>
-
-
-
                         </div>
                     </div>
                     <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
-                        <h3 class="text-primary"><i class=""></i>Lead Management System</h3>
-                        <p class="text-muted">This is a basic information about lead</p>
-                        <br>
                         <div class="text-muted">
                             <p class="text-sm">
                                 Brand
@@ -126,16 +97,13 @@
                                 </p>
                             }
                         </div>
-
                         <h5 class="mt-5 text-muted">Lead Status</h5>
-
                         <div class="row">
                             <div class="col-6">
                                 @if (Model.AssignedUserName != null)
                                 {
                                     <input type="hidden" id="leadstatustext" value="@Model.LeadStatus" />
                                     <input type="hidden" id="leadstatusid" name="LeadStatusId" value="@Model.LeadStatusId" />
-                                    
                                    bool isPrevious = true; 
                                     
                             <select class="custom-select" id="leadstatus">
@@ -169,16 +137,15 @@
                     </div>
                 </div>
             </div>
-           
             <div class="text-center mt-5 mb-3">
-
                 @if (Model.AssignedUserName == null)
                 {
-                    @Html.ActionLink("Assign", "AssignLead", "User", new { leadId = Model.Id }, new { @class = "btn btn-md btn-success" })
+                    @Html.ActionLink("Assign", "AssignLead", "User", new { leadId = Model.Id }, new { @class = "btn btn-md btn-outline-success" })
 
                 }
                 else
                 {
+                    @Html.ActionLink("De-Assign", "DeAssignLead", "User", new { leadId = Model.Id }, new { @class = "btn btn-md btn-outline-danger" })
                     @Html.TextBox("Update", "Update", new { @class = "btn btn-md btn-warning", @type = "submit", @value = "Update" })
                     <text>&nbsp;</text>
                     if (Model.LeadStatus == "Accepted")
@@ -186,26 +153,14 @@
                         @Html.ActionLink("De-Assign", "DeAssignLead", "User", new { leadId = Model.Id }, new { @class = "btn btn-md btn-danger" })
                     }
                 }
+                &nbsp; &nbsp; &nbsp;
+                <a href="/User/LeadList" class="btn btn-outline-dark btn-sx float-right" role="button" aria-pressed="true">Back To List</a>
             </div>
-            <!-- /.card-body -->
         </div>
     </div>
 }
-    <div class="d-flex justify-content-center">
-        <p>
-
-            <a href="/User/LeadList" class="btn btn-outline-dark btn-sx" role="button" aria-pressed="true">Back To List</a>
-    </div>
-
-
-
-
-    @section scripts {
-
-
-
-
-        <script>
+@section scripts {
+    <script>
     $(document).ready(function () {
         if ('@TempData["NotificationSuccess"]' != '') {
             toastr.success('@TempData["NotificationSuccess"]');
@@ -214,18 +169,16 @@
             toastr.error('@TempData["NotificationInfo"]');
         }
     });
-        </script>
+    </script>
+    <script>
+        $("#leadstatus").change(function () {
+            if ($('#leadstatus :selected').text() === $("#leadstatustext").val()) {
 
-
-        <script>
-            $("#leadstatus").change(function () {
-                if ($('#leadstatus :selected').text() === $("#leadstatustext").val()) {
-                    
-                    $("#leadstatusid").val($('#leadstatus :selected').val())
-                }
-                else {
-                   $("#leadstatusid").val($('#leadstatus :selected').val())
-                }
-            });
-        </script>
-    }
+                $("#leadstatusid").val($('#leadstatus :selected').val())
+            }
+            else {
+                $("#leadstatusid").val($('#leadstatus :selected').val())
+            }
+        });
+    </script>
+}

@@ -6,7 +6,6 @@
 }
 <div class="row pt-3">
     <div class="col-12">
-
         <div class="pt-2">
             <div>
                 <div class="row">
@@ -36,6 +35,7 @@
                                     <tbody>
                                         @foreach (var item in Model.userAssignedLeadList)
                                         {
+
                                             <tr onclick="return window.location.href = '/User/LeadDetails/@item.Id'" style="cursor:pointer;">
                                                 <td>
                                                     @Html.DisplayFor(modelItem => item.CustomerName)
@@ -54,9 +54,7 @@
                                     </tbody>
                                 </table>
                             </div>
-
                         </div>
-
                     </div>
                     <div class="col-md-6">
                         <div class="card card-outline card-primary">
@@ -84,7 +82,15 @@
                                     <tbody>
                                         @foreach (var item in Model.userNewLeadList)
                                         {
-                                            <tr onclick="return window.location.href = '/User/LeadDetails/@item.Id'" style="cursor:pointer;">
+                                            var baseDate = item.CreatedDate;
+                                            var color = "white";
+                                            var toDate = DateTime.Now;
+                                            var numberOfSeconds = toDate.Subtract (baseDate).TotalSeconds;
+                                            if (numberOfSeconds >= 3600 && item.LeadStatus == "New")
+                                            {
+                                                color = "#ffcccc";
+                                            }
+                                            <tr onclick="return window.location.href = '/User/LeadDetails/@item.Id'" style="cursor:pointer;background-color: @color">
                                                 <td>
                                                     @Html.DisplayFor(modelItem => item.CustomerName)
                                                 </td>
@@ -102,13 +108,10 @@
                                     </tbody>
                                 </table>
                             </div>
-
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>

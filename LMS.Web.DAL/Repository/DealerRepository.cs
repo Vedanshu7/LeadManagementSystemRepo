@@ -40,7 +40,7 @@ namespace LMS.Web.DAL.Repository
                         dealerBrandMapping.BrandId = item;
                         dealerBrandMapping.CreatedDate = DateTime.Now;
                         dealerBrandMapping.CreatedBy = loggedInUserId;
-                        dealerBrandMapping.IsActive = true;
+                        dealerBrandMapping.IsActive = dealer.IsActive;
                         _db.DealerBrandMappings.Add(dealerBrandMapping);
                     }
                     
