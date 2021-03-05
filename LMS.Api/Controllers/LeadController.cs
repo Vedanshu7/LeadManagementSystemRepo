@@ -45,7 +45,7 @@ namespace LMS.Api.Controllers
             }
             catch (Exception e)
             {
-                Log.Error(e.Message, e);
+                //Log.Error(e.Message, e);
                 SendAdminEmail(lead, e);
                 return InternalServerError();
             }
@@ -54,13 +54,14 @@ namespace LMS.Api.Controllers
         [NonAction]
         private void SendAdminEmail(LeadDto lead, Exception e)
         {
-            string filePath = HostingEnvironment.MapPath("~/Views/EmailTemplate/Email.html");
+            string filePath = HostingEnvironment.MapPath("~/App_Data/EmailTemplate/Email.html");
             StreamReader str = new StreamReader(filePath);
             string mailText = str.ReadToEnd();
             str.Close();
             string leadtable = _leadManager.GenerateLeadTable(lead);
-            mailText = mailText.Replace("[Type]", "Admin");
-            mailText = mailText.Replace("[Lead Details]", leadtable);
+            mailText = mailText.Replace("[FirstName]", "Admin");
+            mailText = mailText.Replace("[LastName]", "");
+            mailText = mailText.Replace("[Message]", leadtable);
             mailText = mailText.Replace("[Exception]", e.Message + "<p style='color:red'><b>Failed To Add Lead</b></p>");
             EmailManager.AppSettings(out var userId, out var password, out var smtpPort, out var host);
             string adminMail = ConfigurationManager.AppSettings.Get("AdminID");

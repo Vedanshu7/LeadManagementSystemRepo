@@ -22,8 +22,8 @@ namespace LMS.Api.DAL.Repository
 
         public LeadResult AddLead(LeadDto leadDto)
         {
-            try
-            {
+            //try
+            //{
                 //Mapping LeadDto -> Leads
                 var lead = new Leads();
                 lead.CustomerName = leadDto.CustomerName;
@@ -117,12 +117,12 @@ namespace LMS.Api.DAL.Repository
 
                 result.mailingList = mailingList;
                 return result;
-            }
-            catch (Exception e)
-            {
-                Log.Error(e.Message, e);
-                return new LeadResult { result = LeadResultEnum.ErrorOccurred };
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //    Log.Error(e.Message, e);
+            //    return new LeadResult { result = LeadResultEnum.ErrorOccurred };
+            //}
         }
     }
 }

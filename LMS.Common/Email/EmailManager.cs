@@ -20,7 +20,7 @@ namespace LMS.Common.Email
                 Host = Host,
                 Port = Convert.ToInt16(SMTPPort),
                 Credentials = new NetworkCredential(UserID, Password),
-                EnableSsl = true
+                EnableSsl = false
             };
             smtp.Send(mail);
         }

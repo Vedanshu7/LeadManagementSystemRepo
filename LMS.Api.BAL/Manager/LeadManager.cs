@@ -26,7 +26,7 @@ namespace LMS.Api.BAL.Manager
             if (result.result == LeadResultEnum.Success)
             {
                 //Form Email
-                string mailText = FormEmail();
+                string mailText = FormEmail(lead.LeadTypeCode);
 
                 //Get and set the AppSettings using configuration manager.
                 EmailManager.AppSettings(out var userId, out var password, out var smtpPort, out var host);
@@ -34,10 +34,10 @@ namespace LMS.Api.BAL.Manager
                 //Forming Mailing List as CSVs
                 //TODO: Uncomment this line for real mailing list
                 //CreateMailingList(result.mailingList);
-                string testMailingList = "mihir67mj@gmail.com, nishupatel282@gmail.com, vedanshujoshi50@gmail.com";
+                string testMailingList = "mihirj.joshi@thegatewaycorp.co.in";
 
                 //Call send email methods.
-                //EmailManager.SendEmail(userId, "LMS", mailText, testMailingList, userId, password, smtpPort, host);
+                EmailManager.SendEmail(userId, "LMS", mailText, testMailingList, userId, password, smtpPort, host);
 
                 return result.result;
             }
@@ -55,16 +55,24 @@ namespace LMS.Api.BAL.Manager
             return table;
         }
 
-        private string FormEmail()
+        private string FormEmail(string Leadtype)
         {
+            var User = "AfterSale";
+            var link = "<button style='background - color:#333435;color:black;'" +
+                " onclick='return window.location.href = 'https://localhost:44381/User/''>Check Your Leads</button>";
+            if (Leadtype.Equals(Common.Constants.LeadType.Sales))
+            {
+                User = "Sales";
+            }
             //Set the Email Template
-            string filePath = HostingEnvironment.MapPath("~/Views/EmailTemplate/Email.html");
+            string filePath = HostingEnvironment.MapPath("~/App_Data/EmailTemplate/Email.html");
             StreamReader str = new StreamReader(filePath);
             string mailText = str.ReadToEnd();
             str.Close();
-            mailText = mailText.Replace("[Type]", "User");
-            mailText = mailText.Replace("[Lead Details]", "New Lead Added");
-            mailText = mailText.Replace("[Exception]", "Check Your Dashboard");
+            mailText = mailText.Replace("[FirstName]",User);
+            mailText = mailText.Replace("[LastName]","User");
+            mailText = mailText.Replace("[Message]", "New Lead ");
+            mailText = mailText.Replace("[Exception]", link);
             return mailText;
         }
         private string CreateMailingList(List<string> mailIds)
