@@ -8,6 +8,7 @@ using LMS.Common.Email;
 using System.Configuration;
 using LMS.Api.Attributes;
 using LMS.Common.Enums;
+using log4net;
 
 namespace LMS.Api.Controllers
 {
@@ -15,6 +16,7 @@ namespace LMS.Api.Controllers
     public class LeadController : ApiController
     {
         private readonly ILeadManager _leadManager;
+        private static readonly ILog Log = LogManager.GetLogger(typeof(LeadController));
         public LeadController(ILeadManager leadManager)
         {
             _leadManager = leadManager;
@@ -41,8 +43,8 @@ namespace LMS.Api.Controllers
             }
             catch (Exception e)
             {
+                Log.Error(e.Message, e);
                 SendAdminEmail(lead, e);
-                //TODO: Add Logger
                 return InternalServerError();
             }
         }

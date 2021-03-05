@@ -10,7 +10,6 @@ using System.Linq;
 
 namespace LMS.Web.BAL.Manager
 {
-    //TODO: Check for Null in every method
     public class LeadManager : ILeadManager
     {
         private readonly ILeadRepository _leadRepository;
@@ -87,7 +86,6 @@ namespace LMS.Web.BAL.Manager
         }
         public string UpdateLeadDetails(UserLeadViewModel model, int loggedInUserId)
         {
-            //TODO:Map lead status id.
             Leads lead = mapper.Map<UserLeadViewModel, Leads>(model);
             lead.UpdatedBy = loggedInUserId;
             return _leadRepository.UpdateLeadDetails(lead, loggedInUserId);

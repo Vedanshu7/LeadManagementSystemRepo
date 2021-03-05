@@ -5,6 +5,7 @@ namespace LMS.Common.Enums
     {
         Success = 1,
         Invalid = 2,
-        NotFound = 3
+        NotFound = 3,
+        Error = 4
     }
 }

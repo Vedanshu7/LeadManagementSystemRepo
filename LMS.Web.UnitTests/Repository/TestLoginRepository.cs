@@ -45,7 +45,7 @@ namespace LMS.Web.UnitTests.Repository
             }
         }
 
-        public string ResetPassword(string email, string password) //TODO: Change Return type to LoginResultEnum
+        public string ResetPassword(string email, string password) 
         {
             try
             {

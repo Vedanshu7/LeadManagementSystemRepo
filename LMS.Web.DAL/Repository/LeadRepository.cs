@@ -5,12 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using log4net;
 
 namespace LMS.Web.DAL.Repository
 {
     public class LeadRepository : ILeadRepository
     {
         private readonly LMSAzureEntities _db;
+        private static readonly ILog Log = LogManager.GetLogger(typeof(LeadRepository));
         public LeadRepository()
         {
             _db = new LMSAzureEntities();
@@ -60,10 +62,10 @@ namespace LMS.Web.DAL.Repository
                 }
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                //TODO: Add Logger
-                throw;
+                Log.Error(e.Message, e);
+                return null;
             }
         }
 
@@ -76,8 +78,8 @@ namespace LMS.Web.DAL.Repository
             }
             catch (Exception e)
             {
-                //TODO : Add Logger.
-                throw;
+                Log.Error(e.Message, e);
+                return null;
             }
         }
         public string AssignLeadForDealer(int selectedUserId, int leadId, int dealerId)
@@ -137,9 +139,8 @@ namespace LMS.Web.DAL.Repository
             }
             catch (Exception e)
             {
-                //TODO: Add Logger
+                Log.Error(e.Message, e);
                 return "Error occurred";
-                throw;
             }
         }
         public string DeAssignLeadForDealer(int leadId, int dealerId)
@@ -179,9 +180,8 @@ namespace LMS.Web.DAL.Repository
             }
             catch (Exception e)
             {
-                //TODO: Add Logger
+                Log.Error(e.Message, e);
                 return "Error occurred";
-                throw;
             }
         }
 
@@ -217,10 +217,10 @@ namespace LMS.Web.DAL.Repository
                     return null;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Log.Error(e.Message, e);
                 return null;
-                throw;
             }
         }
         public string UpdateLeadDetails(Leads model, int loggedInUserId)
@@ -243,9 +243,8 @@ namespace LMS.Web.DAL.Repository
             }
             catch (Exception e)
             {
-                //TODO: Add Logger
+                Log.Error(e.Message, e);
                 return "Error occured";
-                throw;
             }
         }
         public string AssignLeadForUser(int loggedInUserId, int leadId)
@@ -300,9 +299,8 @@ namespace LMS.Web.DAL.Repository
             }
             catch (Exception e)
             {
-                //TODO: Add Logger
-                return "Error occudred";
-                throw;
+                Log.Error(e.Message, e);
+                return "Error occured";
             }
         }
         public string DeAssignLeadForUser(int loggedInUserId, int leadId)
@@ -357,33 +355,48 @@ namespace LMS.Web.DAL.Repository
             }
             catch (Exception e)
             {
-                //TODO: Add Logger
+                Log.Error(e.Message, e);
                 return "Error occured.";
-                throw;
             }
         }
 
         //Dropdown Methods
         public IEnumerable<LeadStatus> GetLeadStatusDropDown(int loggedInUserId, string leadTypeCode)
         {
-            var loggedInUser = _db.Users.Where(u => u.Id == loggedInUserId && u.IsActive == true).First();
-
-            switch (loggedInUser.Roles.RoleCode)
+            try
             {
-                case Constants.Roles.Dealer:
-                    return _db.LeadStatus.Where(l =>
-                       (string.IsNullOrEmpty(leadTypeCode) ? true : l.LeadType.LeadTypeCode == leadTypeCode));
-                case Constants.Roles.Sales:
-                    return _db.LeadStatus.Where(x => x.LeadType.LeadTypeCode == Constants.LeadType.Sales);
-                case Constants.Roles.AfterSales:
-                    return _db.LeadStatus.Where(x => x.LeadType.LeadTypeCode == Constants.LeadType.AfterSales);
-                default:
-                    return null;
+                var loggedInUser = _db.Users.Where(u => u.Id == loggedInUserId && u.IsActive == true).First();
+
+                switch (loggedInUser.Roles.RoleCode)
+                {
+                    case Constants.Roles.Dealer:
+                        return _db.LeadStatus.Where(l =>
+                           (string.IsNullOrEmpty(leadTypeCode) ? true : l.LeadType.LeadTypeCode == leadTypeCode));
+                    case Constants.Roles.Sales:
+                        return _db.LeadStatus.Where(x => x.LeadType.LeadTypeCode == Constants.LeadType.Sales);
+                    case Constants.Roles.AfterSales:
+                        return _db.LeadStatus.Where(x => x.LeadType.LeadTypeCode == Constants.LeadType.AfterSales);
+                    default:
+                        return null;
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.Message, e);
+                return null;
             }
         }
         public IEnumerable<LeadType> GetLeadTypeDropDown()
         {
-            return _db.LeadType;
+            try
+            {
+                return _db.LeadType;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.Message, e);
+                return null;
+            }
         }
     }
 }

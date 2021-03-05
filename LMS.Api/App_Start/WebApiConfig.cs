@@ -17,7 +17,6 @@ namespace LMS.Api
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            //TODO: Enable CORS
         }
     }
 }
