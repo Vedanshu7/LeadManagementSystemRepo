@@ -309,9 +309,9 @@ namespace LMS.Web.DAL.Repository
             {
                 var userToBeAssigned = _db.Users.Where(u => u.Id == loggedInUserId && u.IsActive == true).First();
                 var lead = _db.Leads.Where(l => l.Id == leadId && l.DealerId == userToBeAssigned.DealerId).FirstOrDefault();
-                if (lead == null)
+                if (lead == null || lead.LeadStatus.LeadStatusCode != Constants.LeadStatus.AfterSalesAccepted || lead.LeadStatus.LeadStatusCode != Constants.LeadStatus.SalesAccepted)
                 {
-                    return "Error occurred";
+                    return "Operation can not be performed";
                 }
 
                 if (lead.LeadType.LeadTypeCode == Constants.LeadType.Sales) //If it's Sales

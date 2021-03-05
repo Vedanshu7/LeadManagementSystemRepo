@@ -135,45 +135,43 @@
                                 {
                                     <input type="hidden" id="leadstatustext" value="@Model.LeadStatus" />
                                     <input type="hidden" id="leadstatusid" name="LeadStatusId" value="@Model.LeadStatusId" />
-
-                                    <select class="custom-select" id="leadstatus">
-
-                                        @foreach (var item in ViewBag.LeadStatusId)
+                                    
+                                   bool isPrevious = true; 
+                                    
+                            <select class="custom-select" id="leadstatus">
+                                @foreach (var item in ViewBag.LeadStatusId)
+                                {
+                                    if (Model.LeadStatus != item.DisplayName && isPrevious)
+                                    {
+                                        <option class="dropdown-item" value="@item.Id" disabled>@item.DisplayName</option>
+                                    }
+                                    else
+                                    {
+                                        isPrevious = false;
+                                        if (item.DisplayName.ToString().Equals(Model.LeadStatus.ToString()))
                                         {
-                                            if (item.DisplayName.ToString().Equals(Model.LeadStatus.ToString()))
-                                            {
-                                                <option class="dropdown-item" value="@item.Id" selected>@item.DisplayName</option>
-                                            }
-                                            else
-                                            {
-                                                <option class="dropdown-item" value="@item.Id">@item.DisplayName</option>
-                                            }
-
+                                            <option class="dropdown-item" value="@item.Id" selected>@item.DisplayName</option>
                                         }
-
-                                    </select>
+                                        else
+                                        {
+                                            <option class="dropdown-item" value="@item.Id">@item.DisplayName</option>
+                                        }
+                                    }
+                                }
+                            </select>
                                 }
                                 else
-                                {
-                                   
-                                        <b class="d-block">@Model.LeadStatus</b>
-                                    
+                                {  
+                                        <b class="d-block">@Model.LeadStatus</b>   
                                 }
                             </div>
-
                         </div>
-
-
-
-
-
                     </div>
                 </div>
             </div>
            
             <div class="text-center mt-5 mb-3">
-                @Html.TextBox("Update", "Update", new { @class = "btn btn-md btn-warning",@type="submit",@value="Update" })
-                &nbsp;
+
                 @if (Model.AssignedUserName == null)
                 {
                     @Html.ActionLink("Assign", "AssignLead", "User", new { leadId = Model.Id }, new { @class = "btn btn-md btn-success" })
@@ -181,7 +179,12 @@
                 }
                 else
                 {
-                    @Html.ActionLink("De-Assign", "DeAssignLead", "User", new { leadId = Model.Id }, new { @class = "btn btn-md btn-danger" })
+                    @Html.TextBox("Update", "Update", new { @class = "btn btn-md btn-warning", @type = "submit", @value = "Update" })
+                    <text>&nbsp;</text>
+                    if (Model.LeadStatus == "Accepted")
+                    {
+                        @Html.ActionLink("De-Assign", "DeAssignLead", "User", new { leadId = Model.Id }, new { @class = "btn btn-md btn-danger" })
+                    }
                 }
             </div>
             <!-- /.card-body -->
