@@ -53,7 +53,7 @@ namespace LMS.Web.Controllers
                 if (Session["RedirectUrl"] != null)
                 {
                     path = Session["RedirectUrl"].ToString();
-                    Session["RedirectUrlUrl"] = null;
+                    Session["RedirectUrl"] = null;
                 }
                 //Check result
                 switch (loginResult.result)
@@ -224,7 +224,7 @@ namespace LMS.Web.Controllers
         }
         public ActionResult LogOff()
         {
-            Session["loggedInId"] = null;
+            Session.Abandon();
             return RedirectToAction("Login", "Authentication");
         }
         [NonAction]
