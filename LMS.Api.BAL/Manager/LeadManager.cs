@@ -58,8 +58,7 @@ namespace LMS.Api.BAL.Manager
         private string FormEmail(string Leadtype)
         {
             var User = "AfterSale";
-            var link = "<button style='background - color:#333435;color:black;'" +
-                " onclick='return window.location.href = 'https://localhost:44381/User/''>Check Your Leads</button>";
+            var link = "<a style=\"background - color:#333435;color:black;margin-left:50%;\" href = \"https://localhost:44381/User/ \">Check Your Leads</a>";
             if (Leadtype.Equals(Common.Constants.LeadType.Sales))
             {
                 User = "Sales";
