@@ -8,6 +8,7 @@ using LMS.Common.Email;
 using System.Configuration;
 using LMS.Api.Attributes;
 using LMS.Common.Enums;
+using System.Web.Http.Cors;
 using log4net;
 
 namespace LMS.Api.Controllers
@@ -24,7 +25,8 @@ namespace LMS.Api.Controllers
 
         // POST: api/Lead/
         [HttpPost]
-        public IHttpActionResult PostLead(LeadDto lead)
+        [EnableCors(origins: "*", headers: "*", methods: "*", SupportsCredentials = true)]
+        public IHttpActionResult PostLead([FromBody]LeadDto lead)
         {
             try
             {
