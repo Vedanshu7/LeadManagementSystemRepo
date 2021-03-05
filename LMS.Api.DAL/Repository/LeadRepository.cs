@@ -7,12 +7,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using LMS.Common.Enums;
+using log4net;
 
 namespace LMS.Api.DAL.Repository
 {
     public class LeadRepository : ILeadRepository
     {
         private readonly LMSAzureEntities _db;
+        private static readonly ILog Log = LogManager.GetLogger(typeof(LeadRepository));
         public LeadRepository()
         {
             _db = new LMSAzureEntities();
@@ -118,8 +120,8 @@ namespace LMS.Api.DAL.Repository
             }
             catch (Exception e)
             {
-                //TODO: Add Logger
-                throw;
+                Log.Error(e.Message, e);
+                return new LeadResult { result = LeadResultEnum.ErrorOccurred };
             }
         }
     }

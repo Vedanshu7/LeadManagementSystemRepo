@@ -14,5 +14,10 @@ namespace LMS.Web.Controllers
         {
             return RedirectToAction("Login", "Authentication");
         }
+
+        public ActionResult Error()
+        {
+            return View();
+        }
     }
 }

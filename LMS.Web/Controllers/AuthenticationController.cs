@@ -37,7 +37,7 @@ namespace LMS.Web.Controllers
                         return RedirectToAction("Index", "Admin");
                 }
             }
-            return View(); //TODO: Redirect to page
+            return View();
         }
 
         [HttpPost]
@@ -133,7 +133,7 @@ namespace LMS.Web.Controllers
                     {
                         TempData["NotificationInfo"] = result;
                         return View();
-                    } //TODO: Pass this as message to view
+                    } 
                 }
                 return View("ForgotPassword");
 
@@ -173,12 +173,12 @@ namespace LMS.Web.Controllers
                     Session["IsEmailSent"] = true;
 
                     TempData["NotificationSuccess"] = "Password Reset link has been sent to your mail id.";
-                    return View("Login"); //TODO: Mail Has Been Sent View/Notification
+                    return View("Login");
                 }
                 else
                 {
                     TempData["NotificationInfo"] = "User not found.";
-                    return View(); //TODO: Pass error to view
+                    return View(); 
                 }
             }
             return View();
@@ -220,7 +220,7 @@ namespace LMS.Web.Controllers
         }
         public ActionResult Unauthorized()
         {
-            return Content("Unauthorized"); //TODO: Create Unauthorized Page
+            return Content("Unauthorized");
         }
         public ActionResult LogOff()
         {

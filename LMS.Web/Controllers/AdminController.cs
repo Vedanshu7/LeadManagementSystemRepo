@@ -2,6 +2,7 @@
 using LMS.Web.Attributes;
 using LMS.Web.BAL.Interface;
 using LMS.Web.BAL.ViewModels;
+using log4net;
 using System.Collections.Generic;
 using System.Web.Mvc;
 

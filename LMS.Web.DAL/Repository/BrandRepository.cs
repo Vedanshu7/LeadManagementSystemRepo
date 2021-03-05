@@ -5,16 +5,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
+using log4net;
 
 namespace LMS.Web.DAL.Repository
 {
     public class BrandRepository : IBrandRepository
     {
         private readonly LMSAzureEntities _db;
+        private static readonly ILog Log = LogManager.GetLogger(typeof(BrandRepository));
+
         public BrandRepository()
         {
             _db = new LMSAzureEntities();
         }
+
         public string CreateBrand(Brands model)
         {
             try
@@ -35,44 +39,52 @@ namespace LMS.Web.DAL.Repository
             }
             catch (Exception e)
             {
-                //TODO: Add logger.
+                Log.Error(e.Message, e);
                 return "Error occured.";
             }
         }
         public List<VehicleBrand> GetBrandList()
         {
-            var brands = _db.Brands.Join(_db.Users,
-                b => b.CreatedBy,
-                u => u.Id,
-                (brand, user) => new { brand, user })
-                .Select(bu => bu).ToList();
-
-            var updateBrands = _db.Brands.Join(_db.Users,
-                b => b.UpdatedBy,
-                u => u.Id,
-                (brand, user) => new { brand, user })
-                .Select(bu => bu).ToList();
-            List<VehicleBrand> vehicleBrands = new List<VehicleBrand>();
-            for(int i=0;i< brands.Count;i++)
+            try
             {
-                var brand = new VehicleBrand();
-                brand.Id = brands[i].brand.Id;
-                brand.Name = brands[i].brand.Name;
-                brand.Brandcode = brands[i].brand.BrandCode;
-                brand.CreatedDate = brands[i].brand.CreatedDate;
-                brand.UpdatedDate = brands[i].brand.UpdatedDate;
-                brand.BrandCreatedBy = brands[i].user.Name;
-               
-                brand.IsActive = brands[i].brand.IsActive;
-                vehicleBrands.Add(brand);
-            }
-            foreach(var item in updateBrands)
-            {
-                var brand = vehicleBrands.Where(v => v.Id == item.brand.Id).First();
-                brand.BrandUpdatedBy = item.user.Name;
+                var brands = _db.Brands.Join(_db.Users,
+                        b => b.CreatedBy,
+                        u => u.Id,
+                        (brand, user) => new { brand, user })
+                        .Select(bu => bu).ToList();
 
+                var updateBrands = _db.Brands.Join(_db.Users,
+                    b => b.UpdatedBy,
+                    u => u.Id,
+                    (brand, user) => new { brand, user })
+                    .Select(bu => bu).ToList();
+                List<VehicleBrand> vehicleBrands = new List<VehicleBrand>();
+                for (int i = 0; i < brands.Count; i++)
+                {
+                    var brand = new VehicleBrand();
+                    brand.Id = brands[i].brand.Id;
+                    brand.Name = brands[i].brand.Name;
+                    brand.Brandcode = brands[i].brand.BrandCode;
+                    brand.CreatedDate = brands[i].brand.CreatedDate;
+                    brand.UpdatedDate = brands[i].brand.UpdatedDate;
+                    brand.BrandCreatedBy = brands[i].user.Name;
+
+                    brand.IsActive = brands[i].brand.IsActive;
+                    vehicleBrands.Add(brand);
+                }
+                foreach (var item in updateBrands)
+                {
+                    var brand = vehicleBrands.Where(v => v.Id == item.brand.Id).First();
+                    brand.BrandUpdatedBy = item.user.Name;
+
+                }
+                return vehicleBrands;
             }
-            return vehicleBrands;
+            catch (Exception e)
+            {
+                Log.Error(e.Message, e);
+                return null;
+            }
         }
         public string EditBrand(Brands model)
         {
@@ -102,17 +114,24 @@ namespace LMS.Web.DAL.Repository
                     return "Error occured.";
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Log.Error(e.Message, e);
                 return "Error occured.";
-                throw;
             }
         }
-
         public Brands GetBrand(int id)
         {
-            var data = _db.Brands.Where(m => m.Id == id).FirstOrDefault();
-            return data;
+            try
+            {
+                var data = _db.Brands.Where(m => m.Id == id).FirstOrDefault();
+                return data;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.Message, e);
+                return null;
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using LMS.Web.DAL.Database;
 using LMS.Web.DAL.Interface;
 using LMS.Web.DAL.Models;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -11,6 +12,7 @@ namespace LMS.Web.DAL.Repository
     public class ModelRepository : IModelRepository
     {
         private readonly LMSAzureEntities _db;
+        private static readonly ILog Log = LogManager.GetLogger(typeof(ModelRepository));
         public ModelRepository()
         {
             _db = new LMSAzureEntities();
@@ -31,62 +33,74 @@ namespace LMS.Web.DAL.Repository
                 }
                 return "Model already exists.";
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                //TODO: Add Logger
-                throw;
+                Log.Error(e.Message, e);
+                return "Error occurred";
             }
         }
 
         public List<VehicleModel> GetModels()
         {
-            var models = _db.Models.Join(_db.Users,
-                model => model.CreatedBy,
-                user => user.Id,
-                (model, user) => new { model, user }).Where(mu => mu.model.IsDeleted == false)
-                .Select(mu => mu).ToList();
-
-            var updatedModels = _db.Models.Join(_db.Users,
-                model => model.UpdatedBy,
-                user => user.Id,
-                (model, user) => new { model, user }).Where(mu => mu.model.IsDeleted == false)
-                .Select(mu => mu).ToList();
-
-            List<VehicleModel> vehicleModels = new List<VehicleModel>();
-            for (int i = 0; i < models.Count; i++)
+            try
             {
-                var vehicleModel = new VehicleModel();
-                vehicleModel.Id = models[i].model.Id;
-                vehicleModel.Name = models[i].model.Name;
-                vehicleModel.Brand = models[i].model.Brands.Name;
-                vehicleModel.FuelType = models[i].model.FuelType;
-                vehicleModel.TransmissionType = models[i].model.TransmissionType;
-                vehicleModel.ExteriorColor = models[i].model.ExteriorColor;
-                vehicleModel.InteriorColor = models[i].model.InteriorColor;
-                vehicleModel.ModelCode = models[i].model.ModelCode;
-                vehicleModel.CreatedDate = models[i].model.CreatedDate;
-                vehicleModel.UpdatedDate = models[i].model.UpdatedDate;
-                vehicleModel.CreatedBy = models[i].user.Name;
-                //if (updatedModels.Contains(models[i]))
-                //{
-                //    var key = updatedModels.IndexOf(models[i]);
-                //    vehicleModel.UpdatedBy = updatedModels[key].user.Name;
-                //}
-                vehicleModel.IsActive = models[i].model.IsActive;
-                vehicleModels.Add(vehicleModel);
-            }
+                var models = _db.Models.Join(_db.Users,
+                        model => model.CreatedBy,
+                        user => user.Id,
+                        (model, user) => new { model, user }).Where(mu => mu.model.IsDeleted == false)
+                        .Select(mu => mu).ToList();
 
-            foreach (var item in updatedModels)
-            {
-                var model = vehicleModels.Where(v => v.Id == item.model.Id).First();
-                model.UpdatedBy = item.user.Name;
-            }
+                var updatedModels = _db.Models.Join(_db.Users,
+                    model => model.UpdatedBy,
+                    user => user.Id,
+                    (model, user) => new { model, user }).Where(mu => mu.model.IsDeleted == false)
+                    .Select(mu => mu).ToList();
 
-            return vehicleModels;
+                List<VehicleModel> vehicleModels = new List<VehicleModel>();
+                for (int i = 0; i < models.Count; i++)
+                {
+                    var vehicleModel = new VehicleModel();
+                    vehicleModel.Id = models[i].model.Id;
+                    vehicleModel.Name = models[i].model.Name;
+                    vehicleModel.Brand = models[i].model.Brands.Name;
+                    vehicleModel.FuelType = models[i].model.FuelType;
+                    vehicleModel.TransmissionType = models[i].model.TransmissionType;
+                    vehicleModel.ExteriorColor = models[i].model.ExteriorColor;
+                    vehicleModel.InteriorColor = models[i].model.InteriorColor;
+                    vehicleModel.ModelCode = models[i].model.ModelCode;
+                    vehicleModel.CreatedDate = models[i].model.CreatedDate;
+                    vehicleModel.UpdatedDate = models[i].model.UpdatedDate;
+                    vehicleModel.CreatedBy = models[i].user.Name;
+                    //if (updatedModels.Contains(models[i]))
+                    //{
+                    //    var key = updatedModels.IndexOf(models[i]);
+                    //    vehicleModel.UpdatedBy = updatedModels[key].user.Name;
+                    //}
+                    vehicleModel.IsActive = models[i].model.IsActive;
+                    vehicleModels.Add(vehicleModel);
+                }
+
+                foreach (var item in updatedModels)
+                {
+                    var model = vehicleModels.Where(v => v.Id == item.model.Id).First();
+                    model.UpdatedBy = item.user.Name;
+                }
+
+                return vehicleModels;
+            }
+            catch (Exception e) { Log.Error(e.Message, e); return null; }
         }
         public IEnumerable<Brands> GetBrandsDropDown()
         {
-            return _db.Brands;
+            try
+            {
+                return _db.Brands;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.Message, e);
+                return null;
+            }
         }
         public Database.Models GetModel(int id)
         {
@@ -94,10 +108,10 @@ namespace LMS.Web.DAL.Repository
             {
                 return _db.Models.Where(b => b.Id == id).FirstOrDefault();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                //TODO: Add Logger
-                throw;
+                Log.Error(e.Message, e);
+                return null;
             }
         }
         public string EditModel(Database.Models model, int loggedInUserId)
@@ -133,9 +147,8 @@ namespace LMS.Web.DAL.Repository
             }
             catch (Exception e)
             {
-                //TODO:Add logger.
+                Log.Error(e.Message, e);
                 return "Error occured";
-                throw;
             }
         }
         public string DeleteModel(int id, int loggedInUserId)
@@ -156,9 +169,8 @@ namespace LMS.Web.DAL.Repository
             }
             catch (Exception e)
             {
-                //TODO:Add logger.
+                Log.Error(e.Message, e);
                 return "Error occurred";
-                throw;
             }
         }
     }

@@ -8,6 +8,8 @@ using LMS.Common.Email;
 using System.Configuration;
 using LMS.Api.Attributes;
 using LMS.Common.Enums;
+using System.Web.Http.Cors;
+using log4net;
 
 namespace LMS.Api.Controllers
 {
@@ -15,6 +17,7 @@ namespace LMS.Api.Controllers
     public class LeadController : ApiController
     {
         private readonly ILeadManager _leadManager;
+        private static readonly ILog Log = LogManager.GetLogger(typeof(LeadController));
         public LeadController(ILeadManager leadManager)
         {
             _leadManager = leadManager;
@@ -22,7 +25,8 @@ namespace LMS.Api.Controllers
 
         // POST: api/Lead/
         [HttpPost]
-        public IHttpActionResult PostLead(LeadDto lead)
+        [EnableCors(origins: "*", headers: "*", methods: "*", SupportsCredentials = true)]
+        public IHttpActionResult PostLead([FromBody]LeadDto lead)
         {
             try
             {
@@ -41,8 +45,8 @@ namespace LMS.Api.Controllers
             }
             catch (Exception e)
             {
+                Log.Error(e.Message, e);
                 SendAdminEmail(lead, e);
-                //TODO: Add Logger
                 return InternalServerError();
             }
         }

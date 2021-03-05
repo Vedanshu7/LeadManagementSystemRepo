@@ -6,12 +6,14 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using LMS.Web.DAL.Models;
+using log4net;
 
 namespace LMS.Web.DAL.Repository
 {
     public class UserRepository : IUserRepository
     {
         private readonly LMSAzureEntities _db;
+        private static readonly ILog Log = LogManager.GetLogger(typeof(UserRepository));
         public UserRepository()
         {
             _db = new LMSAzureEntities();
@@ -38,11 +40,10 @@ namespace LMS.Web.DAL.Repository
                     return "Error occured.";
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                //TODO:Add Logger.
+                Log.Error(e.Message, e);
                 return "Error occured.";
-                throw;
             }
         }
         public string EditUser(Users user)
@@ -67,9 +68,8 @@ namespace LMS.Web.DAL.Repository
             }
             catch (Exception e)
             {
-                //TODO:Add logger.
+                Log.Error(e.Message, e);
                 return "Error occured";
-                throw;
             }
         }
         public Users GetUser(int dealerId, int Id)
@@ -83,76 +83,123 @@ namespace LMS.Web.DAL.Repository
                 }
                 return null;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                //TODO:Add logger.
+                Log.Error(e.Message, e);
                 return null;
-                throw;
             }
         }
         public List<Users> GetUsers(int dealerId)
         {
-            List<Users> list = _db.Users.Where(u => u.DealerId == dealerId && u.Roles.RoleCode != Constants.Roles.Dealer && u.IsActive == true).ToList();
-            return list;
+            try
+            {
+                List<Users> list = _db.Users.Where(u => u.DealerId == dealerId && u.Roles.RoleCode != Constants.Roles.Dealer && u.IsActive == true).ToList();
+                return list;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.Message, e);
+                return null;
+            }
         }
         public List<Users> GetUsersByLeadType(int leadId)
         {
-            var lead = _db.Leads.Find(leadId);
-
-            //If Leads are Sales Leads, return Sales Users
-            if (lead.LeadType.LeadTypeCode == Constants.LeadType.Sales)
+            try
             {
-                var users = _db.Users //fetching users according to the lead type and dealerId
-                .Where(u =>
-                    u.Roles.RoleCode == Constants.Roles.Sales &&
+                var lead = _db.Leads.Find(leadId);
+
+                //If Leads are Sales Leads, return Sales Users
+                if (lead.LeadType.LeadTypeCode == Constants.LeadType.Sales)
+                {
+                    var users = _db.Users //fetching users according to the lead type and dealerId
+                    .Where(u =>
+                        u.Roles.RoleCode == Constants.Roles.Sales &&
+                        u.DealerId == lead.DealerId &&
+                        u.IsActive == true)
+                        .ToList();
+                    return users;
+                }
+                else //Return AfterSales Users
+                {
+                    var users = _db.Users //fetching users according to the lead type and dealerId
+                    .Where(u =>
+                    u.Roles.RoleCode == Constants.Roles.AfterSales &&
                     u.DealerId == lead.DealerId &&
                     u.IsActive == true)
                     .ToList();
-                return users;
+                    return users;
+                }
             }
-            else //Return AfterSales Users
+            catch (Exception e)
             {
-                var users = _db.Users //fetching users according to the lead type and dealerId
-                .Where(u =>
-                u.Roles.RoleCode == Constants.Roles.AfterSales &&
-                u.DealerId == lead.DealerId &&
-                u.IsActive == true)
-                .ToList();
-                return users;
+                Log.Error(e.Message, e);
+                return null;
             }
         }
 
         public IEnumerable<Roles> GetUserRoleDropDown()
         {
-            return _db.Roles;
+            try
+            {
+                return _db.Roles;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.Message, e);
+                return null;
+            }
         }
 
         public List<UserLeadCountModel> GetUsersLeadCount(int loggedInUserId)
         {
-            var loggedInUser = _db.Users.Where(u => u.Id == loggedInUserId).First();
-            var Leads = _db.Leads.Where(l =>l.DealerId == loggedInUser.DealerId).ToList();
-            var Users = _db.Users.Where(l => l.DealerId == loggedInUser.DealerId 
-            && (l.Roles.RoleCode==Constants.Roles.Sales || l.Roles.RoleCode==Constants.Roles.AfterSales)).ToList();
-            var detail = Leads.GroupBy(l => l.AssignedUserId).Select(
-                  userleads => new {
-                      UserId = userleads.Key,
-                      Name = userleads.Key == null ? "null" : userleads.Where(l => l.AssignedUserId ==userleads.Key ).FirstOrDefault().Users.Name,
-                      CloseCount = userleads.Where(
-                      l => l.AssignedUserId == userleads.Key && l.LeadStatus.LeadStatusCode == Common.Constants.LeadStatus.AfterSalesLost
-                      || l.LeadStatus.LeadStatusCode == Common.Constants.LeadStatus.AfterSalesSuccess
-                      || l.LeadStatus.LeadStatusCode == Common.Constants.LeadStatus.SalesSuccess
-                      || l.LeadStatus.LeadStatusCode == Common.Constants.LeadStatus.SalesSalesLost).ToList().Count(),
-                      ActiveCount = userleads.Where(
-                      l => l.AssignedUserId == userleads.Key && l.LeadStatus.LeadStatusCode != Common.Constants.LeadStatus.AfterSalesLost
-                      && l.LeadStatus.LeadStatusCode != Common.Constants.LeadStatus.AfterSalesSuccess
-                      && l.LeadStatus.LeadStatusCode != Common.Constants.LeadStatus.SalesSuccess
-                      && l.LeadStatus.LeadStatusCode != Common.Constants.LeadStatus.SalesSalesLost).ToList().Count()
-                  }).OrderBy(l => l.UserId).ToList();
-            List<UserLeadCountModel> leadCountModel = new List<UserLeadCountModel>();
-            List<int> UserId = new List<int>(); 
-            foreach(var item in detail)
+            try
             {
-                if (item.UserId != null)
+                var loggedInUser = _db.Users.Where(u => u.Id == loggedInUserId).First();
+                var Leads = _db.Leads.Where(l => l.DealerId == loggedInUser.DealerId).ToList();
+                var Users = _db.Users.Where(l => l.DealerId == loggedInUser.DealerId
+                && (l.Roles.RoleCode == Constants.Roles.Sales || l.Roles.RoleCode == Constants.Roles.AfterSales)).ToList();
+                var detail = Leads.GroupBy(l => l.AssignedUserId).Select(
+                      userleads => new
+                      {
+                          UserId = userleads.Key,
+                          Name = userleads.Key == null ? "null" : userleads.Where(l => l.AssignedUserId == userleads.Key).FirstOrDefault().Users.Name,
+                          CloseCount = userleads.Where(
+                          l => l.AssignedUserId == userleads.Key && l.LeadStatus.LeadStatusCode == Common.Constants.LeadStatus.AfterSalesLost
+                          || l.LeadStatus.LeadStatusCode == Common.Constants.LeadStatus.AfterSalesSuccess
+                          || l.LeadStatus.LeadStatusCode == Common.Constants.LeadStatus.SalesSuccess
+                          || l.LeadStatus.LeadStatusCode == Common.Constants.LeadStatus.SalesSalesLost).ToList().Count(),
+                          ActiveCount = userleads.Where(
+                          l => l.AssignedUserId == userleads.Key && l.LeadStatus.LeadStatusCode != Common.Constants.LeadStatus.AfterSalesLost
+                          && l.LeadStatus.LeadStatusCode != Common.Constants.LeadStatus.AfterSalesSuccess
+                          && l.LeadStatus.LeadStatusCode != Common.Constants.LeadStatus.SalesSuccess
+                          && l.LeadStatus.LeadStatusCode != Common.Constants.LeadStatus.SalesSalesLost).ToList().Count()
+                      }).OrderBy(l => l.UserId).ToList();
+                List<UserLeadCountModel> leadCountModel = new List<UserLeadCountModel>();
+                List<int> UserId = new List<int>();
+                foreach (var item in detail)
+                {
+                    if (item.UserId != null)
+                    {
+                        UserLeadCountModel temp = new UserLeadCountModel();
+                        temp.Id = (int)item.UserId;
+                        temp.Name = item.Name;
+                        temp.AciveCounts = item.ActiveCount;
+                        temp.ClosedCounts = item.CloseCount;
+                        leadCountModel.Add(temp);
+                        UserId.Add(temp.Id);
+                    }
+
+                }
+                var NotAssignedUsers = Users.Where(u => !UserId.Contains(u.Id)).Select(
+                    InvalidUsers => new
+                    {
+                        UserId = InvalidUsers.Id,
+                        Name = InvalidUsers.Name,
+                        ActiveCount = 0,
+                        CloseCount = 0
+                    }
+                    ).OrderBy(l => l.UserId).ToList();
+                foreach (var item in NotAssignedUsers)
                 {
                     UserLeadCountModel temp = new UserLeadCountModel();
                     temp.Id = (int)item.UserId;
@@ -160,29 +207,14 @@ namespace LMS.Web.DAL.Repository
                     temp.AciveCounts = item.ActiveCount;
                     temp.ClosedCounts = item.CloseCount;
                     leadCountModel.Add(temp);
-                    UserId.Add(temp.Id);
                 }
-               
+                return leadCountModel;
             }
-            var NotAssignedUsers = Users.Where(u => !UserId.Contains(u.Id)).Select(
-                InvalidUsers => new
-                {
-                    UserId = InvalidUsers.Id,
-                    Name=InvalidUsers.Name,
-                    ActiveCount=0,
-                    CloseCount=0
-                }
-                ).OrderBy(l=>l.UserId).ToList();
-            foreach (var item in NotAssignedUsers)
+            catch (Exception e)
             {
-                UserLeadCountModel temp = new UserLeadCountModel();
-                temp.Id = (int)item.UserId;
-                temp.Name = item.Name;
-                temp.AciveCounts = item.ActiveCount;
-                temp.ClosedCounts = item.CloseCount;
-                leadCountModel.Add(temp);
+                Log.Error(e.Message, e);
+                return null;
             }
-            return leadCountModel;
         }
     }
 }

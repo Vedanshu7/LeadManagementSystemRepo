@@ -2,6 +2,7 @@
 using LMS.Common.Enums;
 using LMS.Web.DAL.Database;
 using LMS.Web.DAL.Interface;
+using log4net;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace LMS.Web.DAL.Repository
     public class LoginRepository : ILoginRepository
     {
         private readonly LMSAzureEntities _db;
+        private static readonly ILog Log = LogManager.GetLogger(typeof(LoginRepository));
 
         public LoginRepository()
         {
@@ -48,11 +50,11 @@ namespace LMS.Web.DAL.Repository
             }
             catch (Exception e)
             {
-                Console.WriteLine(e); //TODO: Log Errors in File (Inner message, Stacktrace)
-                throw;
+                Log.Error(e.Message, e);
+                return new LoginResult() { result = LoginResultEnum.Error };
             }
         }
-        public string ResetPassword(string email, string password) //TODO: Change Return type to LoginResultEnum
+        public string ResetPassword(string email, string password)
         {
             try
             {
@@ -69,39 +71,54 @@ namespace LMS.Web.DAL.Repository
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Log.Error(e.Message, e);
                 throw;
             }
         }
         public bool IsValidUser(string userEmail)
         {
+            try
+            {
+                if (_db.Users.Where(u => u.Email == userEmail && u.IsActive == true).Any())
+                    return true; //Success
 
-            if (_db.Users.Where(u => u.Email == userEmail && u.IsActive == true).Any())
-                return true; //Success
-
-            //If no user is found
-            return false;
+                //If no user is found
+                return false;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.Message, e);
+                return false;
+            }
         }
         public string ChangePassword(string currentPassword, string newPassword,int loggedInUserId)
         {
-            var userFromDb = _db.Users.Where(u => u.Id == loggedInUserId).FirstOrDefault();
-            if (userFromDb != null)
+            try
             {
-                if (userFromDb.Password == currentPassword)
+                var userFromDb = _db.Users.Where(u => u.Id == loggedInUserId).FirstOrDefault();
+                if (userFromDb != null)
                 {
-                    userFromDb.Password = newPassword;
-                    _db.Entry(userFromDb).State = EntityState.Modified;
-                    _db.SaveChanges();
-                    return "Success";
+                    if (userFromDb.Password == currentPassword)
+                    {
+                        userFromDb.Password = newPassword;
+                        _db.Entry(userFromDb).State = EntityState.Modified;
+                        _db.SaveChanges();
+                        return "Success";
+                    }
+                    else
+                    {
+                        return "Enter Current Password";
+                    }
                 }
                 else
                 {
-                    return "Enter Current Password";
+                    return "Error occurred";
                 }
             }
-            else
+            catch (Exception e)
             {
-                return "Error occured";
+                Log.Error(e.Message, e);
+                return "Error occurred";
             }
             
         }
