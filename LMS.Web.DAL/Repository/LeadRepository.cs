@@ -309,7 +309,7 @@ namespace LMS.Web.DAL.Repository
             {
                 var userToBeAssigned = _db.Users.Where(u => u.Id == loggedInUserId && u.IsActive == true).First();
                 var lead = _db.Leads.Where(l => l.Id == leadId && l.DealerId == userToBeAssigned.DealerId).FirstOrDefault();
-                if (lead == null || lead.LeadStatus.LeadStatusCode != Constants.LeadStatus.AfterSalesAccepted || lead.LeadStatus.LeadStatusCode != Constants.LeadStatus.SalesAccepted)
+                if (lead == null)
                 {
                     return "Operation can not be performed";
                 }
@@ -322,13 +322,18 @@ namespace LMS.Web.DAL.Repository
                         return "Invalid user role.";
                     }
 
-                    lead.AssignedUserId = null;
+                   
 
                     //Change Lead Status - If it's Accepted -> Change to New
                     if (lead.LeadStatus.LeadStatusCode == Constants.LeadStatus.SalesAccepted)
                     {
+                        lead.AssignedUserId = null;
                         var idOfStatusCode = _db.LeadStatus.Where(s => s.LeadStatusCode == Constants.LeadStatus.SalesNew).First().Id;
                         lead.LeadStatusId = idOfStatusCode;
+                    }
+                    else
+                    {
+                        return "Operation can not be performed";
                     }
                 }
                 else //If it's AfterSales
@@ -339,13 +344,18 @@ namespace LMS.Web.DAL.Repository
                         return "Invalid user role.";
                     }
 
-                    lead.AssignedUserId = null;
+                    
 
                     //Change Lead Status - If it's Accepted-> Change to New 
                     if (lead.LeadStatus.LeadStatusCode == Constants.LeadStatus.AfterSalesAccepted)
                     {
+                        lead.AssignedUserId = null;
                         var idOfStatusCode = _db.LeadStatus.Where(s => s.LeadStatusCode == Constants.LeadStatus.AfterSalesNew).First().Id;
                         lead.LeadStatusId = idOfStatusCode;
+                    }
+                    else
+                    {
+                        return "Operation can not be performed";
                     }
                 }
 

@@ -48,7 +48,7 @@
                                         @Html.Label("Lead Type:")
                                     </div>
                                     <div class="col-9">
-                                        @Html.DropDownListFor(m => m.Filters.leadTypeId, (IEnumerable<SelectListItem>)ViewBag.LeadTypeId, "Select", new { @class = "custom-select", @id = "lead_type_id" })
+                                        @Html.DropDownListFor(m => m.Filters.leadTypeId, (IEnumerable<SelectListItem>)ViewBag.LeadTypeId, "Select", new { @class = "form-control", @id = "lead_type_id" })
                                     </div>
                                 </div>
                             </div>
@@ -62,11 +62,11 @@
                                         @if (Model.Filters.flag)
                                         {
                                             @Html.HiddenFor(m => m.Filters.leadStatusId, new { @id = "leadstatusid" })
-                                            <select class="custom-select" id="Filters_leadStatusId" name="Filters.leadStatusId"></select>
+                                            <select class="form-control" id="Filters_leadStatusId" name="Filters.leadStatusId"></select>
                                         }
                                         else
                                         {
-                                            <select class="custom-select" id="Filters_leadStatusId" name="Filters.leadStatusId"></select>
+                                            <select class="form-control" id="Filters_leadStatusId" name="Filters.leadStatusId"></select>
                                         }
                                     </div>
                                 </div>
@@ -118,11 +118,11 @@
                                         @if (Model.Filters.flag)
                                         {
                                             @Html.HiddenFor(m => m.Filters.leadStatusId, new { @id = "userleadstatusid" })
-                                            <select class="custom-select" id="User_leadStatusId" name="Filters.leadStatusId"></select>
+                                            <select class="form-control" id="User_leadStatusId" name="Filters.leadStatusId"></select>
                                         }
                                         else
                                         {
-                                            <select class="custom-select" id="User_leadStatusId" name="Filters.leadStatusId"></select>
+                                            <select class="form-control" id="User_leadStatusId" name="Filters.leadStatusId"></select>
                                         }
                                     </div>
                                 </div>

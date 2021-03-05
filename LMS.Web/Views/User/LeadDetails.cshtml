@@ -137,7 +137,7 @@
                     </div>
                 </div>
             </div>
-            <div class="text-center mt-5 mb-3">
+            <div class="d-flex justify-content-end mt-5 mb-3 mr-3">
                 @if (Model.AssignedUserName == null)
                 {
                     @Html.ActionLink("Assign", "AssignLead", "User", new { leadId = Model.Id }, new { @class = "btn btn-md btn-outline-success" })
@@ -145,9 +145,9 @@
                 }
                 else
                 {
-                    @Html.ActionLink("De-Assign", "DeAssignLead", "User", new { leadId = Model.Id }, new { @class = "btn btn-md btn-outline-danger" })
-                    @Html.TextBox("Update", "Update", new { @class = "btn btn-md btn-warning", @type = "submit", @value = "Update" })
-                    <text>&nbsp;</text>
+
+                    @Html.TextBox("Update", "Update", new { @class = "btn btn-md btn-outline-warning", @type = "submit", @value = "Update" })
+                    <text>&nbsp; &nbsp; &nbsp;</text>
                     if (Model.LeadStatus == "Accepted")
                     {
                         @Html.ActionLink("De-Assign", "DeAssignLead", "User", new { leadId = Model.Id }, new { @class = "btn btn-md btn-danger" })

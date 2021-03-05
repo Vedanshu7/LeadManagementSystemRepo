@@ -15,44 +15,47 @@
                                 <h3> Your leads</h3>
                             </div>
                             <div class="card-body">
-                                <table class="table table-hover">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th>
-                                                CustomerName
-                                            </th>
-                                            <th>
-                                                ModelName
-                                            </th>
-                                            <th>
-                                                LeadStatus
-                                            </th>
-                                            <th>
-                                                CreatedDate
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model.userAssignedLeadList)
-                                        {
-
-                                            <tr onclick="return window.location.href = '/User/LeadDetails/@item.Id'" style="cursor:pointer;">
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.CustomerName)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.ModelName)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.LeadStatus)
-                                                </td>
-                                                <td>
-                                                    @item.CreatedDate.ToString("MM/dd/yyyy").Replace("-", "/")
-                                                </td>
+                                <div class="table-responsive pt-2">
+                                    <table class="table table-hover table-responsive-lg ">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>
+                                                    CustomerName
+                                                </th>
+                                                <th>
+                                                    ModelName
+                                                </th>
+                                                <th>
+                                                    LeadStatus
+                                                </th>
+                                                <th>
+                                                    CreatedDate
+                                                </th>
                                             </tr>
-                                        }
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.userAssignedLeadList)
+                                            {
+
+                                                <tr onclick="return window.location.href = '/User/LeadDetails/@item.Id'" style="cursor:pointer;">
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.CustomerName)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.ModelName)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.LeadStatus)
+                                                    </td>
+                                                    <td>
+                                                        @item.CreatedDate.ToString("MM/dd/yyyy").Replace("-", "/")
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                               
                             </div>
                         </div>
                     </div>
@@ -62,51 +65,54 @@
                                 <h3> New leads</h3>
                             </div>
                             <div class="card-body">
-                                <table class="table table-hover">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th>
-                                                CustomerName
-                                            </th>
-                                            <th>
-                                                ModelName
-                                            </th>
-                                            <th>
-                                                LeadStatus
-                                            </th>
-                                            <th>
-                                                CreatedDate
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model.userNewLeadList)
-                                        {
-                                            var baseDate = item.CreatedDate;
-                                            var color = "white";
-                                            var toDate = DateTime.Now;
-                                            var numberOfSeconds = toDate.Subtract (baseDate).TotalSeconds;
-                                            if (numberOfSeconds >= 3600 && item.LeadStatus == "New")
-                                            {
-                                                color = "#ffcccc";
-                                            }
-                                            <tr onclick="return window.location.href = '/User/LeadDetails/@item.Id'" style="cursor:pointer;background-color: @color">
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.CustomerName)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.ModelName)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.LeadStatus)
-                                                </td>
-                                                <td>
-                                                    @item.CreatedDate.ToString("MM/dd/yyyy").Replace("-", "/")
-                                                </td>
+                                <div class="table-responsive pt-2">
+                                    <table class="table table-hover">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>
+                                                    CustomerName
+                                                </th>
+                                                <th>
+                                                    ModelName
+                                                </th>
+                                                <th>
+                                                    LeadStatus
+                                                </th>
+                                                <th>
+                                                    CreatedDate
+                                                </th>
                                             </tr>
-                                        }
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.userNewLeadList)
+                                            {
+                                                var baseDate = item.CreatedDate;
+                                                var color = "white";
+                                                var toDate = DateTime.Now;
+                                                var numberOfSeconds = toDate.Subtract(baseDate).TotalSeconds;
+                                                if (numberOfSeconds >= 3600 && item.LeadStatus == "New")
+                                                {
+                                                    color = "#ffcccc";
+                                                }
+                                                <tr onclick="return window.location.href = '/User/LeadDetails/@item.Id'" style="cursor:pointer;background-color: @color">
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.CustomerName)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.ModelName)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.LeadStatus)
+                                                    </td>
+                                                    <td>
+                                                        @item.CreatedDate.ToString("MM/dd/yyyy").Replace("-", "/")
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                               
                             </div>
                         </div>
                     </div>
