@@ -10,94 +10,126 @@
             <div class="card-header">
                 <h3>Dealer List</h3>
             </div>
-
-            <!-- /.card-header -->
             <div class="card-body">
                 <a href="/Admin/CreateDealer" class="btn btn-outline-success">Create Dealer</a>
                 <div class="table-responsive pt-2">
                     <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
-                        <table id="example1" class="table table-hover">
+                        <table id="dealer" class="table table-hover">
                             <thead class="thead-light">
-                                <tr>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Name)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.State)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.City)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Pincode)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.DealerCode)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.CreatedDate)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.UpdatedDate)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.CreatedBy)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.UpdatedBy)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.IsActive)
-                                    </th>
-                                    <th></th>
-                                </tr>
+                            <tr>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    State
+                                </th>
+                                <th>
+                                    City
+                                </th>
+                                <th>
+                                    Pincode
+                                </th>
+                                <th>
+                                    Dealer Code
+                                </th>
+                                <th>
+                                    Created Date
+                                </th>
+                                <th>
+                                    Updated Date
+                                </th>
+                                <th>
+                                    Created By
+                                </th>
+                                <th>
+                                    Updated By
+                                </th>
+                                <th>
+                                    IsActive
+                                </th>
+                                <th></th>
+                            </tr>
                             </thead>
                             <tbody>
-                                @foreach (var item in Model)
-                                {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Name)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.State)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.City)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Pincode)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.DealerCode)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CreatedDate)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.UpdatedDate)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CreatedBy)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.UpdatedBy)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.IsActive)
-                                        </td>
-                                        <td>
-                                            @Html.ActionLink("Edit", "EditDealer", new { id = item.Id }, new { @class = "btn btn-outline-info"})
-                                        </td>
-                                    </tr>
-                                }
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.State)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.City)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pincode)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DealerCode)
+                                    </td>
+                                    <td>
+                                        @item.CreatedDate.ToString("dd/MM/yyyy").Replace('-', '/')
+                                    </td>
+                                    <td>
+                                        @Convert.ToDateTime(item.UpdatedDate).ToString("dd/MM/yyyy").Replace('-', '/')
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CreatedBy)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UpdatedBy)
+                                    </td>
+                                    <td>
+                                        @if (item.IsActive == true)
+                                        {
+                                            @Html.DisplayName("Active");
+                                        }
+                                        else
+                                        {
+                                            @Html.DisplayName("Inactive");
+                                        }
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Edit", "EditDealer", new { id = item.Id }, new { @class = "btn btn-outline-info" })
+                                    </td>
+                                </tr>
+                            }
                             </tbody>
                         </table>
-
                     </div>
                 </div>
             </div>
         </div>
-        <!-- /.card -->
     </div>
 </div>
+@Scripts.Render("~/bundles/jquery")
+
+<script>
+    $(document).ready(function () {
+        if ('@TempData["NotificationSuccess"]' != '') {
+            toastr.success('@TempData["NotificationSuccess"]');
+        }
+        if ('@TempData["NotificationInfo"]' != '') {
+            toastr.error('@TempData["NotificationInfo"]');
+        }
+
+    });
+</script>
+<script>
+    $(function () {
+
+        $("#dealer").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+            "buttons": [{
+                extend: 'excel',
+                text: 'Export to Excel',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                }
+            }]
+        }).buttons().container().appendTo('#dealer_wrapper .col-md-6:eq(0)');
+
+    });
+</script>

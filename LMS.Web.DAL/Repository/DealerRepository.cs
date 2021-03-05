@@ -38,7 +38,7 @@ namespace LMS.Web.DAL.Repository
                         dealerBrandMapping.BrandId = item;
                         dealerBrandMapping.CreatedDate = DateTime.Now;
                         dealerBrandMapping.CreatedBy = loggedInUserId;
-                        dealerBrandMapping.IsActive = true;
+                        dealerBrandMapping.IsActive = dealer.IsActive;
                         _db.DealerBrandMappings.Add(dealerBrandMapping);
                     }
                     
@@ -70,19 +70,6 @@ namespace LMS.Web.DAL.Repository
             List<DealerModel> dealerModels = new List<DealerModel>();
             for (int i = 0; i < dealers.Count; i++)
             {
-                //public int Id { get; set; }
-                //public string Name { get; set; }
-                //public string State { get; set; }
-                //public string City { get; set; }
-                //public string Pincode { get; set; }
-                //public string DealerCode { get; set; }
-                //public string SalesEmail { get; set; }
-                //public string AfterSalesEmail { get; set; }
-                //public DateTime CreatedDate { get; set; }
-                //public DateTime? UpdatedDate { get; set; }
-                //public string CreatedBy { get; set; }
-                //public string UpdatedBy { get; set; }
-                //public bool IsActive { get; set; }
                 var dealerModel = new DealerModel();
                 dealerModel.Id = dealers[i].dealer.Id;
                 dealerModel.Name = dealers[i].dealer.Name;

@@ -49,7 +49,7 @@ namespace LMS.Web.Controllers
                 else
                 {
                     TempData["NotificationInfo"] = result;
-                    return View();
+                    return RedirectToAction("ListModel");
                 }
             }
             return View(model);

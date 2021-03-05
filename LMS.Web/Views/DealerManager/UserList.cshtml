@@ -3,13 +3,13 @@
 @{
     ViewBag.Title = "UserDetails";
 }
+
 <div class="row pt-3">
     <div class="col-12">
         <div class="card card-outline card-primary">
             <div class="card-header">
                 <h3>User List</h3>
             </div>
-            <!-- /.card-header -->
             <div class="card-body">
                 <a href="/DealerManager/CreateUser" class="btn btn-outline-success">Create User</a>
                 <div class="table-responsive pt-2">
@@ -58,15 +58,11 @@
                     </div>
                 </div>
             </div>
-            <!-- /.card-body -->
         </div>
-        <!-- /.card -->
     </div>
 </div>
-
 @Scripts.Render("~/bundles/jqueryval")
 @Scripts.Render("~/bundles/jquery")
-
 <script>
     $(document).ready(function () {
         if ('@TempData["NotificationSuccess"]' != '') {
@@ -75,5 +71,21 @@
         if ('@TempData["NotificationInfo"]' != '') {
             toastr.error('@TempData["NotificationInfo"]');
         }
+    });
+</script>
+<script>
+    $(function () {
+     
+        $("#example1").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+            "buttons": [{ 
+                extend: 'excel',
+                text: 'Export to Excel',
+                exportOptions: {
+                    columns: [0,1,2,3]
+                }
+            }]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+       
     });
 </script>
