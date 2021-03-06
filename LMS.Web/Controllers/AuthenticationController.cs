@@ -20,6 +20,18 @@ namespace LMS.Web.Controllers
         }
 
         [HttpGet]
+        public ActionResult Index()
+        {
+            return RedirectToAction("Login");
+        }
+
+        [HttpGet]
+        public ActionResult Error()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public ActionResult Login()
         {
             //Check if already logged in
@@ -35,6 +47,8 @@ namespace LMS.Web.Controllers
                         return RedirectToAction("Index", "User");
                     case RolesEnum.Admin:
                         return RedirectToAction("Index", "Admin");
+                    default:
+                        return RedirectToAction("Error");
                 }
             }
             return View();
@@ -80,6 +94,8 @@ namespace LMS.Web.Controllers
                                 if (!path.Equals(string.Empty))
                                     return Redirect(path);
                                 return RedirectToAction("Index", "Admin");
+                            default:
+                                return RedirectToAction("Error");
                         }
                         break;
 
@@ -102,7 +118,7 @@ namespace LMS.Web.Controllers
                 return View("Login");
 
             string userEmail = TokenManager.ValidateToken(code); //Returns the email which was used to Generate the token
-            if (userEmail.Equals(Id))
+            if (!userEmail.Equals(Id))
             {
                 return View("Login");
             }
@@ -220,7 +236,7 @@ namespace LMS.Web.Controllers
         }
         public ActionResult Unauthorized()
         {
-            return Content("Unauthorized");
+            return View();
         }
         public ActionResult LogOff()
         {

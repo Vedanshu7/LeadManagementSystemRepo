@@ -18,13 +18,13 @@ namespace LMS.Web
             log4net.Config.XmlConfigurator.Configure();
         }
 
-        //protected void Application_Error(object sender, EventArgs e)
-        //{
-        //    Exception exception = Server.GetLastError();
-        //    ILog Log = LogManager.GetLogger(typeof(MvcApplication));
-        //    Log.Fatal(exception.Message, exception);
-        //    Server.ClearError();
-        //    Response.Redirect("/Shared/Error");
-        //}
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            Exception exception = Server.GetLastError();
+            ILog Log = LogManager.GetLogger(typeof(MvcApplication));
+            Log.Fatal(exception.Message, exception);
+            Server.ClearError();
+            Response.Redirect("/Authentication/Error");
+        }
     }
 }

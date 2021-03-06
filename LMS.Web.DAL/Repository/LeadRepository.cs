@@ -227,17 +227,32 @@ namespace LMS.Web.DAL.Repository
         {
             try
             {
+                string result = "";
                 var leadFromDb = _db.Leads.Where(m => m.Id == model.Id).FirstOrDefault();
                 if (leadFromDb != null)
                 {
                     leadFromDb.UpdatedBy = loggedInUserId;
                     leadFromDb.UpdatedDate = DateTime.Now;
                     leadFromDb.Comments = model.Comments;
-                    leadFromDb.LeadStatusId = model.LeadStatusId;
+                    var leadstatuscode = _db.LeadStatus.FirstOrDefault(l => l.Id == model.LeadStatusId).LeadStatusCode;
+                    if (leadstatuscode == null)
+                    {
+                        return "Error occurred";
+                    }
+                    if (Common.Utility.LeadStatusValidation.IsPrevious(leadFromDb.LeadStatus.LeadStatusCode,leadstatuscode))
+                    {
+                        leadFromDb.LeadStatusId = model.LeadStatusId;
+                        result += "Lead Status updated. ";
+                    }
+                    else
+                    {
+                        result += "Lead Status can not be updated.";
+                    }
                     leadFromDb.UserComments = model.UserComments;
+                    result += "User comments updated";
                     _db.Entry(leadFromDb).State = EntityState.Modified;
                     _db.SaveChanges();
-                    return "Success";
+                    return result;
                 }
                 return "Error occurred";
             }

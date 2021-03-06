@@ -87,7 +87,7 @@ namespace LMS.Web.Controllers
         {
             int loggedInUserId = (int)Session["loggedInId"];
             string result = _leadManager.UpdateLeadDetails(model, loggedInUserId);
-            if (result == "Success")
+            if (result != "Error occurred")
             {
                 TempData["NotificationSuccess"] = result;
                 return RedirectToAction("Index", "User");
@@ -95,7 +95,7 @@ namespace LMS.Web.Controllers
             else
             {
                 TempData["NotificationInfo"] = result;
-                return View();
+                return RedirectToAction("LeadDetails",new { id=model.Id });
             }
         }
 

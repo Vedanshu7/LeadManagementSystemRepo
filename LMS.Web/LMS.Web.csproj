@@ -2132,6 +2132,7 @@
     <Content Include="Views\Admin\ListDealer.cshtml" />
     <Content Include="Views\Admin\EditDealer.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Shared\Unauthorized.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

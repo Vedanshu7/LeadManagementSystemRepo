@@ -55,6 +55,7 @@ namespace LMS.Web.Controllers
                 else
                 {
                     TempData["NotificationInfo"] = result;
+                    ViewBag.RoleId = new SelectList(_userManager.GetUserRoleDropDown(), "Id", "Name");
                     return View();
                 }
             }
@@ -98,7 +99,7 @@ namespace LMS.Web.Controllers
         {
             int dealerId = (int)Session["dealerId"];
             UserViewModel user = _userManager.GetUser(dealerId, Id);
-
+            user.Password = PasswordEncryptor.Encryptor.Decryption(user.Password);
             ViewBag.RoleId = new SelectList(_userManager.GetUserRoleDropDown(), "Id", "Name");
             return View(user);
         }
@@ -117,6 +118,7 @@ namespace LMS.Web.Controllers
             else
             {
                 TempData["NotificationInfo"] = result;
+                ViewBag.RoleId = new SelectList(_userManager.GetUserRoleDropDown(), "Id", "Name");
                 return View();
             }
         }

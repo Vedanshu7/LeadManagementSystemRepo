@@ -26,14 +26,23 @@ namespace LMS.Web.DAL.Repository
             {
                 //Check if user already exists or not
                 var emailId = _db.Users.Any(m => m.Email == user.Email && m.IsActive == true);
-                if (!emailId)
+                var rolecode = _db.Roles.FirstOrDefault(r => r.Id == user.RoleId).RoleCode;
+                if (rolecode.Equals(Common.Constants.Roles.Sales) ||
+                    rolecode.Equals(Common.Constants.Roles.AfterSales))
                 {
-                    user.CreatedBy = (int)user.DealerId;
-                    user.CreatedDate = DateTime.Now;
-                    user.IsActive = true;
-                    _db.Users.Add(user);
-                    _db.SaveChanges();
-                    return "Success";
+                    if (!emailId)
+                    {
+                        user.CreatedBy = (int)user.DealerId;
+                        user.CreatedDate = DateTime.Now;
+                        user.IsActive = true;
+                        _db.Users.Add(user);
+                        _db.SaveChanges();
+                        return "Success";
+                    }
+                    else
+                    {
+                        return "Error occured.";
+                    }
                 }
                 else
                 {
@@ -51,20 +60,30 @@ namespace LMS.Web.DAL.Repository
             try
             {
                 var userFromDb = _db.Users.Where(u => u.Id == user.Id && u.IsActive == true).FirstOrDefault();
-                if (userFromDb != null)
+                var rolecode = _db.Roles.FirstOrDefault(r => r.Id == user.RoleId).RoleCode;
+                if (rolecode.Equals(Common.Constants.Roles.Sales) ||
+                    rolecode.Equals(Common.Constants.Roles.AfterSales))
                 {
-                    userFromDb.Name = user.Name;
-                    userFromDb.MobileNumber = user.MobileNumber;
-                    userFromDb.Password = user.Password;
-                    userFromDb.Email = user.Email;
-                    userFromDb.RoleId = user.RoleId;
-                    userFromDb.UpdatedBy = user.DealerId;
-                    userFromDb.UpdatedDate = DateTime.UtcNow;
-                    _db.Entry(userFromDb).State = EntityState.Modified;
-                    _db.SaveChanges();
-                    return "Success";
+                    if (userFromDb != null)
+                    {
+                        userFromDb.Name = user.Name;
+                        userFromDb.MobileNumber = user.MobileNumber;
+                        userFromDb.Password = user.Password;
+                        userFromDb.Email = user.Email;
+                        userFromDb.RoleId = user.RoleId;
+                        userFromDb.UpdatedBy = user.DealerId;
+                        userFromDb.UpdatedDate = DateTime.UtcNow;
+                        _db.Entry(userFromDb).State = EntityState.Modified;
+                        _db.SaveChanges();
+                        return "Success";
+                    }
+
+                    return "Error occured";
                 }
-                return "Error occured";
+                else
+                {
+                    return "Error occured.";
+                }
             }
             catch (Exception e)
             {
@@ -141,7 +160,8 @@ namespace LMS.Web.DAL.Repository
         {
             try
             {
-                return _db.Roles;
+                return _db.Roles.Where(r=>r.RoleCode.Equals(Common.Constants.Roles.Sales) 
+                                       || r.RoleCode.Equals(Common.Constants.Roles.AfterSales)).ToList();
             }
             catch (Exception e)
             {

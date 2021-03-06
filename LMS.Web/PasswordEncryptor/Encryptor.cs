@@ -16,5 +16,15 @@ namespace LMS.Web.PasswordEncryptor
             }
             return ciphertext;
         }
+        public static string Decryption(string text)
+        {
+            string normaltext;
+            using (AesManaged myAes = new AesManaged())
+            {
+                string key = ConfigurationManager.AppSettings.Get("key");
+                normaltext = AESAlgorithm.Decrypt(text, key);
+            }
+            return normaltext;
+        }
     }
 }
